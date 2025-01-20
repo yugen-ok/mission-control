@@ -1,0 +1,662 @@
+Agent Smith:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: 26ae17bc-99a6-4e4e-98e5-a3653be76826
+    Name: Main Lobby
+    Description: A spacious entrance with several connecting areas.
+    Connections: Security Checkpoint
+  - ID: c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+    Name: Security Checkpoint
+    Description: A checkpoint with guards and scanners.
+    Connections: Main Lobby
+
+Agents:
+  - ID: 3a26a5d9-45d7-475b-83de-6f98a3e92284
+    Name: Agent Smith
+    Description: A highly skilled field agent.
+
+Objectives:
+  - ID: a8a4aba7-6682-4c1e-90f9-fda592c3d361
+    Name: Security Server
+    Description: 
+
+-----------------
+
+Mission Log:
+Control: 
+
+-----------------
+
+You are Agent Smith, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: Waiting Room : A room with chairs and tables for visitors..
+It contains the following objects: Agent Smith: A highly skilled field agent.
+Security Server: .
+It is connected to the following areas: Security Checkpoint (ID: c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required arguments:
+- wait: Arguments - No arguments required
+- peek: Arguments - c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+- sneak: Arguments - c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+- charge: Arguments - c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+- investigate: Arguments - No arguments required
+- hide: Arguments - No arguments required
+- capture: Arguments - a8a4aba7-6682-4c1e-90f9-fda592c3d361
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.
+Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.
+
+==========================
+
+Agent Smith:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: 26ae17bc-99a6-4e4e-98e5-a3653be76826
+    Name: Main Lobby
+    Description: A spacious entrance with several connecting areas.
+    Connections: Security Checkpoint
+  - ID: c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+    Name: Security Checkpoint
+    Description: A checkpoint with guards and scanners.
+    Connections: Main Lobby
+
+Agents:
+  - ID: 3a26a5d9-45d7-475b-83de-6f98a3e92284
+    Name: Agent Smith
+    Description: A highly skilled field agent.
+
+Objectives:
+  - ID: a8a4aba7-6682-4c1e-90f9-fda592c3d361
+    Name: Security Server (Captured)
+    Description: 
+
+-----------------
+
+Mission Log:
+Control: 
+Agent Smith: Security Server captured!
+Control: 
+
+-----------------
+
+You are Agent Smith, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: Waiting Room : A room with chairs and tables for visitors..
+It contains the following objects: Agent Smith: A highly skilled field agent.
+Security Server (Captured): .
+It is connected to the following areas: Security Checkpoint (ID: c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required arguments:
+- wait: Arguments - No arguments required
+- peek: Arguments - c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+- sneak: Arguments - c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+- charge: Arguments - c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+- investigate: Arguments - No arguments required
+- hide: Arguments - No arguments required
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.
+Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.
+
+==========================
+
+Agent Smith:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: 0a60c918-7c91-40e1-b96e-3f63deb8cd13
+    Name: Waiting Room
+    Description: A room with chairs and tables for visitors.
+    Connections: Security Checkpoint
+  - ID: 26ae17bc-99a6-4e4e-98e5-a3653be76826
+    Name: Main Lobby
+    Description: A spacious entrance with several connecting areas.
+    Connections: Security Checkpoint
+  - ID: c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+    Name: Security Checkpoint
+    Description: A checkpoint with guards and scanners.
+    Connections: Waiting Room, Main Lobby, Surveillance Room
+  - ID: 09afe460-2d08-4de7-871b-ada9d64eeb0e
+    Name: Surveillance Room
+    Description: A camera control room.
+    Connections: Security Checkpoint
+
+Agents:
+  - ID: 3a26a5d9-45d7-475b-83de-6f98a3e92284
+    Name: Agent Smith
+    Description: A highly skilled field agent.
+
+Hostiles:
+  - ID: e92c9982-64a6-43ff-a469-9ba3e814e3a3
+    Name: Guard Wilson
+    Description: A guard patrolling the area.
+
+Objectives:
+  - ID: a8a4aba7-6682-4c1e-90f9-fda592c3d361
+    Name: Security Server (Captured)
+    Description: 
+    Location: Waiting Room (ID: 0a60c918-7c91-40e1-b96e-3f63deb8cd13)
+
+-----------------
+
+Mission Log:
+Control: 
+Agent Smith: Security Server captured!
+Control: 
+Agent Smith: Secure in Waiting Room.
+Agent Smith: Moving to Security Checkpoint.
+Agent Smith: Secure in Security Checkpoint.
+Control: 
+
+-----------------
+
+You are Agent Smith, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: Security Checkpoint : A checkpoint with guards and scanners..
+It contains the following objects: Agent Smith: A highly skilled field agent..
+It is connected to the following areas: Waiting Room (ID: 0a60c918-7c91-40e1-b96e-3f63deb8cd13), Main Lobby (ID: 26ae17bc-99a6-4e4e-98e5-a3653be76826), Surveillance Room (ID: 09afe460-2d08-4de7-871b-ada9d64eeb0e)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required arguments:
+- wait: Arguments - No arguments required
+- peek: Arguments - 0a60c918-7c91-40e1-b96e-3f63deb8cd13, 26ae17bc-99a6-4e4e-98e5-a3653be76826, 09afe460-2d08-4de7-871b-ada9d64eeb0e
+- sneak: Arguments - 0a60c918-7c91-40e1-b96e-3f63deb8cd13, 26ae17bc-99a6-4e4e-98e5-a3653be76826, 09afe460-2d08-4de7-871b-ada9d64eeb0e
+- charge: Arguments - 0a60c918-7c91-40e1-b96e-3f63deb8cd13, 26ae17bc-99a6-4e4e-98e5-a3653be76826, 09afe460-2d08-4de7-871b-ada9d64eeb0e
+- investigate: Arguments - No arguments required
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.
+Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.
+
+==========================
+
+Agent Smith:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: 0a60c918-7c91-40e1-b96e-3f63deb8cd13
+    Name: Waiting Room
+    Description: A room with chairs and tables for visitors.
+    Connections: Security Checkpoint
+  - ID: 26ae17bc-99a6-4e4e-98e5-a3653be76826
+    Name: Main Lobby
+    Description: A spacious entrance with several connecting areas.
+    Connections: Security Checkpoint
+  - ID: c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+    Name: Security Checkpoint
+    Description: A checkpoint with guards and scanners.
+    Connections: Waiting Room, Main Lobby, Surveillance Room
+  - ID: 09afe460-2d08-4de7-871b-ada9d64eeb0e
+    Name: Surveillance Room
+    Description: A camera control room.
+    Connections: Security Checkpoint
+
+Agents:
+  - ID: 3a26a5d9-45d7-475b-83de-6f98a3e92284
+    Name: Agent Smith
+    Description: A highly skilled field agent.
+
+Hostiles:
+  - ID: e92c9982-64a6-43ff-a469-9ba3e814e3a3
+    Name: Guard Wilson
+    Description: A guard patrolling the area.
+
+Objectives:
+  - ID: a8a4aba7-6682-4c1e-90f9-fda592c3d361
+    Name: Security Server (Captured)
+    Description: 
+    Location: Waiting Room (ID: 0a60c918-7c91-40e1-b96e-3f63deb8cd13)
+
+-----------------
+
+Mission Log:
+Control: 
+Agent Smith: Security Server captured!
+Control: 
+Agent Smith: Secure in Waiting Room.
+Agent Smith: Moving to Security Checkpoint.
+Agent Smith: Secure in Security Checkpoint.
+Control: 
+Agent Smith: Peeked into Surveillance Room.
+Control: 
+
+-----------------
+
+You are Agent Smith, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: Security Checkpoint : A checkpoint with guards and scanners..
+It contains the following objects: Agent Smith: A highly skilled field agent.
+Guard Wilson: A guard patrolling the area..
+It is connected to the following areas: Waiting Room (ID: 0a60c918-7c91-40e1-b96e-3f63deb8cd13), Main Lobby (ID: 26ae17bc-99a6-4e4e-98e5-a3653be76826), Surveillance Room (ID: 09afe460-2d08-4de7-871b-ada9d64eeb0e)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required arguments:
+- wait: Arguments - No arguments required
+- peek: Arguments - 0a60c918-7c91-40e1-b96e-3f63deb8cd13, 26ae17bc-99a6-4e4e-98e5-a3653be76826, 09afe460-2d08-4de7-871b-ada9d64eeb0e
+- sneak: Arguments - 0a60c918-7c91-40e1-b96e-3f63deb8cd13, 26ae17bc-99a6-4e4e-98e5-a3653be76826, 09afe460-2d08-4de7-871b-ada9d64eeb0e
+- charge: Arguments - 0a60c918-7c91-40e1-b96e-3f63deb8cd13, 26ae17bc-99a6-4e4e-98e5-a3653be76826, 09afe460-2d08-4de7-871b-ada9d64eeb0e
+- investigate: Arguments - No arguments required
+- shoot: Arguments - e92c9982-64a6-43ff-a469-9ba3e814e3a3
+- take_out: Arguments - e92c9982-64a6-43ff-a469-9ba3e814e3a3
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.
+Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.
+
+==========================
+
+Agent Smith:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: 0a60c918-7c91-40e1-b96e-3f63deb8cd13
+    Name: Waiting Room
+    Description: A room with chairs and tables for visitors.
+    Connections: Security Checkpoint
+  - ID: 26ae17bc-99a6-4e4e-98e5-a3653be76826
+    Name: Main Lobby
+    Description: A spacious entrance with several connecting areas.
+    Connections: Security Checkpoint
+  - ID: c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+    Name: Security Checkpoint
+    Description: A checkpoint with guards and scanners.
+    Connections: Waiting Room, Main Lobby, Surveillance Room
+  - ID: 09afe460-2d08-4de7-871b-ada9d64eeb0e
+    Name: Surveillance Room
+    Description: A camera control room.
+    Connections: Security Checkpoint
+
+Agents:
+  - ID: 3a26a5d9-45d7-475b-83de-6f98a3e92284
+    Name: Agent Smith
+    Description: A highly skilled field agent.
+
+Objectives:
+  - ID: a8a4aba7-6682-4c1e-90f9-fda592c3d361
+    Name: Security Server (Captured)
+    Description: 
+    Location: Waiting Room (ID: 0a60c918-7c91-40e1-b96e-3f63deb8cd13)
+
+-----------------
+
+Mission Log:
+Control: 
+Agent Smith: Security Server captured!
+Control: 
+Agent Smith: Secure in Waiting Room.
+Agent Smith: Moving to Security Checkpoint.
+Agent Smith: Secure in Security Checkpoint.
+Control: 
+Agent Smith: Peeked into Surveillance Room.
+Control: 
+Agent Smith: Secure in Security Checkpoint.
+Agent Smith: Guard Wilson taken out!
+Control: 
+
+-----------------
+
+You are Agent Smith, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: Security Checkpoint : A checkpoint with guards and scanners..
+It contains the following objects: Agent Smith: A highly skilled field agent..
+It is connected to the following areas: Waiting Room (ID: 0a60c918-7c91-40e1-b96e-3f63deb8cd13), Main Lobby (ID: 26ae17bc-99a6-4e4e-98e5-a3653be76826), Surveillance Room (ID: 09afe460-2d08-4de7-871b-ada9d64eeb0e)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required arguments:
+- wait: Arguments - No arguments required
+- peek: Arguments - 0a60c918-7c91-40e1-b96e-3f63deb8cd13, 26ae17bc-99a6-4e4e-98e5-a3653be76826, 09afe460-2d08-4de7-871b-ada9d64eeb0e
+- sneak: Arguments - 0a60c918-7c91-40e1-b96e-3f63deb8cd13, 26ae17bc-99a6-4e4e-98e5-a3653be76826, 09afe460-2d08-4de7-871b-ada9d64eeb0e
+- charge: Arguments - 0a60c918-7c91-40e1-b96e-3f63deb8cd13, 26ae17bc-99a6-4e4e-98e5-a3653be76826, 09afe460-2d08-4de7-871b-ada9d64eeb0e
+- investigate: Arguments - No arguments required
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.
+Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.
+
+==========================
+
+Agent Smith:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: 0a60c918-7c91-40e1-b96e-3f63deb8cd13
+    Name: Waiting Room
+    Description: A room with chairs and tables for visitors.
+    Connections: Security Checkpoint
+  - ID: 26ae17bc-99a6-4e4e-98e5-a3653be76826
+    Name: Main Lobby
+    Description: A spacious entrance with several connecting areas.
+    Connections: Security Checkpoint
+  - ID: c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+    Name: Security Checkpoint
+    Description: A checkpoint with guards and scanners.
+    Connections: Waiting Room, Main Lobby, Surveillance Room
+  - ID: 09afe460-2d08-4de7-871b-ada9d64eeb0e
+    Name: Surveillance Room
+    Description: A camera control room.
+    Connections: Security Checkpoint
+
+Agents:
+  - ID: 3a26a5d9-45d7-475b-83de-6f98a3e92284
+    Name: Agent Smith
+    Description: A highly skilled field agent.
+
+Objectives:
+  - ID: a8a4aba7-6682-4c1e-90f9-fda592c3d361
+    Name: Security Server (Captured)
+    Description: 
+    Location: Waiting Room (ID: 0a60c918-7c91-40e1-b96e-3f63deb8cd13)
+
+-----------------
+
+Mission Log:
+Control: 
+Agent Smith: Security Server captured!
+Control: 
+Agent Smith: Secure in Waiting Room.
+Agent Smith: Moving to Security Checkpoint.
+Agent Smith: Secure in Security Checkpoint.
+Control: 
+Agent Smith: Peeked into Surveillance Room.
+Control: 
+Agent Smith: Secure in Security Checkpoint.
+Agent Smith: Guard Wilson taken out!
+Control: 
+Agent Smith: Secure in Security Checkpoint.
+Agent Smith: Moving to Surveillance Room.
+Agent Smith: Secure in Surveillance Room.
+Control: 
+
+-----------------
+
+You are Agent Smith, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: Surveillance Room : A camera control room..
+It contains the following objects: Agent Smith: A highly skilled field agent..
+It is connected to the following areas: Security Checkpoint (ID: c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required arguments:
+- wait: Arguments - No arguments required
+- peek: Arguments - c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+- sneak: Arguments - c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+- charge: Arguments - c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+- investigate: Arguments - No arguments required
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.
+Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.
+
+==========================
+
+Agent Smith:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: 0a60c918-7c91-40e1-b96e-3f63deb8cd13
+    Name: Waiting Room
+    Description: A room with chairs and tables for visitors.
+    Connections: Security Checkpoint
+  - ID: 26ae17bc-99a6-4e4e-98e5-a3653be76826
+    Name: Main Lobby
+    Description: A spacious entrance with several connecting areas.
+    Connections: Security Checkpoint
+  - ID: c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+    Name: Security Checkpoint
+    Description: A checkpoint with guards and scanners.
+    Connections: Waiting Room, Main Lobby, Surveillance Room
+  - ID: 09afe460-2d08-4de7-871b-ada9d64eeb0e
+    Name: Surveillance Room
+    Description: A camera control room.
+    Connections: Security Checkpoint
+
+Agents:
+  - ID: 3a26a5d9-45d7-475b-83de-6f98a3e92284
+    Name: Agent Smith
+    Description: A highly skilled field agent.
+
+Objectives:
+  - ID: a8a4aba7-6682-4c1e-90f9-fda592c3d361
+    Name: Security Server (Captured)
+    Description: 
+    Location: Waiting Room (ID: 0a60c918-7c91-40e1-b96e-3f63deb8cd13)
+
+-----------------
+
+Mission Log:
+Control: 
+Agent Smith: Security Server captured!
+Control: 
+Agent Smith: Secure in Waiting Room.
+Agent Smith: Moving to Security Checkpoint.
+Agent Smith: Secure in Security Checkpoint.
+Control: 
+Agent Smith: Peeked into Surveillance Room.
+Control: 
+Agent Smith: Secure in Security Checkpoint.
+Agent Smith: Guard Wilson taken out!
+Control: 
+Agent Smith: Secure in Security Checkpoint.
+Agent Smith: Moving to Surveillance Room.
+Agent Smith: Secure in Surveillance Room.
+Control: 
+Agent Smith: Peeked into Security Checkpoint.
+Control: 
+
+-----------------
+
+You are Agent Smith, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: Surveillance Room : A camera control room..
+It contains the following objects: Agent Smith: A highly skilled field agent..
+It is connected to the following areas: Security Checkpoint (ID: c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required arguments:
+- wait: Arguments - No arguments required
+- peek: Arguments - c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+- sneak: Arguments - c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+- charge: Arguments - c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+- investigate: Arguments - No arguments required
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.
+Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.
+
+==========================
+
+Agent Smith:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: 0a60c918-7c91-40e1-b96e-3f63deb8cd13
+    Name: Waiting Room
+    Description: A room with chairs and tables for visitors.
+    Connections: Security Checkpoint
+  - ID: 26ae17bc-99a6-4e4e-98e5-a3653be76826
+    Name: Main Lobby
+    Description: A spacious entrance with several connecting areas.
+    Connections: Security Checkpoint
+  - ID: c35f1f0e-92ff-4c53-8e30-c4ae2039ee9c
+    Name: Security Checkpoint
+    Description: A checkpoint with guards and scanners.
+    Connections: Waiting Room, Main Lobby, Surveillance Room
+  - ID: 09afe460-2d08-4de7-871b-ada9d64eeb0e
+    Name: Surveillance Room
+    Description: A camera control room.
+    Connections: Security Checkpoint
+
+Agents:
+  - ID: 3a26a5d9-45d7-475b-83de-6f98a3e92284
+    Name: Agent Smith
+    Description: A highly skilled field agent.
+
+Objectives:
+  - ID: a8a4aba7-6682-4c1e-90f9-fda592c3d361
+    Name: Security Server (Captured)
+    Description: 
+    Location: Waiting Room (ID: 0a60c918-7c91-40e1-b96e-3f63deb8cd13)
+
+-----------------
+
+Mission Log:
+Control: 
+Agent Smith: Secure in Waiting Room.
+Agent Smith: Moving to Security Checkpoint.
+Agent Smith: Secure in Security Checkpoint.
+Control: 
+Agent Smith: Peeked into Surveillance Room.
+Control: 
+Agent Smith: Secure in Security Checkpoint.
+Agent Smith: Guard Wilson taken out!
+Control: 
+Agent Smith: Secure in Security Checkpoint.
+Agent Smith: Moving to Surveillance Room.
+Agent Smith: Secure in Surveillance Room.
+Control: 
+Agent Smith: Peeked into Security Checkpoint.
+Control: 
+Agent Smith: Secure in Surveillance Room.
+Agent Smith: Moving to Security Checkpoint.
+Agent Smith: Secure in Security Checkpoint.
+Control: 
+
+-----------------
+
+You are Agent Smith, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: Security Checkpoint : A checkpoint with guards and scanners..
+It contains the following objects: Agent Smith: A highly skilled field agent..
+It is connected to the following areas: Waiting Room (ID: 0a60c918-7c91-40e1-b96e-3f63deb8cd13), Main Lobby (ID: 26ae17bc-99a6-4e4e-98e5-a3653be76826), Surveillance Room (ID: 09afe460-2d08-4de7-871b-ada9d64eeb0e)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required arguments:
+- wait: Arguments - No arguments required
+- peek: Arguments - 0a60c918-7c91-40e1-b96e-3f63deb8cd13, 26ae17bc-99a6-4e4e-98e5-a3653be76826, 09afe460-2d08-4de7-871b-ada9d64eeb0e
+- sneak: Arguments - 0a60c918-7c91-40e1-b96e-3f63deb8cd13, 26ae17bc-99a6-4e4e-98e5-a3653be76826, 09afe460-2d08-4de7-871b-ada9d64eeb0e
+- charge: Arguments - 0a60c918-7c91-40e1-b96e-3f63deb8cd13, 26ae17bc-99a6-4e4e-98e5-a3653be76826, 09afe460-2d08-4de7-871b-ada9d64eeb0e
+- investigate: Arguments - No arguments required
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.
+Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.
+
+==========================
+

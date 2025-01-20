@@ -1,0 +1,207 @@
+{
+  "areas": {
+    "lobby": {
+      "x": 50,
+      "y": 50,
+      "width": 100,
+      "height": 80,
+      "color": "#E8E8E8",
+      "connections": ["waiting_room", "security_checkpoint", "info_desk"],
+      "name": "Main Lobby"
+    },
+    "waiting_room": {
+      "x": 150,
+      "y": 50,
+      "width": 80,
+      "height": 80,
+      "color": "#F5F5F5",
+      "connections": ["lobby", "visa_section", "cafeteria"],
+      "name": "Waiting Room"
+    },
+    "security_checkpoint": {
+      "x": 50,
+      "y": 130,
+      "width": 100,
+      "height": 60,
+      "color": "#D3D3D3",
+      "connections": ["lobby", "staff_offices", "restricted_area", "observation_corridor"],
+      "name": "Security Checkpoint"
+    },
+    "visa_section": {
+      "x": 230,
+      "y": 50,
+      "width": 120,
+      "height": 80,
+      "color": "#F0F0F0",
+      "connections": ["waiting_room", "document_processing"],
+      "name": "Visa Section"
+    },
+    "document_processing": {
+      "x": 230,
+      "y": 130,
+      "width": 120,
+      "height": 60,
+      "color": "#E6E6E6",
+      "connections": ["visa_section", "archives", "hallway"],
+      "name": "Document Processing"
+    },
+    "staff_offices": {
+      "x": 150,
+      "y": 130,
+      "width": 80,
+      "height": 60,
+      "color": "#DCDCDC",
+      "connections": ["security_checkpoint", "conference_room", "observation_corridor"],
+      "name": "Staff Offices"
+    },
+    "restricted_area": {
+      "x": 50,
+      "y": 190,
+      "width": 100,
+      "height": 70,
+      "color": "#C0C0C0",
+      "connections": ["security_checkpoint", "secure_storage", "observation_corridor", "surveillance_room", "command_center"],
+      "name": "Restricted Area"
+    },
+    "conference_room": {
+      "x": 150,
+      "y": 190,
+      "width": 80,
+      "height": 70,
+      "color": "#D8D8D8",
+      "connections": ["staff_offices", "hallway"],
+      "name": "Conference Room"
+    },
+    "archives": {
+      "x": 230,
+      "y": 190,
+      "width": 70,
+      "height": 70,
+      "color": "#DADADA",
+      "connections": ["document_processing", "secure_storage", "hallway"],
+      "name": "Archives"
+    },
+    "secure_storage": {
+      "x": 300,
+      "y": 190,
+      "width": 50,
+      "height": 70,
+      "color": "#BEBEBE",
+      "connections": ["restricted_area", "archives"],
+      "name": "Secure Storage"
+    },
+    "info_desk": {
+      "x": 10,
+      "y": 50,
+      "width": 40,
+      "height": 80,
+      "color": "#FFFFE0",
+      "connections": ["lobby"],
+      "name": "Info Desk"
+    },
+    "cafeteria": {
+      "x": 150,
+      "y": 10,
+      "width": 80,
+      "height": 40,
+      "color": "#FFFACD",
+      "connections": ["waiting_room"],
+      "name": "Cafeteria"
+    },
+    "hallway": {
+      "x": 230,
+      "y": 260,
+      "width": 120,
+      "height": 40,
+      "color": "#EFEFEF",
+      "connections": ["conference_room", "archives", "document_processing"],
+      "name": "Hallway"
+    },
+    "observation_corridor": {
+      "x": 100,
+      "y": 190,
+      "width": 50,
+      "height": 40,
+      "color": "#D6D6D6",
+      "connections": ["restricted_area", "security_checkpoint", "staff_offices"],
+      "name": "Observation Corridor"
+    },
+    "surveillance_room": {
+      "x": 50,
+      "y": 260,
+      "width": 100,
+      "height": 40,
+      "color": "#A9A9A9",
+      "connections": ["restricted_area"],
+      "name": "Surveillance Room"
+    },
+    "command_center": {
+      "x": 10,
+      "y": 190,
+      "width": 40,
+      "height": 70,
+      "color": "#808080",
+      "connections": ["restricted_area", "surveillance_room"],
+      "name": "Cmd Center"
+    }
+  },
+  "characters": [
+        {
+            "name": "Commander Sarah",
+            "status": "Reviewing Mission Plans",
+            "location": "Control Room",
+            "color": "#3B82F6"
+        },
+        {
+            "name": "Dr. Chen",
+            "status": "Running Diagnostics",
+            "location": "Lab",
+            "color": "#3B82F6"
+        },
+        {
+            "name": "Tech Specialist Rodriguez",
+            "status": "Repairing Systems",
+            "location": "Engineering Bay",
+            "color": "#3B82F6"
+        },
+        {
+            "name": "Security Officer Kim",
+            "status": "Patrolling",
+            "location": "Security Hub",
+            "color": "#3B82F6"
+        },
+        {
+            "name": "Medical Officer Wright",
+            "status": "Treating Patient",
+            "location": "Medical Bay",
+            "color": "#3B82F6"
+        },
+        {
+            "name": "Communications Officer Lee",
+            "status": "Monitoring Channels",
+            "location": "Comms Center",
+            "color": "#3B82F6"
+        },
+        {
+            "name": "Navigator Martinez",
+            "status": "Plotting Course",
+            "location": "Navigation Room",
+            "color": "#3B82F6"
+        },
+        {
+            "name": "AI Specialist Singh",
+            "status": "Training Models",
+            "location": "AI Lab",
+            "color": "#3B82F6"
+        }
+    ],
+  "defaultArea": "lobby",
+  "characterSize": 6,
+  "characterColor": "#FF4444",
+  "characterStroke": "#000000",
+  "characterStrokeWidth": 2,
+  "connectionStroke": "#666666",
+  "connectionWidth": 1,
+  "mapWidth": 400,
+  "mapHeight": 300
+}

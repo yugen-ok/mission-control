@@ -1,0 +1,99 @@
+{
+  "areas": {
+    "waiting_room": {
+      "x": 150,
+      "y": 130,
+      "width": 80,
+      "height": 80,
+      "color": "#F5F5F5",
+      "connections": ["security_checkpoint"],
+      "name": "Waiting Room",
+      "description": "A room with chairs and tables for visitors."
+    },
+    "lobby": {
+      "x": 50,
+      "y": 50,
+      "width": 100,
+      "height": 80,
+      "color": "#E8E8E8",
+      "connections": ["security_checkpoint"],
+      "name": "Main Lobby",
+      "explored" : 1,
+      "description": "A spacious entrance with several connecting areas."
+    },
+    "security_checkpoint": {
+      "x": 50,
+      "y": 130,
+      "width": 100,
+      "height": 60,
+      "color": "#D3D3D3",
+      "connections": ["lobby", "surveillance_room", "waiting_room"],
+      "name": "Security Checkpoint",
+      "description": "A checkpoint with guards and scanners."
+    },
+    "surveillance_room": {
+      "x": 50,
+      "y": 190,
+      "width": 100,
+      "height": 60,
+      "color": "#D3D3D3",
+      "connections": ["security_checkpoint"],
+      "name": "Surveillance Room",
+      "description": "A camera control room."
+    }
+  },
+  "characters": [
+    {
+      "name": "Agent Smith",
+      "area": "waiting_room",
+      "description": "A highly skilled field agent.",
+      "health": 1.0,
+      "resilience": 0.9,
+      "stealth": 1.0,
+      "firearms": 0.7,
+      "cover": 0.7,
+      "hand_to_hand": 1.0,
+      "hacking": 0.7,
+      "observation": 1.0,
+      "acrobatics": 1,
+      "inventory": [],
+      "type": "agent"
+    },
+    {
+      "name": "Guard Wilson",
+      "patrol_route": ["lobby", "security_checkpoint", "surveillance_room"],
+      "description": "A guard patrolling the area.",
+      "health": 1.0,
+      "resilience": 0.7,
+      "stealth": 0,
+      "firearms": 0.3,
+      "cover": 0,
+      "hand_to_hand": 0,
+      "hacking": 0,
+      "observation": 0,
+      "acrobatics": 0,
+      "inventory": [],
+      "area": "lobby",
+      "type": "hostile"
+    }
+  ],
+  "objectives" : [
+    {
+      "name": "Security Server",
+      "area": "waiting_room",
+      "difficulty": 0.1,
+      "description": "",
+      "required_skill": "hacking"
+    }
+  ],
+  "defaultArea": "lobby",
+  "characterSize": 6,
+  "characterColor": "#FF4444",
+  "characterStroke": "#000000",
+  "characterStrokeWidth": 2,
+  "connectionStroke": "#666666",
+  "connectionWidth": 1,
+  "mapWidth": 400,
+  "mapHeight": 300
+
+}
