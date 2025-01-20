@@ -849,13 +849,19 @@ class GameController:
                 raise Exception('Not supposed to fail evaluating all prompt outputs 5 times in a row')
 
 
-            # Just for testing
+            # Test mode decision making:
+            # This is an example of how to hardcode a decision logic for testing
+            # You can change it as needed, depending on the scenario you want to test
             if self.turn_counter > 1:
                 decisions = ["{'action': 'investigate', 'arguments': []}"]  # for debugging
             else:
                 decisions = ["{'action': 'wait', 'arguments': []}"] # for debugging
 
-            decisions = query_lbgpt('', remaining_to_execute)
+            # Production mode decision making:
+            # Uncomment this line for the actual AI system to make decisions
+            # This requires defining the AZURE_OPENAI_API_KEY and AZURE_OPENAI_ENDPOINT environment variables
+
+            # decisions = query_lbgpt('', remaining_to_execute)
 
             print(decisions)
             for i, decision in enumerate(decisions):

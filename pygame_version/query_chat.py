@@ -1,3 +1,5 @@
+# This file is currently not used
+
 import os
 import json
 import base64
