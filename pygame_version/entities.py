@@ -1,6 +1,6 @@
 import random
 
-from ai_response_tools import *
+# from ai_response_tools import *
 from chaos import *
 from utils import *
 
@@ -8,6 +8,7 @@ from collections import deque
 import uuid
 from uuid import UUID
 from typing import List
+import time
 
 # Note: right now, when an agent moves into a room, entities they detect are auto added to the minimap,
 # but not described in the log unless you ask about them. This is to avoid swamping the log,
@@ -849,19 +850,13 @@ class GameController:
                 raise Exception('Not supposed to fail evaluating all prompt outputs 5 times in a row')
 
 
-            # Test mode decision making:
-            # This is an example of how to hardcode a decision logic for testing
-            # You can change it as needed, depending on the scenario you want to test
+            # Just for testing
             if self.turn_counter > 1:
                 decisions = ["{'action': 'investigate', 'arguments': []}"]  # for debugging
             else:
                 decisions = ["{'action': 'wait', 'arguments': []}"] # for debugging
 
-            # Production mode decision making:
-            # Uncomment this line for the actual AI system to make decisions
-            # This requires defining the AZURE_OPENAI_API_KEY and AZURE_OPENAI_ENDPOINT environment variables
-
-            # decisions = query_lbgpt('', remaining_to_execute)
+            decisions = query_lbgpt('', remaining_to_execute)
 
             print(decisions)
             for i, decision in enumerate(decisions):
@@ -938,6 +933,9 @@ class GameController:
             else:
 
                 self.move_hostile(hostile)
+                print(test)
+                time.sleep(3)
+                
 
                 if not hostile.alarm_increased_this_turn:
                     hostile.update_alarm_level(RELAX_DEC)
@@ -1010,6 +1008,7 @@ class GameController:
             next_index = hostile.current_patrol_index + 1
             if next_index == n:
                 next_index = 0
+                hostile.current_patrol_index = 0
 
             target_area = route[next_index]
             print(f"Target Area (Patrol): {target_area.name}")

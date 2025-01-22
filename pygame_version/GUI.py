@@ -103,7 +103,10 @@ class GUI:
         self.selected_area = None
 
         # Chat messages and input
-        self.chat_messages = []
+        self.chat_messages = [('13:44 21-01-2025', 'JOHN D', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ac augue metus. In mi lectus, convallis pellentesque tristique a, euismod ac tortor. Maecenas consectetur, nisi vitae varius suscipit, est erat egestas mi, vitae ullamcorper purus purus non urna. Nullam id fringilla ex. Fusce sit amet orci nec sapien suscipit condimentum et eu nulla. Donec porta tempus vestibulum. Aenean ac sodales massa. Aenean ut lectus non turpis gravida convallis laoreet nec diam.'), 
+                                ('13:47 21-01-2025', 'BRIAN H', 'This is the second message'),
+                                ('13:48 21-01-2025', 'ALBERT M', 'This is the third message'), 
+                                ('13:51 21-01-2025', 'ANDREW T', 'This is the fourth message')]
         self.chat_input = ""
 
     def hex_to_rgb(self, hex_color: str) -> tuple[int, ...]:
@@ -111,8 +114,8 @@ class GUI:
         return tuple(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
 
     def draw_panel(self, rect: pygame.Rect, title: str):
-        pygame.draw.rect(self.screen, self.hex_to_rgb(self.COLORS['panel_bg']), rect)
-        pygame.draw.rect(self.screen, self.hex_to_rgb(self.COLORS['border']), rect, 1)
+        pygame.draw.rect(self.screen, self.hex_to_rgb(self.COLORS['panel_bg']), rect, 0, 15)
+        pygame.draw.rect(self.screen, self.hex_to_rgb(self.COLORS['border']), rect, 1, 15)
         title_surface = self.fonts['title'].render(title, True, self.hex_to_rgb(self.COLORS['text']))
         self.screen.blit(title_surface, (rect.x + 10, rect.y + 10))
 
@@ -356,11 +359,17 @@ class GUI:
 
         # Loop through the last 15 chat messages and wrap each one
         for message in self.chat_messages[-15:]:  # Show last 15 messages
-            wrapped_lines = self.wrap_text(message, self.fonts['small'], max_message_width)
+            text_to_wrap = '[ ' + message[0] + ' ] ' + ' [ ' + message[1] + ' ]: ' + message[2]
+            wrapped_lines = self.wrap_text(text_to_wrap, self.fonts['body'], max_message_width)
             for line in wrapped_lines:
-                msg_surface = self.fonts['small'].render(line, True, self.hex_to_rgb(self.COLORS['text']))
+
+                msg_surface = self.fonts['body'].render(line, True, self.hex_to_rgb(self.COLORS['text']))
                 self.screen.blit(msg_surface, (self.CHAT_PANEL.x + 10, self.CHAT_PANEL.y + y_offset))
-                y_offset += self.fonts['small'].get_linesize()
+                y_offset += self.fonts['body'].get_linesize() + 5
+
+            dotted_line = self.fonts['body'].render('-'*70, 1, self.hex_to_rgb(self.COLORS['text']))
+            self.screen.blit(dotted_line, (self.CHAT_PANEL.x + 10, self.CHAT_PANEL.y + y_offset))
+            y_offset += self.fonts['body'].get_linesize() + 5
 
         # Draw the input box at the bottom of the chat panel
         input_box = pygame.Rect(self.CHAT_PANEL.x + 10, self.CHAT_PANEL.bottom - 30, self.CHAT_PANEL.width - 20, 20)
