@@ -680,6 +680,7 @@ class Area(Entity):
 
         self.noise_level = noise_baseline  # above baseline. meaning noticeable
         self.noise_duration = 0
+        self.chase_pointer = None # Points to another area where the last non-hidden agent in a room moved to
 
         # For the map renderring
         self.x = x
@@ -981,8 +982,10 @@ class GameController:
                 f"{hostile.name}: at {hostile.area.name}, alarm level: {hostile.alarm_level:.3f} obs: {hostile.skills['observation']:.3f}, alarm_increased_this_turn: {hostile.alarm_increased_this_turn}")
         print('=========================')
 
+        # Reset area values
         for area in self.get_entities(Area):
             area.noise_level = area.noise_baseline
+            area.chase_pointer = None
 
         self.turn_counter += 1
         return True
@@ -1023,8 +1026,10 @@ class GameController:
             logger.debug("Patrol route is too short or undefined. Staying in the current area.")
             return
 
-        # Check alarm level to decide between patrolling and responding
-        if hostile.alarm_level > 0.5:
+        # TODO: test this
+        if hostile.area.chase_pointer is not None:
+            target_area = hostile.area.chase_pointer
+        elif hostile.alarm_level > 0.5:
             hostile.is_patrolling = False
 
             # Identify the area with the highest noise level
@@ -1057,7 +1062,7 @@ class GameController:
                 shortest_path = self.game_map.get_shortest_path(hostile.area, target_area)
                 logger.debug(f"Shortest path: {[area.name for area in shortest_path]}")
                 next_area = shortest_path[min(1,len(shortest_path)-1)]  # The first step toward the target area
-                
+
                 logger.debug(f"Target area is not adjacent: Taking step toward {next_area.name} via shortest path")
             except nx.NetworkXNoPath:
                 logger.debug("No path exists to the target area. Staying in the current area.")
@@ -1066,18 +1071,29 @@ class GameController:
         # Move the hostile to the next area
         self.change_area(hostile, next_area)
 
-    def change_area(self, entity, new_area):
-        logger.debug(f"Moving Entity: {entity.name} | From: {entity.area.name} | To: {entity.name}")
-        entity.area.entities.remove(entity)
-        new_area.entities.append(entity)
-        entity.area = new_area
-
     def get_entities(self, class_, area=None):
 
         if area is None:
             return [entity for entity in self.world.entity_registry.values() if isinstance(entity, class_)]
         else:
             return [entity for entity in area.entities if isinstance(entity, class_)]
+
+    def change_area(self, entity, new_area):
+        old_area = entity.area
+
+        logger.debug(f"Moving Entity: {entity.name} | From: {old_area.name} | To: {entity.name}")
+        assert new_area in [conn.get_other_area(old_area) for conn in old_area.connections], "Entity is not connected to the new area."
+
+        old_area.entities.remove(entity)
+        new_area.entities.append(entity)
+        entity.area = new_area
+
+        if self.get_entities(Hostile, old_area) and \
+                hasattr(entity, 'is_hidden') and \
+                not entity.is_hidden and \
+                not [agent for agent in self.get_entities(Agent, old_area) if not agent.is_hidden]:
+            old_area.chase_pointer = new_area
+
 
     def report(self, agent):
         pass
@@ -1109,9 +1125,7 @@ class GameController:
                 raise NotImplementedError
 
             # Update the current area and the target area's entities list
-            agent.area.entities.remove(agent)
-            target_area.entities.append(agent)
-            agent.area = target_area
+            self.change_area(agent, target_area)
 
             # Mark the area and objects as explored
             target_area.set_explored(1)
