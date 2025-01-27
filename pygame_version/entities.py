@@ -1,4 +1,6 @@
+from pprint import pprint
 import random
+import json
 
 from ai_response_tools import *
 from chaos import *
@@ -8,6 +10,13 @@ from collections import deque
 import uuid
 from uuid import UUID
 from typing import List
+import logging
+
+
+# Configure logging
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s [%(levelname)s] %(message)s")
+logger = logging.getLogger(__name__)
+
 
 # Note: right now, when an agent moves into a room, entities they detect are auto added to the minimap,
 # but not described in the log unless you ask about them. This is to avoid swamping the log,
@@ -37,6 +46,7 @@ global has_reached_th
 # - give the controller more info than what the agents have
 # - some agents want to do more, so if you tell them to stand down they might go in anyway
 # - Add Hostile subclasses: guard, technician, janitor, etc.
+
 DEBUG_MODE = False
 
 PEEK_MOD = -.2
@@ -451,6 +461,8 @@ class Hostile(Character):
         self.patrol_route = patrol_route + list(reversed(patrol_route))[1:-1]
 
         self.current_patrol_index = 0  # Current position in the patrol route
+        self.is_patrolling = True
+
 
     def update_alarm_level(self, delta):
 
@@ -473,6 +485,11 @@ class Hostile(Character):
 
         # clamp observation skill between 0 and self.max_observation:
         self.skills['observation'] = min(max(0., self.skills['observation']), self.max_observation)
+
+    def advance_patrol_index(self):
+        self.current_patrol_index += 1
+        if self.current_patrol_index == len(self.patrol_route):
+            self.current_patrol_index = 0
 
 
 # Objective base class
@@ -661,7 +678,7 @@ class Area(Entity):
         self.entities = []  # List of entities currently in this area
         self.is_extraction_point = is_extraction_point  # Boolean indicating if this area is an extraction point
 
-        self.noise_level = 0  # above baseline. meaning noticeable
+        self.noise_level = noise_baseline  # above baseline. meaning noticeable
         self.noise_duration = 0
 
         # For the map renderring
@@ -760,10 +777,14 @@ class MissionLog(List):
 
 
 class GameController:
-    def __init__(self, world, game_map):
+    def __init__(self, world, game_map, test_mode=False, agents_hidden=False, hostiles_visible=False):
 
         self.world = world
         self.game_map = game_map
+        self.test_mode = test_mode
+        self.agents_hidden = agents_hidden
+        self.hostiles_visible = hostiles_visible
+
         self.turn_count = 0
         self.mission_log = MissionLog()
         open('logs_internal/decision_prompts.txt', 'w').close()
@@ -822,6 +843,8 @@ class GameController:
 
         for agent in agents:
             agent.knowledge_base = self.describe_knowledge_base()
+            if self.agents_hidden:
+                agent.is_hidden = True
 
         # Reset
         for hostile in self.get_entities(Hostile):
@@ -849,21 +872,23 @@ class GameController:
                 raise Exception('Not supposed to fail evaluating all prompt outputs 5 times in a row')
 
 
-            # Test mode decision making:
-            # This is an example of how to hardcode a decision logic for testing
-            # You can change it as needed, depending on the scenario you want to test
-            if self.turn_counter > 1:
-                decisions = ["{'action': 'investigate', 'arguments': []}"]  # for debugging
+            if self.test_mode:
+                # Test mode decision making:
+                # This is an example of how to hardcode a decision logic for testing
+                # You can change it as needed, depending on the scenario you want to test
+                if self.turn_counter > 1:
+                    decisions = ["{'action': 'investigate', 'arguments': []}"]  # for debugging
+                else:
+                    decisions = ["{'action': 'wait', 'arguments': []}"] # for debugging
+
             else:
-                decisions = ["{'action': 'wait', 'arguments': []}"] # for debugging
+                # Production mode decision making:
+                # Uncomment this line for the actual AI system to make decisions
+                # This requires defining the AZURE_OPENAI_API_KEY and AZURE_OPENAI_ENDPOINT environment variables
 
-            # Production mode decision making:
-            # Uncomment this line for the actual AI system to make decisions
-            # This requires defining the AZURE_OPENAI_API_KEY and AZURE_OPENAI_ENDPOINT environment variables
+                decisions = query_lbgpt('', remaining_to_execute)
 
-            # decisions = query_lbgpt('', remaining_to_execute)
-
-            print(decisions)
+            logger.debug(f"Decisions: {json.dumps(decisions, indent=2)}")
             for i, decision in enumerate(decisions):
 
                 try:
@@ -902,10 +927,12 @@ class GameController:
             # print('Reasoning:', decision['reasoning'])
             # print('Arguments:', [arg for arg in decision['arguments']])
 
+            # Get the action and args from the decision
             action = decision['action']
             args = [self.world.entity_registry[UUID(arg)] for arg in decision['arguments']]
-            func = getattr(self, action)
-            result = func(agent, *args)
+
+            func = getattr(self, action) # Pick function based on action
+            func(agent, *args) # Apply the function to the args
 
             # Calculate the base alarm increase
             skill = ACTION_TO_SKILL[action]
@@ -954,6 +981,9 @@ class GameController:
                 f"{hostile.name}: at {hostile.area.name}, alarm level: {hostile.alarm_level:.3f} obs: {hostile.skills['observation']:.3f}, alarm_increased_this_turn: {hostile.alarm_increased_this_turn}")
         print('=========================')
 
+        for area in self.get_entities(Area):
+            area.noise_level = area.noise_baseline
+
         self.turn_counter += 1
         return True
 
@@ -962,6 +992,9 @@ class GameController:
         Update the alarm levels for hostiles in the given area and its connected areas
         based on the base alarm increase and noise propagation factors.
         """
+        area.noise_level += base_alarm_increase
+        # logger.debug(f"Changed noise level for area: {area.name} to {area.noise_level:.2f}")
+
         # Update alarms for hostiles in the given area
         for hostile in self.get_entities(Hostile, area):
             hostile.update_alarm_level(base_alarm_increase)
@@ -969,83 +1002,75 @@ class GameController:
         # Propagate alarms to connected areas
         for connection in area.connections:
             other_area = connection.get_other_area(area)
+
             propagation = base_alarm_increase * connection.noise_factor
+            other_area.noise_level += propagation
+            # logger.debug(f"Changed noise level for area: {other_area.name} to {other_area.noise_level:.2f}")
             for hostile in self.get_entities(Hostile, other_area):
                 hostile.update_alarm_level(propagation)
 
     def move_hostile(self, hostile):
         """
-        Move the hostile along their patrol route, incorporating back-and-forth movement and resuming correctly after interruptions.
+        Move the hostile along their patrol route, allowing for alarm interruptions and resuming patrols correctly.
         """
-        print(f"Hostile: {hostile.name} | Current Area: {hostile.area.name} | Alarm Level: {hostile.alarm_level:.2f}")
+        logger.debug(
+            f"Hostile: {hostile.name} | Current Area: {hostile.area.name} | Alarm Level: {hostile.alarm_level:.2f}")
 
-        next_index = hostile.current_patrol_index
+        route = hostile.patrol_route
+        n = len(route)
 
-        if hostile.alarm_level > .5 and hostile.alarm_increased_this_turn:
-            # Alarm response logic
-            print("Alarm level > 0.5, prioritizing area with highest alarm level.")
-            areas_with_alarm = [hostile.area] + [
-                (connection.get_other_area(hostile.area), connection.noise_factor)
+        if n <= 1:
+            logger.debug("Patrol route is too short or undefined. Staying in the current area.")
+            return
+
+        # Check alarm level to decide between patrolling and responding
+        if hostile.alarm_level > 0.5:
+            hostile.is_patrolling = False
+
+            # Identify the area with the highest noise level
+            areas_with_noise = [(hostile.area, hostile.area.noise_level)] + [
+                (connection.get_other_area(hostile.area), connection.get_other_area(hostile.area).noise_level)
                 for connection in hostile.area.connections
             ]
-            print(f"Connected Areas with Alarm Levels: {[(area.name, noise) for area, noise in areas_with_alarm]}")
-            if areas_with_alarm:
-                target_area = max(areas_with_alarm, key=lambda x: x[1])[0]
-                print(f"Target Area (High Alarm): {target_area.name}")
-            else:
-                print("No connected areas found. Staying in the current area.")
-                return
+
+            areas_with_noise.sort(key=lambda x: x[1], reverse=True)  # Sort by noise level descending
+            target_area = areas_with_noise[0][0]
+            logger.debug(f"Alarm active: Moving to the area with the highest noise: {target_area.name}")
+
         else:
-            # Patrol logic
-            print("Alarm level <= 0.5, following patrol route.")
-            route = hostile.patrol_route
+            hostile.is_patrolling = True
 
-            print(f"Route: {[area.name for area in hostile.patrol_route]}")
+            # Determine the next area in the patrol route
+            if hostile.area == route[hostile.current_patrol_index]:
+                # Update the patrol index only if the hostile is at the current patrol area
+                hostile.advance_patrol_index()
 
-            n = len(route)
-            if n <= 1:
-                print("Patrol route is too short or undefined. Staying in the current area.")
-                return
+            target_area = route[hostile.current_patrol_index]
+            logger.debug(f"Resuming patrol: Next target area is {target_area.name}")
 
-            next_index = hostile.current_patrol_index + 1
-            if next_index == n:
-                next_index = 0
-
-            target_area = route[next_index]
-            print(f"Target Area (Patrol): {target_area.name}")
-
-            if target_area == hostile.area:
-                print("Target area is the same as the current area. Skipping patrol.")
-                return
-
-        # Determine the next area to move into
+        # Determine the next step toward the target area
         if target_area in hostile.area.get_connected_areas():
             next_area = target_area
-            print(f"Moving directly to adjacent target area: {next_area.name}")
+            logger.debug(f"Target area is adjacent: Moving to {next_area.name}")
         else:
-            next_area = None
             try:
                 shortest_path = self.game_map.get_shortest_path(hostile.area, target_area)
-                print(f"Shortest Path to Target Area: {[area.name for area in shortest_path]}")
-                next_area = shortest_path[1]  # The first step towards the target area
-                assert next_area in hostile.area.get_connected_areas(), f"Invalid next area: {next_area.name}"
-                print(f"Next Area (via Shortest Path): {next_area.name}")
+                logger.debug(f"Shortest path: {[area.name for area in shortest_path]}")
+                next_area = shortest_path[min(1,len(shortest_path)-1)]  # The first step toward the target area
+                
+                logger.debug(f"Target area is not adjacent: Taking step toward {next_area.name} via shortest path")
             except nx.NetworkXNoPath:
-                print("No path exists to the target area. Staying in the current area.")
-                return
-            except StopIteration:
-                if next_area is None:
-                    print(f"Error: No next area identified.")
-                else:
-                    print(f"Error: No connected area matches the name '{next_area.name}'. Staying in the current area.")
+                logger.debug("No path exists to the target area. Staying in the current area.")
                 return
 
         # Move the hostile to the next area
-        print(f"Moving Hostile: {hostile.name} | From: {hostile.area.name} | To: {next_area.name}")
-        hostile.area.entities.remove(hostile)
-        next_area.entities.append(hostile)
-        hostile.area = next_area
-        hostile.current_patrol_index = next_index
+        self.change_area(hostile, next_area)
+
+    def change_area(self, entity, new_area):
+        logger.debug(f"Moving Entity: {entity.name} | From: {entity.area.name} | To: {entity.name}")
+        entity.area.entities.remove(entity)
+        new_area.entities.append(entity)
+        entity.area = new_area
 
     def get_entities(self, class_, area=None):
 
@@ -1153,7 +1178,7 @@ class GameController:
         hostile_values = [agent.take_action('hide', hostile) for hostile in self.get_entities(Hostile, area)]
         result = all(hostile_values)
 
-        agent.is_hidden = result
+        agent.is_hidden = result if not self.agents_hidden else True
 
         self.mission_log.append(
             f"{agent.name}: {f'Secure in {agent.area.name}.' if result else f'Cover blown in {agent.area.name}!'}")

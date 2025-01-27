@@ -13,10 +13,10 @@ def get_alarm_increase(action, skill_level):
     """
     # Define the alarm level mapping
     alarm_values = {
-        "wait": defaultdict(lambda: 0), # Temp val
+        "wait": defaultdict(lambda: 1.2), # Temp val
         "look_around": {1.0: 0.0, 0.7: 0.0},
         "peek": {1.0: 0.02, 0.7: 0.05},
-        "investigate": {.1: 0.0, 0.7: 0.1}, # Temp val
+        "investigate": {1: 0.0, 0.7: 0.1}, # Temp val
         "hide": {1.0: 0.15, 0.7: 0.2, .0: .5},
         "take_out": {1.0: 0.3, 0.7: 0.6},
         "shoot": defaultdict(lambda: 2),

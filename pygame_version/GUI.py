@@ -211,13 +211,10 @@ class GUI:
                 pygame.draw.circle(self.screen, outline_color, (dot_x, dot_y), 7)  # outline (outer circle)
                 pygame.draw.circle(self.screen, inner_color, (dot_x, dot_y), 5)  # Inner circle
 
-            # self.gc.get_entities(Agent)[0].is_hidden = True
-            # agents_in_area = True
-
             # Check if the area contains any hostiles
             hostiles_in_area = [hostile for hostile in self.gc.get_entities(Hostile) if hostile.area == area]
             for hostile in hostiles_in_area:
-                if agents_in_area or hostile.is_peeked:
+                if agents_in_area or hostile.is_peeked or self.gc.hostiles_visible:
 
                     previous_state = random.getstate()
                     unique_seed = encode_uuids_to_integer(area.id, hostile.id)
