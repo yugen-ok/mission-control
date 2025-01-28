@@ -4,22 +4,22 @@ Agent Smith:
  Mission intel:
 
 Areas:
-  - ID: acb48729-96f4-4227-a289-be7c534e2438
+  - ID: 7a830229-89ee-471a-8ee2-8c1c0fed38eb
     Name: Main Lobby
     Description: A spacious entrance with several connecting areas.
     Connections: Security Checkpoint
-  - ID: 6bbe30e2-d68a-468d-964c-f948bd9f8c7e
+  - ID: a052383b-25b1-42aa-9fb3-0ff0b5b237ca
     Name: Security Checkpoint
     Description: A checkpoint with guards and scanners.
     Connections: Main Lobby
 
 Agents:
-  - ID: e8b0f6e7-05ed-4f13-a091-eb327fe769b7
+  - ID: 570a8373-979b-417f-82bb-db6d8f535e9e
     Name: Agent Smith
     Description: A highly skilled field agent.
 
 Objectives:
-  - ID: 6076c96e-c37b-4ab0-a9f5-3d3a1e71e277
+  - ID: a4af6bc5-e6c1-4a7a-83db-e8f8f7587ef4
     Name: Security Server
     Description: 
 
@@ -37,18 +37,18 @@ Your health and observation skills are factors in what details you can accuratel
 You are currently in the following area: Waiting Room : A room with chairs and tables for visitors..
 It contains the following objects: Agent Smith: A highly skilled field agent.
 Security Server: .
-It is connected to the following areas: Security Checkpoint (ID: 6bbe30e2-d68a-468d-964c-f948bd9f8c7e)
+It is connected to the following areas: Security Checkpoint (ID: a052383b-25b1-42aa-9fb3-0ff0b5b237ca)
 
 
 ================
 INSTRUCTIONS:
 Here are the actions you can take, along with their descriptions and required arguments:
 - wait: Argument options - No arguments required
-- peek: Argument options - 6bbe30e2-d68a-468d-964c-f948bd9f8c7e
-- sneak: Argument options - 6bbe30e2-d68a-468d-964c-f948bd9f8c7e
-- charge: Argument options - 6bbe30e2-d68a-468d-964c-f948bd9f8c7e
+- peek: Argument options - a052383b-25b1-42aa-9fb3-0ff0b5b237ca
+- sneak: Argument options - a052383b-25b1-42aa-9fb3-0ff0b5b237ca
+- charge: Argument options - a052383b-25b1-42aa-9fb3-0ff0b5b237ca
 - investigate: Argument options - No arguments required
-- capture: Argument options - 6076c96e-c37b-4ab0-a9f5-3d3a1e71e277
+- capture: Argument options - a4af6bc5-e6c1-4a7a-83db-e8f8f7587ef4
 
 
 Decide on your next move based on the current status, Mission Control's commands, and available actions.
@@ -70,30 +70,41 @@ Agent Smith:
  Mission intel:
 
 Areas:
-  - ID: acb48729-96f4-4227-a289-be7c534e2438
+  - ID: 260af57a-fec7-4afa-849b-fb9dd83d37a0
+    Name: Waiting Room
+    Description: A room with chairs and tables for visitors.
+    Connections: Security Checkpoint
+  - ID: 7a830229-89ee-471a-8ee2-8c1c0fed38eb
     Name: Main Lobby
     Description: A spacious entrance with several connecting areas.
     Connections: Security Checkpoint
-  - ID: 6bbe30e2-d68a-468d-964c-f948bd9f8c7e
+  - ID: a052383b-25b1-42aa-9fb3-0ff0b5b237ca
     Name: Security Checkpoint
     Description: A checkpoint with guards and scanners.
-    Connections: Main Lobby
+    Connections: Waiting Room, Main Lobby, Surveillance Room
+  - ID: e8f51ea7-bf60-42ef-8d70-03b63c5a9dc9
+    Name: Surveillance Room
+    Description: A camera control room.
+    Connections: Security Checkpoint
 
 Agents:
-  - ID: e8b0f6e7-05ed-4f13-a091-eb327fe769b7
+  - ID: 570a8373-979b-417f-82bb-db6d8f535e9e
     Name: Agent Smith
     Description: A highly skilled field agent.
 
 Objectives:
-  - ID: 6076c96e-c37b-4ab0-a9f5-3d3a1e71e277
+  - ID: a4af6bc5-e6c1-4a7a-83db-e8f8f7587ef4
     Name: Security Server
     Description: 
+    Location: Waiting Room (ID: 260af57a-fec7-4afa-849b-fb9dd83d37a0)
 
 -----------------
 
 Mission Log:
 Control: 
-Agent Smith: Waiting in Waiting Room.
+Agent Smith: Secure in Waiting Room.
+Agent Smith: Moving to Security Checkpoint.
+Agent Smith: Secure in Security Checkpoint.
 Control: 
 
 -----------------
@@ -102,21 +113,22 @@ You are Agent Smith, an agent in the field.
 Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
 Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
 
-You are currently in the following area: Waiting Room : A room with chairs and tables for visitors..
+You are currently in the following area: Security Checkpoint : A checkpoint with guards and scanners..
 It contains the following objects: Agent Smith: A highly skilled field agent.
-Security Server: .
-It is connected to the following areas: Security Checkpoint (ID: 6bbe30e2-d68a-468d-964c-f948bd9f8c7e)
+Guard Wilson: A guard patrolling the area..
+It is connected to the following areas: Waiting Room (ID: 260af57a-fec7-4afa-849b-fb9dd83d37a0), Main Lobby (ID: 7a830229-89ee-471a-8ee2-8c1c0fed38eb), Surveillance Room (ID: e8f51ea7-bf60-42ef-8d70-03b63c5a9dc9)
 
 
 ================
 INSTRUCTIONS:
 Here are the actions you can take, along with their descriptions and required arguments:
 - wait: Argument options - No arguments required
-- peek: Argument options - 6bbe30e2-d68a-468d-964c-f948bd9f8c7e
-- sneak: Argument options - 6bbe30e2-d68a-468d-964c-f948bd9f8c7e
-- charge: Argument options - 6bbe30e2-d68a-468d-964c-f948bd9f8c7e
+- peek: Argument options - 260af57a-fec7-4afa-849b-fb9dd83d37a0, 7a830229-89ee-471a-8ee2-8c1c0fed38eb, e8f51ea7-bf60-42ef-8d70-03b63c5a9dc9
+- sneak: Argument options - 260af57a-fec7-4afa-849b-fb9dd83d37a0, 7a830229-89ee-471a-8ee2-8c1c0fed38eb, e8f51ea7-bf60-42ef-8d70-03b63c5a9dc9
+- charge: Argument options - 260af57a-fec7-4afa-849b-fb9dd83d37a0, 7a830229-89ee-471a-8ee2-8c1c0fed38eb, e8f51ea7-bf60-42ef-8d70-03b63c5a9dc9
 - investigate: Argument options - No arguments required
-- capture: Argument options - 6076c96e-c37b-4ab0-a9f5-3d3a1e71e277
+- shoot: Argument options - 477b6fba-399f-49a2-a6a0-806fbbf120b2
+- take_out: Argument options - 477b6fba-399f-49a2-a6a0-806fbbf120b2
 
 
 Decide on your next move based on the current status, Mission Control's commands, and available actions.

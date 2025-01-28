@@ -1,3 +1,4 @@
+from bidict import bidict
 from pprint import pprint
 import random
 import json
@@ -392,9 +393,7 @@ class Agent(Character):
         """
 
         action_arguments = self.generate_action_arguments()
-        uuid_to_int_map = {}  # Mapping from integers to UUIDs
-        int_to_uuid_map = {}  # Reverse mapping from UUIDs to integers
-        id_counter = 0  # Counter to generate integer IDs
+        action2int_and_arg_bimap = defaultdict(dict)
 
         available_actions_desc = (
             "Here are the actions you can take, along with their descriptions and required arguments:\n\n"
@@ -405,19 +404,16 @@ class Agent(Character):
             if arguments:
                 # Map arguments to integers, reusing IDs for recurring UUIDs
                 integer_arguments = []
+                id_counter = 0
                 for arg in arguments:
-                    if arg['id'] not in int_to_uuid_map:
-                        uuid_to_int_map[id_counter] = arg['id']
-                        int_to_uuid_map[arg['id']] = id_counter
-                        integer_id = id_counter
-                        id_counter += 1
-                    else:
-                        integer_id = int_to_uuid_map[arg['id']]
+                    action2int_and_arg_bimap[action][arg['id']] = id_counter
+                    action2int_and_arg_bimap[action][id_counter] = arg['id']
 
                     integer_arguments.append({
-                        'id': integer_id,
+                        'id': id_counter,
                         'name': arg['name']
                     })
+                    id_counter += 1
 
                 # Update the description
                 argument_details = ", ".join([f"{arg['id']} ({arg['name']})" for arg in integer_arguments])
@@ -427,7 +423,7 @@ class Agent(Character):
 
         prompt = available_actions_desc
 
-        return prompt, uuid_to_int_map
+        return prompt, action2int_and_arg_bimap
 
     def make_report_prompt(self):
 
@@ -943,11 +939,34 @@ class GameController:
                 decisions = []
                 for agent in agents_to_execute:
 
-                    prompt, uuid_to_int_map = agent.make_manual_decision_prompt()
-                    print(prompt)
-                    action = input(f"{agent.name} action: ")
-                    arguments = input(f"{agent.name} arguments: ")
-                    arguments = [arg.strip() for arg in arguments.split(',') if arg.strip()]
+                    action_arguments = agent.generate_action_arguments()
+                    prompt, action2int_and_arg_bimap = agent.make_manual_decision_prompt()
+
+                    while True:
+                        try:
+                            action = input(f"{agent.name} action: ")
+                            assert action in action_arguments.keys()
+                            break
+                        except AssertionError:
+                            print(f"Invalid input. Please enter one of the valid actions: {', '.join(list(action_arguments.keys()))}.")
+
+                    if not action_arguments[action]:
+                        arguments = []
+                    elif len(action_arguments[action]) == 1:
+                        arguments = [str(action_arguments[action][0]['id'])]
+                    else:
+
+                        while True:
+                            argument = input(f"Choose arg: ")
+                            try:
+                                argument = int(argument.strip())
+                                assert argument < len(action_arguments[action])
+                                break
+                            except (AssertionError, ValueError):
+                                print(f"Invalid input. Please enter an index up to {len(action_arguments[action])-1}.")
+
+                        arguments = [str(action_arguments[action][argument]['id'])]
+
                     decision = str({'action': action, 'arguments': arguments})
                     decisions.append(decision)
 
