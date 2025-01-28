@@ -59,6 +59,22 @@
       "inventory": [],
       "type": "agent"
     },
+        {
+      "name": "Agent Jason",
+      "area": "waiting_room",
+      "description": "A highly skilled field agent.",
+      "health": 1.0,
+      "resilience": 0.9,
+      "stealth": 1.0,
+      "firearms": 0.7,
+      "cover": 0.7,
+      "hand_to_hand": 1.0,
+      "hacking": 0.7,
+      "observation": 1.0,
+      "acrobatics": 1,
+      "inventory": [],
+      "type": "agent"
+    },
     {
       "name": "Guard Wilson",
       "patrol_route": ["lobby", "security_checkpoint", "surveillance_room"],

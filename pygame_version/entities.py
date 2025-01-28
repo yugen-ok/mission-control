@@ -423,7 +423,7 @@ class Agent(Character):
 
         prompt = available_actions_desc
 
-        return prompt, action2int_and_arg_bimap
+        return prompt
 
     def make_report_prompt(self):
 
@@ -940,7 +940,10 @@ class GameController:
                 for agent in agents_to_execute:
 
                     action_arguments = agent.generate_action_arguments()
-                    prompt, action2int_and_arg_bimap = agent.make_manual_decision_prompt()
+                    prompt = agent.make_manual_decision_prompt()
+
+                    # Display it to the user so they can make a choice for this agent
+                    print(prompt)
 
                     while True:
                         try:
@@ -974,7 +977,7 @@ class GameController:
                 # Test mode decision making:
                 # This is an example of how to hardcode a decision logic for testing
                 # You can change it as needed, depending on the scenario you want to test
-                if self.turn_counter > 1:
+                if self.turn_counter > 100:
                     decisions = ["{'action': 'investigate', 'arguments': []}"]  # for debugging
                 else:
                     decisions = ["{'action': 'wait', 'arguments': []}"]  # for debugging
@@ -1067,14 +1070,11 @@ class GameController:
             hostile.update_observation()
 
         # For each agent, print location and is_hidden:
-        print('=========================')
         for agent in self.get_entities(Agent):
-            print(f"{agent.name} is at {agent.area.name} and is_hidden: {agent.is_hidden}")
-        print('=========================')
+            logger.debug(f"{agent.name} is at {agent.area.name} and is_hidden: {agent.is_hidden}")
         for hostile in self.get_entities(Hostile):
-            print(
+            logger.debug(
                 f"{hostile.name}: at {hostile.area.name}, alarm level: {hostile.alarm_level:.3f} obs: {hostile.skills['observation']:.3f}, alarm_increased_this_turn: {hostile.alarm_increased_this_turn}")
-        print('=========================')
 
         # Reset area values
         for area in self.get_entities(Area):
@@ -1176,7 +1176,11 @@ class GameController:
     def change_area(self, entity, new_area):
         old_area = entity.area
 
+        if old_area == new_area:
+            return False
+
         logger.debug(f"Moving Entity: {entity.name} | From: {old_area.name} | To: {entity.name}")
+
         assert new_area in [conn.get_other_area(old_area) for conn in
                             old_area.connections], "Entity is not connected to the new area."
 
@@ -1189,6 +1193,8 @@ class GameController:
                 not entity.is_hidden and \
                 not [agent for agent in self.get_entities(Agent, old_area) if not agent.is_hidden]:
             old_area.chase_pointer = new_area
+
+        return True
 
     def report(self, agent):
         pass
