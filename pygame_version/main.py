@@ -5,7 +5,7 @@ from entities import *
 from gameworld import *
 from GUI import GUI
 
-def main(config_path, test_mode, agents_hidden, hostiles_visible):
+def main(config_path, mode, agents_hidden, hostiles_visible):
     # Load configuration from JSON file
     with open(config_path, "r") as file:
         config = json.load(file)
@@ -65,7 +65,7 @@ def main(config_path, test_mode, agents_hidden, hostiles_visible):
     game_map = GameMap(areas=list(areas.values()))
 
     # Create the GameController instance
-    gc = GameController(world=world, game_map=game_map, test_mode=test_mode, agents_hidden=agents_hidden, hostiles_visible=hostiles_visible)
+    gc = GameController(world=world, game_map=game_map, mode=mode, agents_hidden=agents_hidden, hostiles_visible=hostiles_visible)
 
     gui = GUI(config_path, gc)
     gui.run()
@@ -80,7 +80,8 @@ if __name__ == "__main__":
         help="Path to the mission configuration JSON file (default: mission_configs/mission_config.json)."
     )
     parser.add_argument(
-        "-t", "--test-mode", action="store_true", help="Enable test mode (default: False)."
+        "-m", "--mode", type=str, nargs="?", default='auto',
+        help="Choose decision making mode (Options: [auto (a), semi-auto (sa), manual (m), test (t)]), (default: auto)."
     )
     parser.add_argument(
         "-ah", "--agents-hidden", action="store_true", help="Set agents to always be hidden (default: False)."
@@ -93,7 +94,7 @@ if __name__ == "__main__":
 
     main(
         config_path=args.config_path,
-        test_mode=args.test_mode,
+        mode=args.mode,
         agents_hidden=args.agents_hidden,
         hostiles_visible=args.hostiles_visible
     )

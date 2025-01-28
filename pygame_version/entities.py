@@ -12,11 +12,9 @@ from uuid import UUID
 from typing import List
 import logging
 
-
 # Configure logging
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger(__name__)
-
 
 # Note: right now, when an agent moves into a room, entities they detect are auto added to the minimap,
 # but not described in the log unless you ask about them. This is to avoid swamping the log,
@@ -29,11 +27,12 @@ global has_reached_th
 
 # TODO:
 
+# - mark connections with access difficulty on the map
+# - test hostile chase and extended patrol break
 # - cameras and cctv disable
 # - locks, lockpicking, keys, unlock with hacking
 # - Connections that require acrobatics
 # - Silent ranged attacks
-# - hostile movement
 # - cover and hiding as area properties instead of entities
 # - Allow hostiles to attack with hand-to-hand in certain cases
 # - Vary cover/hiding bonus within an area (meaning it is not the same for all chars in the area)
@@ -60,7 +59,7 @@ OBS_THRESHS = {
     1: .4
 }
 
-RELAX_DEC = -.05
+RELAX_DEC = -.1
 
 # Skills used for each action
 ACTION_TO_SKILL = {
@@ -238,8 +237,8 @@ class Character(Entity):
             elif action_type == 'shoot':
                 modifier += self.area.cover_bonus
 
-        elif isinstance(target, Obstacle):
-            difficulty = target.difficulty
+        elif action_type == 'bypass':
+            difficulty = 0
 
         elif action_type == 'capture':
             assert isinstance(target, Objective)
@@ -311,8 +310,9 @@ class Agent(Character):
 
         # Peek, sneak and charge actions: require an adjacent area that is explored
         if accessible_areas:
-            action_args['peek'] = action_args['sneak'] = action_args['charge'] = [{'id': area.id, 'name': area.name} for area in
-                                                            accessible_areas]
+            action_args['peek'] = action_args['sneak'] = action_args['charge'] = [{'id': area.id, 'name': area.name} for
+                                                                                  area in
+                                                                                  accessible_areas]
 
         action_args['investigate'] = []
 
@@ -332,7 +332,8 @@ class Agent(Character):
             action_args['bypass'] = [{'id': entity.id, 'name': entity.name} for entity in obstacles_in_area]
 
         # Capture action: requires objectives in the current area
-        objectives_in_area = [entity for entity in self.area.entities if isinstance(entity, Objective) and not entity.is_captured]
+        objectives_in_area = [entity for entity in self.area.entities if
+                              isinstance(entity, Objective) and not entity.is_captured]
         if objectives_in_area:
             action_args['capture'] = [{'id': entity.id, 'name': entity.name} for entity in objectives_in_area]
 
@@ -357,7 +358,7 @@ class Agent(Character):
         # Describe each action along with its possible arguments
         for action, arguments in action_arguments.items():
             argument_ids = ", ".join([str(arg['id']) for arg in arguments]) if arguments else "No arguments required"
-            available_actions_desc += f"- {action}: Arguments - {argument_ids}\n"
+            available_actions_desc += f"- {action}: Argument options - {argument_ids}\n"
 
         instruction = (
             "Decide on your next move based on the current status, Mission Control's commands, and available actions.\n"
@@ -381,6 +382,52 @@ class Agent(Character):
         )
 
         return prompt
+
+    def make_manual_decision_prompt(self):
+        """
+        Generates a detailed prompt for an AI model to decide on the next move for the agent, given the current situation.
+        The prompt includes an overview of the agent's current environment, capabilities, and a list of available actions.
+        Instead of using UUIDs for arguments, it uses integers starting from 0 and returns a mapping from those integers
+        to the corresponding UUIDs. Arguments can recur across different actions.
+        """
+
+        action_arguments = self.generate_action_arguments()
+        uuid_to_int_map = {}  # Mapping from integers to UUIDs
+        int_to_uuid_map = {}  # Reverse mapping from UUIDs to integers
+        id_counter = 0  # Counter to generate integer IDs
+
+        available_actions_desc = (
+            "Here are the actions you can take, along with their descriptions and required arguments:\n\n"
+        )
+
+        # Describe each action along with its possible arguments
+        for action, arguments in action_arguments.items():
+            if arguments:
+                # Map arguments to integers, reusing IDs for recurring UUIDs
+                integer_arguments = []
+                for arg in arguments:
+                    if arg['id'] not in int_to_uuid_map:
+                        uuid_to_int_map[id_counter] = arg['id']
+                        int_to_uuid_map[arg['id']] = id_counter
+                        integer_id = id_counter
+                        id_counter += 1
+                    else:
+                        integer_id = int_to_uuid_map[arg['id']]
+
+                    integer_arguments.append({
+                        'id': integer_id,
+                        'name': arg['name']
+                    })
+
+                # Update the description
+                argument_details = ", ".join([f"{arg['id']} ({arg['name']})" for arg in integer_arguments])
+                available_actions_desc += f"- {action}: Arg options - {argument_details}\n"
+            else:
+                available_actions_desc += f"- {action}: No arguments required\n"
+
+        prompt = available_actions_desc
+
+        return prompt, uuid_to_int_map
 
     def make_report_prompt(self):
 
@@ -463,7 +510,6 @@ class Hostile(Character):
         self.current_patrol_index = 0  # Current position in the patrol route
         self.is_patrolling = True
 
-
     def update_alarm_level(self, delta):
 
         if self.fight_mode:
@@ -477,7 +523,6 @@ class Hostile(Character):
 
         if self.alarm_level == 1:
             self.fight_mode = True
-
 
     def update_observation(self):
         obs_inc = get_corresponding_value(self.alarm_level, OBS_THRESHS)
@@ -529,6 +574,11 @@ class PersonObjective(Objective):
 class OtherObjective(Objective):
     def __init__(self, name, area, difficulty, is_captured, description, world=None):
         super().__init__(name, area, "Other", difficulty, is_captured, "observation", description, world=world)
+
+
+class Body(Entity):
+    def __init__(self, name, area, description, world=None):
+        super().__init__(name, area, description, world=world)
 
 
 # Obstacle class
@@ -680,7 +730,7 @@ class Area(Entity):
 
         self.noise_level = noise_baseline  # above baseline. meaning noticeable
         self.noise_duration = 0
-        self.chase_pointer = None # Points to another area where the last non-hidden agent in a room moved to
+        self.chase_pointer = None  # Points to another area where the last non-hidden agent in a room moved to
 
         # For the map renderring
         self.x = x
@@ -778,11 +828,21 @@ class MissionLog(List):
 
 
 class GameController:
-    def __init__(self, world, game_map, test_mode=False, agents_hidden=False, hostiles_visible=False):
+    def __init__(self, world, game_map, mode='auto', agents_hidden=False, hostiles_visible=False):
+
+        mode_map = {
+            'a': 'auto',
+            'sa': 'semi-auto',
+            'm': 'manual',
+            't': 'test'
+        }
+        mode = mode_map.get(mode, mode)
+
+        assert mode in ['auto', 'semi-auto', 'manual', 'test']
 
         self.world = world
         self.game_map = game_map
-        self.test_mode = test_mode
+        self.mode = mode
         self.agents_hidden = agents_hidden
         self.hostiles_visible = hostiles_visible
 
@@ -807,8 +867,6 @@ class GameController:
                     entity.set_explored(2)
                 else:
                     entity.set_explored(1)
-
-
 
     def game_loop(self):
 
@@ -864,7 +922,6 @@ class GameController:
 
         remaining_to_execute = decide_prompts.copy()
         agents_to_execute = agents.copy()
-
         agent2decision = {}
         i = 0
         while remaining_to_execute:
@@ -872,27 +929,45 @@ class GameController:
             if i >= 5:
                 raise Exception('Not supposed to fail evaluating all prompt outputs 5 times in a row')
 
+            if self.mode == 'auto':
+                # Production mode decision making:
+                # Uncomment this line for the actual AI system to make decisions
+                # This requires defining the AZURE_OPENAI_API_KEY and AZURE_OPENAI_ENDPOINT environment variables
+                decisions = query_lbgpt('', remaining_to_execute)
 
-            if self.test_mode:
+            elif self.mode =='semi-auto':
+                raise NotImplementedError
+
+            elif self.mode =='manual':
+
+                decisions = []
+                for agent in agents_to_execute:
+
+                    prompt, uuid_to_int_map = agent.make_manual_decision_prompt()
+                    print(prompt)
+                    action = input(f"{agent.name} action: ")
+                    arguments = input(f"{agent.name} arguments: ")
+                    arguments = [arg.strip() for arg in arguments.split(',') if arg.strip()]
+                    decision = str({'action': action, 'arguments': arguments})
+                    decisions.append(decision)
+
+            elif self.mode == 'test':
                 # Test mode decision making:
                 # This is an example of how to hardcode a decision logic for testing
                 # You can change it as needed, depending on the scenario you want to test
                 if self.turn_counter > 1:
                     decisions = ["{'action': 'investigate', 'arguments': []}"]  # for debugging
                 else:
-                    decisions = ["{'action': 'wait', 'arguments': []}"] # for debugging
-
+                    decisions = ["{'action': 'wait', 'arguments': []}"]  # for debugging
             else:
-                # Production mode decision making:
-                # Uncomment this line for the actual AI system to make decisions
-                # This requires defining the AZURE_OPENAI_API_KEY and AZURE_OPENAI_ENDPOINT environment variables
-
-                decisions = query_lbgpt('', remaining_to_execute)
+                raise Exception('Invalid mode')
 
             logger.debug(f"Decisions: {json.dumps(decisions, indent=2)}")
+
             for i, decision in enumerate(decisions):
 
                 try:
+
                     agent = agents_to_execute[i]
                     evaled_decision = response_parsing(decision)
                     agent2decision[agent] = evaled_decision
@@ -932,13 +1007,13 @@ class GameController:
             action = decision['action']
             args = [self.world.entity_registry[UUID(arg)] for arg in decision['arguments']]
 
-            func = getattr(self, action) # Pick function based on action
-            func(agent, *args) # Apply the function to the args
+            func = getattr(self, action)  # Pick function based on action
+            func(agent, *args)  # Apply the function to the args
 
             # Calculate the base alarm increase
             skill = ACTION_TO_SKILL[action]
             base_alarm_increase = get_alarm_increase(action, agent.skills[skill])
-            print(f"Action: {action} | Base alarm increase: {base_alarm_increase}")
+            logging.debug(f"Action: {action} | Base alarm increase: {base_alarm_increase}")
 
             # Update alarms for the current area
             self.update_alarm_levels(area, base_alarm_increase)
@@ -1029,6 +1104,7 @@ class GameController:
         # TODO: test this
         if hostile.area.chase_pointer is not None:
             target_area = hostile.area.chase_pointer
+
         elif hostile.alarm_level > 0.5:
             hostile.is_patrolling = False
 
@@ -1061,7 +1137,7 @@ class GameController:
             try:
                 shortest_path = self.game_map.get_shortest_path(hostile.area, target_area)
                 logger.debug(f"Shortest path: {[area.name for area in shortest_path]}")
-                next_area = shortest_path[min(1,len(shortest_path)-1)]  # The first step toward the target area
+                next_area = shortest_path[min(1, len(shortest_path) - 1)]  # The first step toward the target area
 
                 logger.debug(f"Target area is not adjacent: Taking step toward {next_area.name} via shortest path")
             except nx.NetworkXNoPath:
@@ -1082,7 +1158,8 @@ class GameController:
         old_area = entity.area
 
         logger.debug(f"Moving Entity: {entity.name} | From: {old_area.name} | To: {entity.name}")
-        assert new_area in [conn.get_other_area(old_area) for conn in old_area.connections], "Entity is not connected to the new area."
+        assert new_area in [conn.get_other_area(old_area) for conn in
+                            old_area.connections], "Entity is not connected to the new area."
 
         old_area.entities.remove(entity)
         new_area.entities.append(entity)
@@ -1093,7 +1170,6 @@ class GameController:
                 not entity.is_hidden and \
                 not [agent for agent in self.get_entities(Agent, old_area) if not agent.is_hidden]:
             old_area.chase_pointer = new_area
-
 
     def report(self, agent):
         pass
@@ -1118,11 +1194,19 @@ class GameController:
                 self.mission_log.append(f"{agent.name}: Locked.")
                 return False
 
-            difficulty = area.get_passage_access_difficulty(target_area)
+            access_difficulty = area.get_passage_access_difficulty(target_area)
 
             # TODO: Improve
-            if difficulty:
-                raise NotImplementedError
+            if access_difficulty:
+                base_alarm_increase = get_alarm_increase("bypass", agent.skills["acrobatics"])
+                logging.debug(f"Bypass alarm increase: {base_alarm_increase:.2f}")
+
+                # Update alarms for the current area
+                self.update_alarm_levels(area, base_alarm_increase)
+
+                result = agent.take_action('bypass', modifier=access_difficulty)
+                if not result:
+                    return False
 
             # Update the current area and the target area's entities list
             self.change_area(agent, target_area)
