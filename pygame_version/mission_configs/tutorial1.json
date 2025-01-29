@@ -42,7 +42,7 @@
       "description": "A camera control room."
     }
   },
-  "characters": [
+  "agents": [
     {
       "name": "Agent Smith",
       "area": "waiting_room",
@@ -56,9 +56,9 @@
       "hacking": 0.7,
       "observation": 1.0,
       "acrobatics": 1,
-      "inventory": [],
-      "type": "agent"
-    },
+      "inventory": []
+    }],
+  "hostiles": [
     {
       "name": "Guard Wilson",
       "patrol_route": ["lobby", "security_checkpoint", "surveillance_room"],
@@ -72,9 +72,7 @@
       "hacking": 0,
       "observation": 0,
       "acrobatics": 0,
-      "inventory": [],
-      "area": "lobby",
-      "type": "hostile"
+      "inventory": []
     }
   ],
   "objectives" : [
@@ -86,7 +84,6 @@
       "required_skill": "hacking"
     }
   ],
-  "defaultArea": "lobby",
   "characterSize": 6,
   "characterColor": "#FF4444",
   "characterStroke": "#000000",

@@ -1,0 +1,62 @@
+Agent Smith:
+--------------------------
+
+ Mission intel:
+
+
+Agents:
+  - ID: e2f772bc-2be8-4b86-8159-a906c68f4fad
+    Name: Agent Smith
+    Description: A highly skilled field agent.
+
+Hostiles:
+  - ID: 03640854-844b-494b-bf31-f5e082f119e5
+    Name: Guard Wilson
+    Description: A guard patrolling the area.
+
+Objectives:
+  - ID: 5d0e94d6-9879-4786-bad9-e70f30e5309a
+    Name: Security Server
+    Description: Hack the security server
+
+-----------------
+
+Mission Log:
+Control: dddkjnawjjnakjdw kjawndkja wkjd akjw dkja wkdj akjwd kja wdkj awkdj akwj dkjaw dkja wdkj awkjd akwj dkjaw dkjaw dkja wdkj awdkj awkjd awkjd awkd akjw dkj
+
+-----------------
+
+You are Agent Smith, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: Courtyard : .
+It contains the following objects: Agent Smith: A highly skilled field agent.
+Guard Wilson: A guard patrolling the area.
+Security Server: Hack the security server.
+It is connected to the following areas: 
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required arguments:
+- wait: Argument options - No arguments required
+- investigate: Argument options - No arguments required
+- shoot: Argument options - 03640854-844b-494b-bf31-f5e082f119e5
+- take_out: Argument options - 03640854-844b-494b-bf31-f5e082f119e5
+- capture: Argument options - 5d0e94d6-9879-4786-bad9-e70f30e5309a
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.
+Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.
+
+==========================
+

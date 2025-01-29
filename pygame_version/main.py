@@ -42,20 +42,18 @@ def main(config_path, mode, agents_hidden, hostiles_visible):
 
     # Instantiate characters
     # Consider splitting into agents, hostiles, civilians, etc
-    characters = []
-    for character_data in config["characters"]:
-        char_type = character_data.pop("type")
-        area = areas[character_data.pop("area")]
+    agents = []
+    hostiles = []
+    for agent_data in config["agents"]:
+        area = areas[agent_data.pop("area")]
+        agent = Agent(**agent_data, area=area, world=world)
 
-        if char_type == "agent":
-            character = Agent(**character_data, area=area, world=world)
-        elif char_type == "hostile":
-            character_data["patrol_route"] = list(map(lambda x: areas[x], character_data.pop("patrol_route")))
-            character = Hostile(**character_data, world=world)
-        else:
-            raise ValueError(f"Unknown character type: {char_type}")
+        agents.append(agent)
 
-        characters.append(character)
+    for hostile_data in config["hostiles"]:
+        hostile_data["patrol_route"] = list(map(lambda x: areas[x], hostile_data.pop("patrol_route")))
+        hostile = Hostile(**hostile_data, world=world)
+        hostiles.append(hostile)
 
     for objective_data in config["objectives"]:
         area = areas[objective_data.pop("area")]

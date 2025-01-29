@@ -9,12 +9,12 @@ def get_agent_colors(agent):
     is_hidden = agent.is_hidden
     if is_hidden:
         # A more subdued, grey-green color for hidden agents
-        inner_color = (50, 80, 50)
-        outline_color = (80, 120, 80)
+        inner_color = (100, 128, 100)
+        outline_color = (100, 128, 100)
     else:
         # Brighter green for visible agents
         inner_color = (0, 128, 0)
-        outline_color = (0, 200, 0)
+        outline_color = (0, 128, 0)
     return inner_color, outline_color
 
 
@@ -25,14 +25,21 @@ def get_hostile_colors(hostile):
         inner_color = (200, 128, 0)  # Orange
         outline_color = (255, 180, 100)  # Softer orange
 
+    elif alarm_level == 1:
+        # Distinct color for hostiles at exactly alarm level 1 (Yellow warning)
+        inner_color = (255, 165, 0)  # Bright orange (Alert stage)
+        outline_color = (255, 200, 100)  # Softer orange
+
     elif alarm_level > 0.5:
         # Brighter red for suspicious hostiles
         inner_color = (255, 0, 0)  # Bright red
         outline_color = (255, 100, 100)  # Lighter red
+
     else:
         # Normal red for idle hostiles
         inner_color = (160, 0, 0)
         outline_color = (200, 0, 0)
+
     return inner_color, outline_color
 
 
@@ -114,6 +121,10 @@ class GUI:
         self.chat_messages = []
         self.chat_input = ""
 
+        self.wrapped_input = ""
+        self.input_cursor_pos = 0
+        self.input_box_height = 60  # Increased height for multi-line input
+
     def format_number(self, value):
         """Format numbers without trailing zeros"""
         if value == 1:
@@ -130,7 +141,7 @@ class GUI:
 
         # Panel layout configuration
         card_width = 400
-        card_height = 190
+        card_height = 205
         cards_per_row = 4
         x_padding = 20
         y_padding = 50
@@ -212,8 +223,8 @@ class GUI:
             self.screen.blit(location_value, (x + 196 + location_label.get_width(), text_y))
 
             # Skills title
-            skills_title_y = y + 105
-            skills_title = self.fonts['small'].render("Skills", True, self.hex_to_rgb(self.COLORS['text']))
+            skills_title_y = y + 120  # Increased spacing (was 105)
+            skills_title = self.fonts['body'].render("Skills", True, self.hex_to_rgb(self.COLORS['text']))
             self.screen.blit(skills_title, (x + 15, skills_title_y))
 
             def render_skill(skill_name, skill_value, pos_x, pos_y):
@@ -401,6 +412,30 @@ class GUI:
             for connection in area.connections:
                 self.draw_connection_hollow(area, connection.get_other_area(area))
 
+    def wrap_input_text(self, text, font, max_width):
+        """Wrap input text and handle cursor position"""
+        words = text.split(' ')
+        lines = []
+        current_line = ""
+
+        for word in words:
+            test_line = current_line + (" " if current_line else "") + word
+            if font.size(test_line)[0] <= max_width:
+                current_line = test_line
+            else:
+                if current_line:
+                    lines.append(current_line)
+                    current_line = word
+                else:
+                    # If a single word is too long, force-break it
+                    lines.append(word)
+                    current_line = ""
+
+        if current_line:
+            lines.append(current_line)
+
+        return '\n'.join(lines)
+
     def wrap_text(self, text, font, max_width):
         words = text.split(' ')
         lines = []
@@ -489,28 +524,56 @@ class GUI:
 
     def draw_chat(self):
         self.draw_panel(self.CHAT_PANEL, "Mission Log")
-        y_offset = 60  # Start rendering messages below the title
+        y_offset = 60
+        max_message_width = self.CHAT_PANEL.width - 20
 
-        # Maximum width for wrapping messages inside the chat panel
-        max_message_width = self.CHAT_PANEL.width - 20  # Subtracting padding for the text
+        # Calculate the height needed for the input box
+        input_box = pygame.Rect(
+            self.CHAT_PANEL.x + 10,
+            self.CHAT_PANEL.bottom - self.input_box_height,
+            self.CHAT_PANEL.width - 20,
+            self.input_box_height
+        )
 
-        # Loop through the last 15 chat messages and wrap each one
-        for message in self.chat_messages[-15:]:  # Show last 15 messages
+        # Adjust message display area to account for larger input box
+        messages_area_height = self.CHAT_PANEL.height - 70 - self.input_box_height
+
+        # Display messages with improved wrapping
+        visible_messages = []
+        current_height = 0
+
+        for message in reversed(self.chat_messages):
             wrapped_lines = self.wrap_text(message, self.fonts['small'], max_message_width)
+            message_height = len(wrapped_lines) * self.fonts['small'].get_linesize()
+
+            if current_height + message_height > messages_area_height:
+                break
+
+            visible_messages.insert(0, (wrapped_lines, message_height))
+            current_height += message_height
+
+        # Render visible messages
+        current_y = y_offset
+        for wrapped_lines, _ in visible_messages:
             for line in wrapped_lines:
                 msg_surface = self.fonts['small'].render(line, True, self.hex_to_rgb(self.COLORS['text']))
-                self.screen.blit(msg_surface, (self.CHAT_PANEL.x + 10, self.CHAT_PANEL.y + y_offset))
-                y_offset += self.fonts['small'].get_linesize()
+                self.screen.blit(msg_surface, (self.CHAT_PANEL.x + 10, self.CHAT_PANEL.y + current_y))
+                current_y += self.fonts['small'].get_linesize()
 
-        # Draw the input box at the bottom of the chat panel
-        input_box = pygame.Rect(self.CHAT_PANEL.x + 10, self.CHAT_PANEL.bottom - 30, self.CHAT_PANEL.width - 20, 20)
+        # Draw input box with wrapped text
         pygame.draw.rect(self.screen, self.hex_to_rgb(self.COLORS['panel_bg']), input_box)
         pygame.draw.rect(self.screen, self.hex_to_rgb(self.COLORS['border']), input_box, 1)
 
-        # Render the current chat input
-        input_surface = self.fonts['small'].render(self.chat_input, True, self.hex_to_rgb(self.COLORS['text']))
-        self.screen.blit(input_surface, (input_box.x + 5, input_box.y + 2))
+        # Update wrapped input text
+        wrapped_input = self.wrap_input_text(self.chat_input, self.fonts['small'], max_message_width)
 
+        # Render wrapped input text
+        input_y = input_box.y + 5
+        for line in wrapped_input.split('\n'):
+            input_surface = self.fonts['small'].render(line, True, self.hex_to_rgb(self.COLORS['text']))
+            self.screen.blit(input_surface, (input_box.x + 5, input_y))
+            input_y += self.fonts['small'].get_linesize()
+            
     def handle_click(self, pos):
         if self.MAP_PANEL.collidepoint(pos):
             relative_x = pos[0] - (self.MAP_PANEL.x + 20)

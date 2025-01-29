@@ -1,51 +1,275 @@
 {
   "areas": {
-    "waiting_room": {
-      "x": 150,
-      "y": 130,
-      "width": 80,
-      "height": 80,
-      "color": "#F5F5F5",
-      "connections": ["security_checkpoint"],
-      "name": "Waiting Room",
-      "description": "A room with chairs and tables for visitors."
-    },
-    "lobby": {
+    "courtyard": {
       "x": 50,
       "y": 50,
-      "width": 100,
-      "height": 80,
+      "width": 150,
+      "height": 180,
       "color": "#E8E8E8",
-      "connections": ["security_checkpoint"],
-      "name": "Main Lobby",
-      "explored" : 1,
-      "description": "A spacious entrance with several connecting areas."
+      "connections": [],
+      "name": "Courtyard",
+      "explored" : 0,
+      "description": ""
     },
-    "security_checkpoint": {
-      "x": 50,
-      "y": 130,
-      "width": 100,
-      "height": 60,
-      "color": "#D3D3D3",
-      "connections": ["lobby", "surveillance_room", "waiting_room"],
-      "name": "Security Checkpoint",
-      "description": "A checkpoint with guards and scanners."
+    "top_street": {
+      "x": 200,
+      "y": 50,
+      "width": 500,
+      "height": 50,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Top Street",
+      "explored" : 0,
+      "description": ""
     },
-    "surveillance_room": {
+    "left_street_top": {
       "x": 50,
-      "y": 190,
+      "y": 230,
+      "width": 50,
+      "height": 320,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Left Street Top",
+      "explored" : 0,
+      "description": ""
+    },
+    "room1": {
+      "x": 100,
+      "y": 230,
       "width": 100,
-      "height": 60,
-      "color": "#D3D3D3",
-      "connections": ["security_checkpoint"],
-      "name": "Surveillance Room",
-      "description": "A camera control room."
+      "height": 220,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 1",
+      "explored" : 0,
+      "description": ""
+    },
+    "room2": {
+      "x": 100,
+      "y": 400,
+      "width": 200,
+      "height": 100,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 2",
+      "explored" : 0,
+      "description": ""
+    },
+    "room3": {
+      "x": 100,
+      "y": 500,
+      "width": 250,
+      "height": 50,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 3",
+      "explored" : 0,
+      "description": ""
+    },
+    "room4": {
+      "x": 200,
+      "y": 100,
+      "width": 150,
+      "height": 180,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 4",
+      "explored" : 0,
+      "description": ""
+    },
+    "room5": {
+      "x": 200,
+      "y": 280,
+      "width": 150,
+      "height": 120,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 5",
+      "explored" : 0,
+      "description": ""
+    },
+    "room6": {
+      "x": 300,
+      "y": 400,
+      "width": 50,
+      "height": 100,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 6",
+      "explored" : 0,
+      "description": ""
+    },
+    "top_corridor": {
+      "x": 350,
+      "y": 100,
+      "width": 50,
+      "height": 450,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Top Corridor",
+      "explored" : 0,
+      "description": ""
+    },
+    "room7": {
+      "x": 400,
+      "y": 100,
+      "width": 120,
+      "height": 130,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 7",
+      "explored" : 0,
+      "description": ""
+    },
+    "room8": {
+      "x": 520,
+      "y": 100,
+      "width": 180,
+      "height": 130,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 8",
+      "explored" : 0,
+      "description": ""
+    },
+    "room9": {
+      "x": 520,
+      "y": 230,
+      "width": 180,
+      "height": 50,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 9",
+      "explored" : 0,
+      "description": ""
+    },
+    "room10": {
+      "x": 400,
+      "y": 230,
+      "width": 120,
+      "height": 170,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 10",
+      "explored" : 0,
+      "description": ""
+    },
+    "room11": {
+      "x": 520,
+      "y": 280,
+      "width": 50,
+      "height": 120,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 11",
+      "explored" : 0,
+      "description": ""
+    },
+    "room12": {
+      "x": 570,
+      "y": 280,
+      "width": 130,
+      "height": 120,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 12",
+      "explored" : 0,
+      "description": ""
+    },
+    "left_corridor": {
+      "x": 400,
+      "y": 400,
+      "width": 300,
+      "height": 50,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Left Corridor",
+      "explored" : 0,
+      "description": ""
+    },
+    "room13": {
+      "x": 400,
+      "y": 450,
+      "width": 120,
+      "height": 100,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 13",
+      "explored" : 0,
+      "description": ""
+    },
+    "room14": {
+      "x": 520,
+      "y": 450,
+      "width": 180,
+      "height": 100,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 14",
+      "explored" : 0,
+      "description": ""
+    },
+    "middle_corridor": {
+      "x": 100,
+      "y": 550,
+      "width": 600,
+      "height": 50,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Middle Corridor",
+      "explored" : 0,
+      "description": ""
+    },
+    "room15": {
+      "x": 100,
+      "y": 600,
+      "width": 120,
+      "height": 100,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 15",
+      "explored" : 0,
+      "description": ""
+    },
+    "room16": {
+      "x": 220,
+      "y": 600,
+      "width": 80,
+      "height": 150,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 16",
+      "explored" : 0,
+      "description": ""
+    },
+    "room17": {
+      "x": 100,
+      "y": 700,
+      "width": 70,
+      "height": 50,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 17",
+      "explored" : 0,
+      "description": ""
+    },
+    "room18": {
+      "x": 170,
+      "y": 700,
+      "width": 50,
+      "height": 300,
+      "color": "#E8E8E8",
+      "connections": [],
+      "name": "Room 18",
+      "explored" : 0,
+      "description": ""
     }
+
   },
-  "characters": [
+  "agents": [
     {
       "name": "Agent Smith",
-      "area": "waiting_room",
+      "area": "courtyard",
       "description": "A highly skilled field agent.",
       "health": 1.0,
       "resilience": 0.9,
@@ -55,29 +279,16 @@
       "hand_to_hand": 1.0,
       "hacking": 0.7,
       "observation": 1.0,
-      "acrobatics": 1,
-      "inventory": [],
-      "type": "agent"
-    },
-        {
-      "name": "Agent Jason",
-      "area": "waiting_room",
-      "description": "A highly skilled field agent.",
-      "health": 1.0,
-      "resilience": 0.9,
-      "stealth": 1.0,
-      "firearms": 0.7,
-      "cover": 0.7,
-      "hand_to_hand": 1.0,
-      "hacking": 0.7,
-      "observation": 1.0,
-      "acrobatics": 1,
-      "inventory": [],
-      "type": "agent"
-    },
+      "acrobatics": 1.0,
+      "inventory": []
+    }
+  ],
+  "hostiles": [
     {
       "name": "Guard Wilson",
-      "patrol_route": ["lobby", "security_checkpoint", "surveillance_room"],
+      "patrol_route": [
+        "courtyard"
+      ],
       "description": "A guard patrolling the area.",
       "health": 1.0,
       "resilience": 0.7,
@@ -88,17 +299,15 @@
       "hacking": 0,
       "observation": 0,
       "acrobatics": 0,
-      "inventory": [],
-      "area": "lobby",
-      "type": "hostile"
+      "inventory": []
     }
   ],
-  "objectives" : [
+  "objectives": [
     {
       "name": "Security Server",
-      "area": "waiting_room",
+      "area": "courtyard",
       "difficulty": 0.1,
-      "description": "",
+      "description": "Hack the security server",
       "required_skill": "hacking"
     }
   ],
@@ -108,7 +317,6 @@
   "characterStrokeWidth": 2,
   "connectionStroke": "#666666",
   "connectionWidth": 1,
-  "mapWidth": 400,
-  "mapHeight": 300
-
+  "mapWidth": 2000,
+  "mapHeight": 1600
 }
