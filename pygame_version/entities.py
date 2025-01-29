@@ -46,8 +46,6 @@ global has_reached_th
 # - some agents want to do more, so if you tell them to stand down they might go in anyway
 # - Add Hostile subclasses: guard, technician, janitor, etc.
 
-
-
 def get_corresponding_value(val, threshold_map):
     # Sort thresholds in ascending order
     sorted_thresholds = sorted(threshold_map.keys())
@@ -190,9 +188,9 @@ class Character(Entity):
             difficulty = target.skills[skill2]
 
             if action_type in 'hide':
-                modifier += self.area.hiding_bonus
+                modifier += self.area.hiding_modifier
             elif action_type == 'shoot':
-                modifier += self.area.cover_bonus
+                modifier += self.area.cover_modifier
 
         elif action_type == 'bypass':
             difficulty = 0
@@ -904,7 +902,7 @@ class GameController:
         agents = [agent for agent in self.get_entities(Agent) if agent.health > 0]
 
         for agent in agents:
-            agent.knowledge_base = self.describe_knowledge_base()
+            agent.knowledge_base = self.describe_knowledge_base(agent)
             if self.agents_hidden:
                 agent.is_hidden = True
 
@@ -952,16 +950,28 @@ class GameController:
                     # Display it to the user so they can make a choice for this agent
                     print(prompt)
 
+                    arguments = []
                     while True:
                         try:
-                            action = input(f"{agent.name} action: ")
+                            actionarg = input(f"{agent.name} action: ")
+                            actionarg = actionarg.split(' ')
+                            assert actionarg
+
+                            if len(actionarg) == 1:
+                                action = actionarg[0]
+                            else:
+                                action = actionarg[0]
+                                arguments = [arg.strip() for arg in actionarg[1:]]
+
                             assert action in action_arguments.keys()
                             break
                         except AssertionError:
                             print(
                                 f"Invalid input. Please enter one of the valid actions: {', '.join(list(action_arguments.keys()))}.")
 
-                    if not action_arguments[action]:
+                    if arguments:
+                        pass
+                    elif not action_arguments[action]:
                         arguments = []
                     elif len(action_arguments[action]) == 1:
                         arguments = [str(action_arguments[action][0]['id'])]
@@ -1417,7 +1427,7 @@ class GameController:
         self.world.remove_entity(agent)
         self.mission_log.append(f"{agent.name}: Exfiltrated!")
 
-    def describe_knowledge_base(self):
+    def describe_knowledge_base(self, agent):
         """
         Create a verbal description of all explored entities, their locations if known,
         and connections between areas if known. It returns a list of descriptive statements in a structured format.
@@ -1438,11 +1448,10 @@ class GameController:
         agent_descriptions = []
         hostile_descriptions = []
         objective_descriptions = []
-        hiding_place_descriptions = []
 
         # Iterate over all areas to generate descriptions
         for area in self.game_map.areas:
-            if area._explored > 0:
+            if area.get_explored() > 0:
                 area_description = {
                     "ID": area.id,
                     "Name": area.name,
@@ -1471,7 +1480,7 @@ class GameController:
                     "Location": {
                         "Name": entity.area.name,
                         "ID": entity.area.id
-                    } if entity.area and entity.area.get_explored() > 0 and entity.get_explored() > 1 else None
+                    } if entity.area and entity.area.get_explored() and entity.get_explored() > 1 else None
                 }
                 # Categorize the entity into appropriate sections
                 if isinstance(entity, Agent):
@@ -1480,6 +1489,8 @@ class GameController:
                     hostile_descriptions.append(entity_data)
                 elif isinstance(entity, Objective):
                     objective_descriptions.append(entity_data)
+                else:
+                    raise NotImplementedError(f"Unsupported entity type: {type(entity).__name__}")
 
         # Assemble all parts into structured format
         if area_descriptions:
@@ -1521,16 +1532,8 @@ class GameController:
                         'Location'] else f"  - ID: {objective['ID']}\n    Name: {objective['Name']}\n    Description: {objective['Description']}"
                 descriptions.append(description_str)
 
-        if hiding_place_descriptions:
-            descriptions.append("\nHiding Places:")
-            for hiding_place in hiding_place_descriptions:
-                description_str = f"  - ID: {hiding_place['ID']}\n    Name: {hiding_place['Name']}\n    Description: {hiding_place['Description']}\n    Location: {hiding_place['Location']['Name']} (ID: {hiding_place['Location']['ID']})" if \
-                    hiding_place[
-                        'Location'] else f"  - ID: {hiding_place['ID']}\n    Name: {hiding_place['Name']}\n    Description: {hiding_place['Description']}"
-                descriptions.append(description_str)
-
         # Append mission log
         description = '\n'.join(descriptions) + '\n\n-----------------\n\nMission Log:\n' + '\n'.join(
-            self.mission_log[-20:]) + '\n\n-----------------'
+            self.mission_log[-100:]) + '\n\n-----------------'
 
         return description

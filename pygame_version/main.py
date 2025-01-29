@@ -49,7 +49,7 @@ def main(config_path, mode, agents_hidden, hostiles_visible):
             image=area_data.get("image", None),
             description=area_data["description"] + desc_add,
             hiding_modifier=area_data.get("hiding_modifier", hiding_modifier),
-            cover_modifier=area_data.get("cover_modifierr", cover_modifier),
+            cover_modifier=area_data.get("cover_modifier", cover_modifier),
             noise_baseline=area_data.get("noise_baseline", 0),
             explored=area_data.get("explored", 0),
             is_extraction_point=area_data.get("is_extraction_point", False),

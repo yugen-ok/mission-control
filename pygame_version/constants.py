@@ -1,7 +1,7 @@
 
 DEBUG_MODE = False
 
-AREA_MOD_PROB = 0.05
+AREA_MOD_PROB = .05
 
 PEEK_MOD = -.2
 INV_MOD = .2

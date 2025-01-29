@@ -1,0 +1,517 @@
+Agent Smith:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: efe5c644-1ddc-4dbb-9f62-b98efa26e6d9
+    Name: Courtyard
+    Description: 
+    Connections: S1, S3
+  - ID: 134e7eb9-c44b-4f7f-9c96-9d5ae904b4f3
+    Name: S1
+    Description: 
+    Connections: Courtyard, S3, S2
+  - ID: a6ed4a6b-2300-4fbe-9ec5-8f72499cb75f
+    Name: S3
+    Description: 
+    Connections: Courtyard, S1, S4
+  - ID: ca58553f-786b-4ab9-b2eb-9ab0ef90fef6
+    Name: R25
+    Description: 
+    Connections: S5
+  - ID: 10577f0b-6995-4b1a-ae6a-cec1f876fbfe
+    Name: R27
+    Description: 
+    Connections: S5
+  - ID: a10e5f83-036f-4199-b6ad-260347525ae6
+    Name: S4
+    Description: 
+    Connections: S3, S6
+  - ID: 2b762373-260f-4be2-8867-da0b23a07270
+    Name: S2
+    Description: 
+    Connections: S1, S5
+  - ID: 1c3dd9ce-6aca-4445-abd1-e81c2f7ce053
+    Name: S5
+    Description: 
+    Connections: S2, S6, R25, R27
+  - ID: 60b64ca1-8006-405c-a6e1-6482e6bb530a
+    Name: S6
+    Description: 
+    Connections: S4, S5
+
+Agents:
+  - ID: 37bdb3ae-7d31-4f4b-9c40-ee02ba3769c2
+    Name: Agent Smith
+    Description: A highly skilled field agent.
+
+Objectives:
+  - ID: da17ba46-a97f-4bdf-a14e-5d98f174ec67
+    Name: Security Server
+    Description: 
+
+-----------------
+
+Mission Log:
+Control: 
+
+-----------------
+
+You are Agent Smith, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: S5 : .
+It contains the following objects: Agent Smith: A highly skilled field agent..
+It is connected to the following areas: S2 (ID: 2b762373-260f-4be2-8867-da0b23a07270), S6 (ID: 60b64ca1-8006-405c-a6e1-6482e6bb530a), R25 (ID: ca58553f-786b-4ab9-b2eb-9ab0ef90fef6), R27 (ID: 10577f0b-6995-4b1a-ae6a-cec1f876fbfe)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required arguments:
+- wait: Argument options - No arguments required
+- peek: Argument options - 2b762373-260f-4be2-8867-da0b23a07270, 60b64ca1-8006-405c-a6e1-6482e6bb530a, ca58553f-786b-4ab9-b2eb-9ab0ef90fef6, 10577f0b-6995-4b1a-ae6a-cec1f876fbfe
+- sneak: Argument options - 2b762373-260f-4be2-8867-da0b23a07270, 60b64ca1-8006-405c-a6e1-6482e6bb530a, ca58553f-786b-4ab9-b2eb-9ab0ef90fef6, 10577f0b-6995-4b1a-ae6a-cec1f876fbfe
+- charge: Argument options - 2b762373-260f-4be2-8867-da0b23a07270, 60b64ca1-8006-405c-a6e1-6482e6bb530a, ca58553f-786b-4ab9-b2eb-9ab0ef90fef6, 10577f0b-6995-4b1a-ae6a-cec1f876fbfe
+- investigate: Argument options - No arguments required
+- hide: Argument options - No arguments required
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.
+Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.
+
+==========================
+
+Agent Smith:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: efe5c644-1ddc-4dbb-9f62-b98efa26e6d9
+    Name: Courtyard
+    Description: 
+    Connections: S1, S3
+  - ID: 134e7eb9-c44b-4f7f-9c96-9d5ae904b4f3
+    Name: S1
+    Description: 
+    Connections: Courtyard, S3, S2
+  - ID: a6ed4a6b-2300-4fbe-9ec5-8f72499cb75f
+    Name: S3
+    Description: 
+    Connections: Courtyard, S1, S4
+  - ID: ca58553f-786b-4ab9-b2eb-9ab0ef90fef6
+    Name: R25
+    Description: 
+    Connections: S5
+  - ID: 10577f0b-6995-4b1a-ae6a-cec1f876fbfe
+    Name: R27
+    Description: 
+    Connections: S5
+  - ID: a10e5f83-036f-4199-b6ad-260347525ae6
+    Name: S4
+    Description: 
+    Connections: S3, S6
+  - ID: 2b762373-260f-4be2-8867-da0b23a07270
+    Name: S2
+    Description: 
+    Connections: S1, S5
+  - ID: 1c3dd9ce-6aca-4445-abd1-e81c2f7ce053
+    Name: S5
+    Description: 
+    Connections: S2, S6, R25, R27
+  - ID: 60b64ca1-8006-405c-a6e1-6482e6bb530a
+    Name: S6
+    Description: 
+    Connections: S4, S5
+
+Agents:
+  - ID: 37bdb3ae-7d31-4f4b-9c40-ee02ba3769c2
+    Name: Agent Smith
+    Description: A highly skilled field agent.
+
+Objectives:
+  - ID: da17ba46-a97f-4bdf-a14e-5d98f174ec67
+    Name: Security Server
+    Description: 
+
+-----------------
+
+Mission Log:
+Control: 
+Agent Smith: Waiting in S5.
+Control: 
+
+-----------------
+
+You are Agent Smith, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: S5 : .
+It contains the following objects: Agent Smith: A highly skilled field agent..
+It is connected to the following areas: S2 (ID: 2b762373-260f-4be2-8867-da0b23a07270), S6 (ID: 60b64ca1-8006-405c-a6e1-6482e6bb530a), R25 (ID: ca58553f-786b-4ab9-b2eb-9ab0ef90fef6), R27 (ID: 10577f0b-6995-4b1a-ae6a-cec1f876fbfe)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required arguments:
+- wait: Argument options - No arguments required
+- peek: Argument options - 2b762373-260f-4be2-8867-da0b23a07270, 60b64ca1-8006-405c-a6e1-6482e6bb530a, ca58553f-786b-4ab9-b2eb-9ab0ef90fef6, 10577f0b-6995-4b1a-ae6a-cec1f876fbfe
+- sneak: Argument options - 2b762373-260f-4be2-8867-da0b23a07270, 60b64ca1-8006-405c-a6e1-6482e6bb530a, ca58553f-786b-4ab9-b2eb-9ab0ef90fef6, 10577f0b-6995-4b1a-ae6a-cec1f876fbfe
+- charge: Argument options - 2b762373-260f-4be2-8867-da0b23a07270, 60b64ca1-8006-405c-a6e1-6482e6bb530a, ca58553f-786b-4ab9-b2eb-9ab0ef90fef6, 10577f0b-6995-4b1a-ae6a-cec1f876fbfe
+- investigate: Argument options - No arguments required
+- hide: Argument options - No arguments required
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.
+Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.
+
+==========================
+
+Agent Smith:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: efe5c644-1ddc-4dbb-9f62-b98efa26e6d9
+    Name: Courtyard
+    Description: 
+    Connections: S1, S3
+  - ID: 134e7eb9-c44b-4f7f-9c96-9d5ae904b4f3
+    Name: S1
+    Description: 
+    Connections: Courtyard, S3, S2
+  - ID: a6ed4a6b-2300-4fbe-9ec5-8f72499cb75f
+    Name: S3
+    Description: 
+    Connections: Courtyard, S1, S4
+  - ID: ca58553f-786b-4ab9-b2eb-9ab0ef90fef6
+    Name: R25
+    Description: 
+    Connections: S5
+  - ID: 10577f0b-6995-4b1a-ae6a-cec1f876fbfe
+    Name: R27
+    Description: 
+    Connections: S5
+  - ID: a10e5f83-036f-4199-b6ad-260347525ae6
+    Name: S4
+    Description: 
+    Connections: S3, S6
+  - ID: 2b762373-260f-4be2-8867-da0b23a07270
+    Name: S2
+    Description: 
+    Connections: S1, S5
+  - ID: 1c3dd9ce-6aca-4445-abd1-e81c2f7ce053
+    Name: S5
+    Description: 
+    Connections: S2, S6, R25, R27
+  - ID: 60b64ca1-8006-405c-a6e1-6482e6bb530a
+    Name: S6
+    Description: 
+    Connections: S4, S5
+
+Agents:
+  - ID: 37bdb3ae-7d31-4f4b-9c40-ee02ba3769c2
+    Name: Agent Smith
+    Description: A highly skilled field agent.
+
+Hostiles:
+  - ID: f2f94b7a-bce0-4e66-99ee-e453be49351f
+    Name: Guard Wilson
+    Description: A guard patrolling the area.
+
+Objectives:
+  - ID: da17ba46-a97f-4bdf-a14e-5d98f174ec67
+    Name: Security Server
+    Description: 
+    Location: R25 (ID: ca58553f-786b-4ab9-b2eb-9ab0ef90fef6)
+
+-----------------
+
+Mission Log:
+Control: 
+Agent Smith: Waiting in S5.
+Control: 
+Agent Smith: Peeked into R25.
+Control: 
+
+-----------------
+
+You are Agent Smith, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: S5 : .
+It contains the following objects: Agent Smith: A highly skilled field agent..
+It is connected to the following areas: S2 (ID: 2b762373-260f-4be2-8867-da0b23a07270), S6 (ID: 60b64ca1-8006-405c-a6e1-6482e6bb530a), R25 (ID: ca58553f-786b-4ab9-b2eb-9ab0ef90fef6), R27 (ID: 10577f0b-6995-4b1a-ae6a-cec1f876fbfe)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required arguments:
+- wait: Argument options - No arguments required
+- peek: Argument options - 2b762373-260f-4be2-8867-da0b23a07270, 60b64ca1-8006-405c-a6e1-6482e6bb530a, ca58553f-786b-4ab9-b2eb-9ab0ef90fef6, 10577f0b-6995-4b1a-ae6a-cec1f876fbfe
+- sneak: Argument options - 2b762373-260f-4be2-8867-da0b23a07270, 60b64ca1-8006-405c-a6e1-6482e6bb530a, ca58553f-786b-4ab9-b2eb-9ab0ef90fef6, 10577f0b-6995-4b1a-ae6a-cec1f876fbfe
+- charge: Argument options - 2b762373-260f-4be2-8867-da0b23a07270, 60b64ca1-8006-405c-a6e1-6482e6bb530a, ca58553f-786b-4ab9-b2eb-9ab0ef90fef6, 10577f0b-6995-4b1a-ae6a-cec1f876fbfe
+- investigate: Argument options - No arguments required
+- hide: Argument options - No arguments required
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.
+Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.
+
+==========================
+
+Agent Smith:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: efe5c644-1ddc-4dbb-9f62-b98efa26e6d9
+    Name: Courtyard
+    Description: 
+    Connections: S1, S3
+  - ID: 134e7eb9-c44b-4f7f-9c96-9d5ae904b4f3
+    Name: S1
+    Description: 
+    Connections: Courtyard, S3, S2
+  - ID: a6ed4a6b-2300-4fbe-9ec5-8f72499cb75f
+    Name: S3
+    Description: 
+    Connections: Courtyard, S1, S4
+  - ID: ca58553f-786b-4ab9-b2eb-9ab0ef90fef6
+    Name: R25
+    Description: 
+    Connections: S5
+  - ID: 10577f0b-6995-4b1a-ae6a-cec1f876fbfe
+    Name: R27
+    Description: 
+    Connections: S5
+  - ID: a10e5f83-036f-4199-b6ad-260347525ae6
+    Name: S4
+    Description: 
+    Connections: S3, S6
+  - ID: 2b762373-260f-4be2-8867-da0b23a07270
+    Name: S2
+    Description: 
+    Connections: S1, S5
+  - ID: 1c3dd9ce-6aca-4445-abd1-e81c2f7ce053
+    Name: S5
+    Description: 
+    Connections: S2, S6, R25, R27
+  - ID: 60b64ca1-8006-405c-a6e1-6482e6bb530a
+    Name: S6
+    Description: 
+    Connections: S4, S5
+
+Agents:
+  - ID: 37bdb3ae-7d31-4f4b-9c40-ee02ba3769c2
+    Name: Agent Smith
+    Description: A highly skilled field agent.
+
+Hostiles:
+  - ID: f2f94b7a-bce0-4e66-99ee-e453be49351f
+    Name: Guard Wilson
+    Description: A guard patrolling the area.
+
+Objectives:
+  - ID: da17ba46-a97f-4bdf-a14e-5d98f174ec67
+    Name: Security Server
+    Description: 
+    Location: R25 (ID: ca58553f-786b-4ab9-b2eb-9ab0ef90fef6)
+
+-----------------
+
+Mission Log:
+Control: 
+Agent Smith: Waiting in S5.
+Control: 
+Agent Smith: Peeked into R25.
+Control: 
+Agent Smith: Waiting in S5.
+Control: 
+
+-----------------
+
+You are Agent Smith, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: S5 : .
+It contains the following objects: Agent Smith: A highly skilled field agent..
+It is connected to the following areas: S2 (ID: 2b762373-260f-4be2-8867-da0b23a07270), S6 (ID: 60b64ca1-8006-405c-a6e1-6482e6bb530a), R25 (ID: ca58553f-786b-4ab9-b2eb-9ab0ef90fef6), R27 (ID: 10577f0b-6995-4b1a-ae6a-cec1f876fbfe)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required arguments:
+- wait: Argument options - No arguments required
+- peek: Argument options - 2b762373-260f-4be2-8867-da0b23a07270, 60b64ca1-8006-405c-a6e1-6482e6bb530a, ca58553f-786b-4ab9-b2eb-9ab0ef90fef6, 10577f0b-6995-4b1a-ae6a-cec1f876fbfe
+- sneak: Argument options - 2b762373-260f-4be2-8867-da0b23a07270, 60b64ca1-8006-405c-a6e1-6482e6bb530a, ca58553f-786b-4ab9-b2eb-9ab0ef90fef6, 10577f0b-6995-4b1a-ae6a-cec1f876fbfe
+- charge: Argument options - 2b762373-260f-4be2-8867-da0b23a07270, 60b64ca1-8006-405c-a6e1-6482e6bb530a, ca58553f-786b-4ab9-b2eb-9ab0ef90fef6, 10577f0b-6995-4b1a-ae6a-cec1f876fbfe
+- investigate: Argument options - No arguments required
+- hide: Argument options - No arguments required
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.
+Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.
+
+==========================
+
+Agent Smith:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: efe5c644-1ddc-4dbb-9f62-b98efa26e6d9
+    Name: Courtyard
+    Description: 
+    Connections: S1, S3
+  - ID: 134e7eb9-c44b-4f7f-9c96-9d5ae904b4f3
+    Name: S1
+    Description: 
+    Connections: Courtyard, S3, S2
+  - ID: a6ed4a6b-2300-4fbe-9ec5-8f72499cb75f
+    Name: S3
+    Description: 
+    Connections: Courtyard, S1, S4, C3
+  - ID: 81b27938-90db-49ac-87ed-4ab68dfa736b
+    Name: C3
+    Description: 
+    Connections: R24, R25, S2, S3
+  - ID: 47b8bc9c-23e7-40a1-9f30-7512896105a0
+    Name: R24
+    Description: 
+    Connections: C3, R25
+  - ID: ca58553f-786b-4ab9-b2eb-9ab0ef90fef6
+    Name: R25
+    Description: 
+    Connections: C3, R24, S5
+  - ID: 10577f0b-6995-4b1a-ae6a-cec1f876fbfe
+    Name: R27
+    Description: 
+    Connections: S5
+  - ID: a10e5f83-036f-4199-b6ad-260347525ae6
+    Name: S4
+    Description: 
+    Connections: S3, S6
+  - ID: 2b762373-260f-4be2-8867-da0b23a07270
+    Name: S2
+    Description: 
+    Connections: S1, C3, S5
+  - ID: 1c3dd9ce-6aca-4445-abd1-e81c2f7ce053
+    Name: S5
+    Description: 
+    Connections: S2, S6, R25, R27
+  - ID: 60b64ca1-8006-405c-a6e1-6482e6bb530a
+    Name: S6
+    Description: 
+    Connections: S4, S5
+
+Agents:
+  - ID: 37bdb3ae-7d31-4f4b-9c40-ee02ba3769c2
+    Name: Agent Smith
+    Description: A highly skilled field agent.
+
+Hostiles:
+  - ID: f2f94b7a-bce0-4e66-99ee-e453be49351f
+    Name: Guard Wilson
+    Description: A guard patrolling the area.
+
+Objectives:
+  - ID: da17ba46-a97f-4bdf-a14e-5d98f174ec67
+    Name: Security Server
+    Description: 
+    Location: R25 (ID: ca58553f-786b-4ab9-b2eb-9ab0ef90fef6)
+
+-----------------
+
+Mission Log:
+Control: 
+Agent Smith: Waiting in S5.
+Control: 
+Agent Smith: Peeked into R25.
+Control: 
+Agent Smith: Waiting in S5.
+Control: 
+Agent Smith: Secure in S5.
+Agent Smith: Moving to R25.
+Agent Smith: Secure in R25.
+Control: 
+
+-----------------
+
+You are Agent Smith, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: R25 : .
+It contains the following objects: Guard Wilson: A guard patrolling the area.
+Security Server: 
+Agent Smith: A highly skilled field agent..
+It is connected to the following areas: C3 (ID: 81b27938-90db-49ac-87ed-4ab68dfa736b), R24 (ID: 47b8bc9c-23e7-40a1-9f30-7512896105a0), S5 (ID: 1c3dd9ce-6aca-4445-abd1-e81c2f7ce053)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required arguments:
+- wait: Argument options - No arguments required
+- peek: Argument options - 81b27938-90db-49ac-87ed-4ab68dfa736b, 47b8bc9c-23e7-40a1-9f30-7512896105a0, 1c3dd9ce-6aca-4445-abd1-e81c2f7ce053
+- sneak: Argument options - 81b27938-90db-49ac-87ed-4ab68dfa736b, 47b8bc9c-23e7-40a1-9f30-7512896105a0, 1c3dd9ce-6aca-4445-abd1-e81c2f7ce053
+- charge: Argument options - 81b27938-90db-49ac-87ed-4ab68dfa736b, 47b8bc9c-23e7-40a1-9f30-7512896105a0, 1c3dd9ce-6aca-4445-abd1-e81c2f7ce053
+- investigate: Argument options - No arguments required
+- shoot: Argument options - f2f94b7a-bce0-4e66-99ee-e453be49351f
+- take_out: Argument options - f2f94b7a-bce0-4e66-99ee-e453be49351f
+- capture: Argument options - da17ba46-a97f-4bdf-a14e-5d98f174ec67
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.
+Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.
+
+==========================
+

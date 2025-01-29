@@ -613,8 +613,7 @@
         "s2": 0,
         "s6": 0,
         "r25": 2,
-        "r27": 2,
-        "r29": 2
+        "r27": 2
       },
       "name": "S5",
       "explored": 1,
@@ -642,14 +641,45 @@
       "description": ""
     }
   },
-  "agents": [],
-  "hostiles": [],
-  "objectives": [
+  "agents": [
+    {
+      "name": "Agent Smith",
+      "area": "s5",
+      "description": "A highly skilled field agent.",
+      "health": 1.0,
+      "resilience": 0.9,
+      "stealth": 1.0,
+      "firearms": 0.7,
+      "cover": 0.7,
+      "hand_to_hand": 1.0,
+      "hacking": 0.7,
+      "observation": 1.0,
+      "acrobatics": 1,
+      "inventory": []
+    }],
+  "hostiles": [
+    {
+      "name": "Guard Wilson",
+      "patrol_route": ["r25"],
+      "description": "A guard patrolling the area.",
+      "health": 1.0,
+      "resilience": 0.7,
+      "stealth": 0,
+      "firearms": 0.3,
+      "cover": 0,
+      "hand_to_hand": 0,
+      "hacking": 0,
+      "observation": 0,
+      "acrobatics": 0,
+      "inventory": []
+    }
+  ],
+  "objectives" : [
     {
       "name": "Security Server",
-      "area": "courtyard",
+      "area": "r25",
       "difficulty": 0.1,
-      "description": "Hack the security server",
+      "description": "",
       "required_skill": "hacking"
     }
   ],
