@@ -1,6 +1,8 @@
 
 DEBUG_MODE = False
 
+GUARD_STAY_PROB = .8
+
 AREA_MOD_PROB = .05
 
 PEEK_MOD = -.2
@@ -32,8 +34,7 @@ ACTION_TO_SKILL = {
     'shoot': 'firearms',
 
     'bypass': 'acrobatics',
-    'capture': 'stealth',
-    # This is not used for the action itself. it is trumped by the objective's required skill. it is just used for alarm increase calculation
+    'capture': 'stealth', # This is not used for the action itself. it is trumped by the objective's required skill. it is just used for alarm increase calculation
 
     'sneak': 'stealth',
     'charge': 'firearms',

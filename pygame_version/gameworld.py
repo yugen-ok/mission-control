@@ -58,12 +58,13 @@ class World:
 
     def remove_entity(self, entity):
         """Safely remove an entity from the world and all areas."""
-        # Remove entity from world registries
-        if entity.id in self.exploration_levels:
-            del self.exploration_levels[entity.id]
-        if entity.id in self.entity_registry:
-            del self.entity_registry[entity.id]
-        entity.area.entities.remove(entity)
+        # First remove from area to prevent any references
+        if entity.area and entity in entity.area.entities:
+            entity.area.entities.remove(entity)
+
+        # Then remove from registries
+        self.exploration_levels.pop(entity.id, None)  # Using pop with None default to avoid KeyError
+        self.entity_registry.pop(entity.id, None)  # Using pop with None default to avoid KeyError
 
     def update_exploration(self, entity_id, level):
         """Update the exploration level of an entity."""

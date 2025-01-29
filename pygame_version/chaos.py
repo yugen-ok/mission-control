@@ -6,25 +6,26 @@ def get_alarm_increase(action, skill_level):
 
     Args:
         action (str): The action being performed.
-        skill_level (float): The skill level of the agent (1.0 for high skill, 0.7 for intermediate).
+        skill_level (float): The skill level of the agent (1.0 for high skill, 0.8 for intermediate).
 
     Returns:
         float: The alarm increase caused by the action.
     """
+
     # Define the alarm level mapping
     alarm_values = {
         "wait": defaultdict(lambda: 0),
-        "look_around": {1.0: 0.0, 0.7: 0.0},
-        "peek": {1.0: 0.02, 0.7: 0.05},
-        "investigate": {1: 0.1, 0.7: 0.3},
-        "hide": {1.0: 0.15, 0.7: 0.2, .0: .5},
-        "take_out": {1.0: 0.3, 0.7: 0.6},
+        "look_around": defaultdict(lambda: 0),
+        "peek": {1.0: 0.1, 0.8: 0.2},
+        "investigate": {1: 0.1, 0.8: 0.3},
+        "hide": {1.0: 0.15, 0.8: 0.25, .0: .5},
+        "take_out": {1.0: 0.3, 0.8: 0.6},
         "shoot": defaultdict(lambda: 2),
-        "bypass": {1.0: 0.2, 0.7: 0.4},
-        "capture": {1.0: 0.4, 0.7: 0.7},
-        "sneak": {1.0: 0.15, 0.7: 0.2, .0: .5},
+        "bypass": {1.0: 0.3, 0.8: 0.45},
+        "capture": {1.0: 0.4, 0.8: 0.8},
+        "sneak": {1.0: 0.15, 0.8: 0.2, .0: .5},
         "charge": defaultdict(lambda: 2),
-        "exfiltrate": {1.0: 0.15, 0.7: 0.2, .0: .5},
+        "exfiltrate": {1.0: 0.15, 0.8: 0.25, .0: .5},
     }
 
     # Ensure the action is valid
@@ -32,8 +33,8 @@ def get_alarm_increase(action, skill_level):
         raise ValueError(f"Unknown action: {action}")
 
     # Ensure the skill level is valid
-    if skill_level not in [1.0, 0.7, .0]:
-        raise ValueError(f"Invalid skill level: {skill_level}. Must be 1.0 or 0.7.")
+    if skill_level not in [1.0, 0.8, .0]:
+        raise ValueError(f"Invalid skill level: {skill_level}. Must be 1.0 or 0.8.")
 
     # Return the corresponding alarm increase
     return alarm_values[action][skill_level]

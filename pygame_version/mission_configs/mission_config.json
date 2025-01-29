@@ -31,7 +31,7 @@
         "r7": 2,
         "r8": 2
       },
-      "name": "S1",
+      "name": "Street 1",
       "explored": 1,
       "hiding_modifier": -0.2,
       "cover_modifier": -0.2,
@@ -48,7 +48,7 @@
         "s4": 0,
         "r1": 1
       },
-      "name": "S3",
+      "name": "Street 3",
       "explored": 1,
       "hiding_modifier": -0.2,
       "cover_modifier": -0.2,
@@ -63,7 +63,8 @@
       "connections": {
         "r2": 0
       },
-      "name": "R1",
+      "name": "Room 1"
+,
       "explored": 0,
       "description": ""
     },
@@ -76,7 +77,8 @@
       "connections": {
         "r3": 0
       },
-      "name": "R2",
+      "name": "Room 2"
+,
       "explored": 0,
       "description": ""
     },
@@ -89,7 +91,8 @@
       "connections": {
         "c3": 0
       },
-      "name": "R3",
+      "name": "Room 3"
+,
       "explored": 0,
       "description": ""
     },
@@ -102,7 +105,8 @@
       "connections": {
         "c1": 1
       },
-      "name": "R4",
+      "name": "Room 4"
+,
       "explored": 0,
       "description": ""
     },
@@ -117,7 +121,8 @@
         "r2": 1,
         "c1": 1
       },
-      "name": "R5",
+      "name": "Room 5"
+,
       "explored": 0,
       "description": ""
     },
@@ -132,7 +137,8 @@
         "r3": 1,
         "r5": 2
       },
-      "name": "R6",
+      "name": "Room 6"
+,
       "explored": 0,
       "description": ""
     },
@@ -145,7 +151,8 @@
       "connections": {
         "r7": 1
       },
-      "name": "C1",
+      "name": "Corrridor 1"
+,
       "explored": 0,
       "description": ""
     },
@@ -159,7 +166,8 @@
         "r8": 0,
         "r10": 1
       },
-      "name": "R7",
+      "name": "Room 7"
+,
       "explored": 0,
       "description": ""
     },
@@ -173,7 +181,8 @@
         "s2": 2,
         "r9": 0
       },
-      "name": "R8",
+      "name": "Room 8"
+,
       "explored": 0,
       "description": ""
     },
@@ -186,7 +195,8 @@
       "connections": {
         "r11": 0
       },
-      "name": "R9",
+      "name": "Room 9"
+,
       "explored": 0,
       "description": ""
     },
@@ -200,7 +210,8 @@
         "r13": 1,
         "c1": 0
       },
-      "name": "R10",
+      "name": "Room 10"
+,
       "explored": 0,
       "description": ""
     },
@@ -214,7 +225,8 @@
         "r9": 1,
         "c2": 1
       },
-      "name": "R11",
+      "name": "Room 11"
+,
       "explored": 0,
       "description": ""
     },
@@ -227,7 +239,8 @@
       "connections": {
         "c2": 1
       },
-      "name": "R12",
+      "name": "Room 12"
+,
       "explored": 0,
       "description": ""
     },
@@ -242,7 +255,8 @@
         "r13": 0,
         "r14": 0
       },
-      "name": "C2",
+      "name": "Corrridor 2"
+,
       "explored": 0,
       "description": ""
     },
@@ -256,7 +270,8 @@
         "c3": 2,
         "c2": 2
       },
-      "name": "R13",
+      "name": "Room 13"
+,
       "explored": 0,
       "description": ""
     },
@@ -269,7 +284,8 @@
       "connections": {
         "c3": 0
       },
-      "name": "R14",
+      "name": "Room 14"
+,
       "explored": 0,
       "description": ""
     },
@@ -299,7 +315,8 @@
       "connections": {
         "r17": 0
       },
-      "name": "R15",
+      "name": "Room 15"
+,
       "explored": 0,
       "description": ""
     },
@@ -313,7 +330,8 @@
         "c4": 0,
         "r20": 1
       },
-      "name": "R16",
+      "name": "Room 16"
+,
       "explored": 0,
       "description": ""
     },
@@ -326,7 +344,8 @@
       "connections": {
         "r18": 0
       },
-      "name": "R17",
+      "name": "Room 17"
+,
       "explored": 0,
       "description": ""
     },
@@ -352,7 +371,8 @@
       "connections": {
         "r19": 2
       },
-      "name": "R18",
+      "name": "Room 18"
+,
       "explored": 0,
       "description": ""
     },
@@ -366,7 +386,8 @@
         "r21": 1,
         "c5": 1
       },
-      "name": "R19",
+      "name": "Room 19"
+,
       "explored": 0,
       "description": ""
     },
@@ -379,7 +400,8 @@
       "connections": {
         "r21": 0
       },
-      "name": "R20",
+      "name": "Room 20"
+,
       "explored": 0,
       "description": ""
     },
@@ -392,7 +414,8 @@
       "connections": {
         "c5": 0
       },
-      "name": "R21",
+      "name": "Room 21"
+,
       "explored": 0,
       "description": ""
     },
@@ -421,7 +444,8 @@
       "connections": {
         "r23": 0
       },
-      "name": "R22",
+      "name": "Room 22"
+,
       "explored": 0,
       "description": ""
     },
@@ -432,7 +456,8 @@
       "height": 100,
       "color": "#E8E8E8",
       "connections": {},
-      "name": "R23",
+      "name": "Room 23"
+,
       "explored": 0,
       "description": ""
     },
@@ -446,7 +471,8 @@
         "c3": 0,
         "r25": 0
       },
-      "name": "R24",
+      "name": "Room 24"
+,
       "explored": 0,
       "description": ""
     },
@@ -458,7 +484,8 @@
       "color": "#E8E8E8",
       "connections": {
       },
-      "name": "R25",
+      "name": "Room 25"
+,
       "explored": 0,
       "description": ""
     },
@@ -472,7 +499,8 @@
         "r28": 1,
         "r29": 1
       },
-      "name": "R26",
+      "name": "Room 26"
+,
       "explored": 0,
       "description": ""
     },
@@ -500,7 +528,8 @@
       "connections": {
         "r31": 1
       },
-      "name": "R27",
+      "name": "Room 27"
+,
       "explored": 0,
       "description": ""
     },
@@ -513,7 +542,8 @@
       "connections": {
         "r29": 0
       },
-      "name": "R28",
+      "name": "Room 28"
+,
       "explored": 0,
       "description": ""
     },
@@ -527,7 +557,8 @@
         "r30": 1,
         "r32": 0
       },
-      "name": "R29",
+      "name": "Room 29"
+,
       "explored": 0,
       "description": ""
     },
@@ -540,7 +571,8 @@
       "connections": {
         "r31": 0
       },
-      "name": "R30",
+      "name": "Room 30"
+,
       "explored": 0,
       "description": ""
     },
@@ -554,7 +586,8 @@
         "r29": 1,
         "r32": 1
       },
-      "name": "R31",
+      "name": "Room 31"
+,
       "explored": 0,
       "description": ""
     },
@@ -565,7 +598,8 @@
       "height": 130,
       "color": "#E8E8E8",
       "connections": {},
-      "name": "R32",
+      "name": "Room 32"
+,
       "explored": 0,
       "description": ""
     },
@@ -580,7 +614,7 @@
         "s6": 0,
         "r15": 1
       },
-      "name": "S4",
+      "name": "Street 4",
       "explored": 1,
       "hiding_modifier": -0.2,
       "cover_modifier": -0.2,
@@ -599,7 +633,7 @@
         "r12": 2,
         "r14": 2
       },
-      "name": "S2",
+      "name": "Street 2",
       "explored": 0,
       "description": ""
     },
@@ -615,7 +649,7 @@
         "r25": 2,
         "r27": 2
       },
-      "name": "S5",
+      "name": "Street 5",
       "explored": 1,
       "hiding_modifier": -0.2,
       "cover_modifier": -0.2,
@@ -630,11 +664,11 @@
       "connections": {
         "s4": 0,
         "s5": 0,
-        "r32": 0,
+        "r32": 2,
         "r22": 2,
         "r23": 2
       },
-      "name": "S6",
+      "name": "Street 6",
       "explored": 1,
       "hiding_modifier": -0.2,
       "cover_modifier": -0.2,
@@ -643,52 +677,71 @@
   },
   "agents": [
     {
-      "name": "Agent Smith",
-      "area": "s5",
-      "description": "A highly skilled field agent.",
-      "health": 1.0,
+      "name": "Viper",
+      "area": "s6",
+      "description": "A stealth and investigation expert.",
+      "health": 0.9,
       "resilience": 0.9,
+
       "stealth": 1.0,
-      "firearms": 0.7,
-      "cover": 0.7,
+      "firearms": 0.8,
+      "cover": 0.8,
       "hand_to_hand": 1.0,
-      "hacking": 0.7,
-      "observation": 1.0,
-      "acrobatics": 1,
+      "hacking": 0.6,
+      "observation": 0.8,
+      "acrobatics": 1.0,
       "inventory": []
-    }],
-  "hostiles": [
+    },
     {
-      "name": "Guard Wilson",
-      "patrol_route": ["r25"],
-      "description": "A guard patrolling the area.",
-      "health": 1.0,
-      "resilience": 0.7,
-      "stealth": 0,
-      "firearms": 0.3,
-      "cover": 0,
-      "hand_to_hand": 0,
-      "hacking": 0,
-      "observation": 0,
-      "acrobatics": 0,
+      "name": "Glitch",
+      "area": "s6",
+      "description": "A technical expert.",
+      "health": 0.8,
+      "resilience": 0.8,
+
+      "stealth": 0.8,
+      "firearms": 0.8,
+      "cover": 0.8,
+      "hand_to_hand": 0.8,
+      "hacking": 1.0,
+      "observation": 1.0,
+      "acrobatics": 0.8,
       "inventory": []
     }
+  ],
+  "hostiles": [
   ],
   "objectives" : [
     {
-      "name": "Security Server",
-      "area": "r25",
-      "difficulty": 0.1,
+      "name": "Security Server 1",
+      "area": null,
+      "difficulty": 0.2,
       "description": "",
       "required_skill": "hacking"
+    },
+    {
+      "name": "Security Server 2",
+      "area": null,
+      "difficulty": 0.2,
+      "description": "",
+      "required_skill": "hacking"
+    },
+    {
+      "name": "Confidential Files",
+      "area": null,
+      "difficulty": 0.0,
+      "description": "",
+      "required_skill": "observation"
     }
   ],
-  "characterSize": 6,
-  "characterColor": "#FF4444",
-  "characterStroke": "#000000",
-  "characterStrokeWidth": 2,
-  "connectionStroke": "#666666",
-  "connectionWidth": 1,
-  "mapWidth": 2000,
-  "mapHeight": 1600
+  "n_template_guards": 10,
+  "template_guard_stats" : {
+      "health": 0.6,
+      "observation": 0,
+      "hand_to_hand": 0,
+      "firearms": 0.3,
+      "cover": 0.2
+    },
+  "mapWidth": 600,
+  "mapHeight": 1200
 }

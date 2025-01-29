@@ -28,6 +28,7 @@ global has_reached_th
 
 # TODO:
 
+# - Parametrize area modifiers as a funciton of geometric area
 # - mark connections with access difficulty on the map
 # - test hostile chase and extended patrol break
 # - cameras and cctv disable
@@ -187,7 +188,7 @@ class Character(Entity):
             skill2 = ACTION_TO_COUNTER_SKILL.get(action_type, None)
             difficulty = target.skills[skill2]
 
-            if action_type in 'hide':
+            if action_type == 'hide':
                 modifier += self.area.hiding_modifier
             elif action_type == 'shoot':
                 modifier += self.area.cover_modifier
@@ -310,22 +311,29 @@ class Agent(Character):
             "Here are the actions you can take, along with their descriptions and required arguments:\n"
         )
 
-        # Describe each action along with its possible arguments
+        # Describe each action with its EXACT required arguments
+        # Modify this part in make_decision_prompt():
         for action, arguments in action_arguments.items():
-            argument_ids = ", ".join([str(arg['id']) for arg in arguments]) if arguments else "No arguments required"
-            available_actions_desc += f"- {action}: Argument options - {argument_ids}\n"
+            if arguments:
+                # Show both ID and name but make it very clear which is the ID to use
+                argument_details = ", ".join([f"ID {arg['id']} (of entity: {arg['name']})" for arg in arguments])
+                available_actions_desc += f"- {action}: Must use these exact IDs - {argument_details}\n"
+            else:
+                available_actions_desc += f"- {action}: No arguments required\n"
 
         instruction = (
             "Decide on your next move based on the current status, Mission Control's commands, and available actions.\n"
             "You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.\n"
             "You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.\n"
+            "You MUST pick an action and arguments EXACTLY as listed above.\n"
             "Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.\n"
             "Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.\n"
             "Your response should only include this JSON dictionary, nothing else.\n"
             "- The 'action' field should contain the name of the action you want to take.\n"
             "- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.\n"
             "- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.\n"
-            "Ensure that your chosen arguments match the options provided for each action, if the action requires arguments."
+            "Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.\n"
+            "For actions requiring arguments, you must use one of the IDs listed above - no other IDs will work."
         )
 
         prompt = (
@@ -438,10 +446,11 @@ class Agent(Character):
 class Hostile(Character):
     """Hostile inherits the same capabilities as Agent."""
 
-    def __init__(self, name, patrol_route, health=1, resilience=.5, stealth=0, firearms=0, cover=0, hand_to_hand=0,
-                 hacking=0,
-                 observation=0, max_observation=.3,
-                 acrobatics=0, inventory=None, description='', explored=0, world=None):
+    def __init__(self, name, patrol_route,
+                 health=0.6, observation=0, max_observation=.4,
+                 hand_to_hand=0, max_hand_to_hand=.4,
+                 firearms=0, cover=0,
+                 resilience=.5, stealth=0, hacking=0, acrobatics=0, inventory=None, description='', explored=0, world=None):
         area = patrol_route[0]
 
         super().__init__(name, area, health, resilience, stealth, firearms, cover, hand_to_hand, hacking, observation,
@@ -450,9 +459,11 @@ class Hostile(Character):
 
         self.alarm_level = 0.0
         self.init_observation = observation
+        self.init_hand_to_hand = hand_to_hand
         self.max_observation = max_observation
+        self.max_hand_to_hand = max_hand_to_hand
+
         self.alarm_increased_this_turn = False
-        self.fight_mode = False
 
         # Create a pendulum patrol route
         self.patrol_route = patrol_route + list(reversed(patrol_route))[1:-1]
@@ -462,7 +473,7 @@ class Hostile(Character):
 
     def update_alarm_level(self, delta):
 
-        if self.fight_mode:
+        if self.alarm_level == 1:
             return  # Don't update alarm level in fight mode
 
         if delta > 0:
@@ -471,15 +482,14 @@ class Hostile(Character):
         # clamp between 0 and 1
         self.alarm_level = min(max(0, self.alarm_level + delta), 1)
 
-        if self.alarm_level == 1:
-            self.fight_mode = True
-
-    def update_observation(self):
+    def update_skills(self):
         obs_inc = get_corresponding_value(self.alarm_level, OBS_THRESHS)
         self.skills['observation'] = self.init_observation + obs_inc
+        self.skills['hand_to_hand'] = self.init_hand_to_hand + obs_inc
 
-        # clamp observation skill between 0 and self.max_observation:
+        # clamp skills between 0 and self.max_observation:
         self.skills['observation'] = min(max(0., self.skills['observation']), self.max_observation)
+        self.skills['hand_to_hand'] = min(max(0., self.skills['hand_to_hand']), self.max_hand_to_hand)
 
     def advance_patrol_index(self):
         self.current_patrol_index += 1
@@ -921,119 +931,129 @@ class GameController:
                 f.write(
                     f"{agent.name}:\n--------------------------\n\n {decide_prompt}\n\n==========================\n\n")
 
-        remaining_to_execute = decide_prompts.copy()
-        agents_to_execute = agents.copy()
         agent2decision = {}
-        i = 0
-        while remaining_to_execute:
+        if self.mode == 'auto':
+            # Production mode decision making:
+            # Uncomment this line for the actual AI system to make decisions
+            # This requires defining the AZURE_OPENAI_API_KEY and AZURE_OPENAI_ENDPOINT environment variables
 
-            if i >= 5:
-                raise Exception('Not supposed to fail evaluating all prompt outputs 5 times in a row')
 
-            if self.mode == 'auto':
-                # Production mode decision making:
-                # Uncomment this line for the actual AI system to make decisions
-                # This requires defining the AZURE_OPENAI_API_KEY and AZURE_OPENAI_ENDPOINT environment variables
+            remaining_to_execute = decide_prompts.copy()
+            agents_to_execute = agents.copy()
+            i = 0
+
+            while remaining_to_execute:
+
+                if i >= 5:
+                    raise Exception('Not supposed to fail evaluating all prompt outputs 5 times in a row')
+
                 decisions = query_lbgpt('', remaining_to_execute)
 
-            elif self.mode == 'semi-auto':
-                raise NotImplementedError
+                # Validate
+                for i, decision in enumerate(decisions):
 
-            elif self.mode == 'manual':
+                    try:
 
-                decisions = []
-                for agent in agents_to_execute:
+                        agent = agents_to_execute[i]
+                        evaled_decision = response_parsing(decision)
+                        action_argument_dict = agent.generate_action_arguments()
+                        action = evaled_decision['action']
+                        for arg in evaled_decision['arguments']:
+                            print('>>>', arg, type(arg))
+                        args = [UUID(arg) for arg in evaled_decision['arguments']]
+                        assert action in action_argument_dict, f"Invalid action: {action}. Valid actions: {list(action_argument_dict.keys())}"
+                        valid_args = [aarg['id'] for aarg in action_argument_dict.get(action, [])]
+                        assert all(
+                            arg in valid_args for arg in
+                            args), f"Invalid arguments: {args}. Valid arguments: {valid_args}"
 
-                    action_arguments = agent.generate_action_arguments()
-                    prompt = agent.make_manual_decision_prompt()
+                        agent2decision[agent] = evaled_decision
 
-                    # Display it to the user so they can make a choice for this agent
-                    print(prompt)
+                    except AssertionError as e:
+                        raise e
+                    except Exception as e:
+                        raise e
 
+                remaining_to_execute = [
+                    remaining_to_execute[j] for j in range(len(remaining_to_execute)) if
+                    agents_to_execute[j] not in agent2decision
+                ]
+                agents_to_execute = [
+                    agent for agent in agents_to_execute if agent not in agent2decision
+                ]
+                i += 1
+
+        elif self.mode == 'manual':
+
+            for agent in agents:
+
+                action_arguments = agent.generate_action_arguments()
+                prompt = agent.make_manual_decision_prompt()
+
+                # Display it to the user so they can make a choice for this agent
+                print(prompt)
+
+                arguments = []
+                while True:
+                    try:
+                        actionarg = input(f"{agent.name} action: ")
+                        actionarg = actionarg.split(' ')
+                        assert actionarg
+
+                        if len(actionarg) == 1:
+                            action = actionarg[0]
+                        else:
+                            action = actionarg[0]
+                            arguments = [arg.strip() for arg in actionarg[1:]]
+
+                        assert action in action_arguments.keys()
+                        break
+                    except AssertionError:
+                        print(
+                            f"Invalid input. Please enter one of the valid actions: {', '.join(list(action_arguments.keys()))}.")
+
+                if arguments:
+                    pass
+                elif not action_arguments[action]:
                     arguments = []
-                    while True:
-                        try:
-                            actionarg = input(f"{agent.name} action: ")
-                            actionarg = actionarg.split(' ')
-                            assert actionarg
-
-                            if len(actionarg) == 1:
-                                action = actionarg[0]
-                            else:
-                                action = actionarg[0]
-                                arguments = [arg.strip() for arg in actionarg[1:]]
-
-                            assert action in action_arguments.keys()
-                            break
-                        except AssertionError:
-                            print(
-                                f"Invalid input. Please enter one of the valid actions: {', '.join(list(action_arguments.keys()))}.")
-
-                    if arguments:
-                        pass
-                    elif not action_arguments[action]:
-                        arguments = []
-                    elif len(action_arguments[action]) == 1:
-                        arguments = [str(action_arguments[action][0]['id'])]
-                    else:
-
-                        while True:
-                            argument = input(f"Choose arg: ")
-                            try:
-                                argument = int(argument.strip())
-                                assert argument < len(action_arguments[action])
-                                break
-                            except (AssertionError, ValueError):
-                                print(
-                                    f"Invalid input. Please enter an index up to {len(action_arguments[action]) - 1}.")
-
-                        arguments = [str(action_arguments[action][argument]['id'])]
-
-                    decision = str({'action': action, 'arguments': arguments})
-                    decisions.append(decision)
-
-            elif self.mode == 'test':
-                # Test mode decision making:
-                # This is an example of how to hardcode a decision logic for testing
-                # You can change it as needed, depending on the scenario you want to test
-                if self.turn_counter > 100:
-                    decisions = ["{'action': 'investigate', 'arguments': []}"]  # for debugging
+                elif len(action_arguments[action]) == 1:
+                    arguments = [str(action_arguments[action][0]['id'])]
                 else:
-                    decisions = ["{'action': 'wait', 'arguments': []}"]  # for debugging
-            else:
-                raise Exception('Invalid mode')
 
-            logger.debug(f"Decisions: {json.dumps(decisions, indent=2)}")
+                    while True:
+                        argument = input(f"Choose arg: ")
+                        try:
+                            argument = int(argument.strip())
+                            assert argument < len(action_arguments[action])
+                            break
+                        except (AssertionError, ValueError):
+                            print(
+                                f"Invalid input. Please enter an index up to {len(action_arguments[action]) - 1}.")
 
-            for i, decision in enumerate(decisions):
+                    arguments = [str(action_arguments[action][argument]['id'])]
 
-                try:
+                decision = str({'action': action, 'arguments': arguments})
+                agent2decision[agent] = decision
 
-                    agent = agents_to_execute[i]
-                    evaled_decision = response_parsing(decision)
-                    agent2decision[agent] = evaled_decision
+        elif self.mode == 'test':
+            # Test mode decision making:
+            # This is an example of how to hardcode a decision logic for testing
+            # You can change it as needed, depending on the scenario you want to test
 
-                    action_argument_dict = agent.generate_action_arguments()
-                    action = evaled_decision['action']
-                    args = [UUID(arg) for arg in evaled_decision['arguments']]
-                    assert action in action_argument_dict, f"Invalid action: {action}. Valid actions: {list(action_argument_dict.keys())}"
-                    valid_args = [aarg['id'] for aarg in action_argument_dict.get(action, [])]
-                    assert all(
-                        arg in valid_args for arg in args), f"Invalid arguments: {args}. Valid arguments: {valid_args}"
 
-                except AssertionError as e:
-                    raise e
-                except Exception as e:
-                    raise e
+            for agent in agents:
+                if self.turn_counter > 100:
+                    decision = "{'action': 'investigate', 'arguments': []}"  # for debugging
+                else:
+                    decision = "{'action': 'wait', 'arguments': []}"  # for debugging
 
-            remaining_to_execute = [
-                remaining_to_execute[j] for j in range(len(remaining_to_execute)) if
-                agents_to_execute[j] not in agent2decision
-            ]
-            agents_to_execute = [
-                agent for agent in agents_to_execute if agent not in agent2decision
-            ]
-            i += 1
+                agent2decision[agent] = decision
+
+        else:
+            raise Exception('Invalid mode')
+
+        print(agent2decision)
+        logger.debug(f"Decisions: {json.dumps({agent.name: decision for agent, decision in agent2decision.items()}, indent=2)}")
 
         evaled_decisions = [agent2decision[agent] for agent in agents]
 
@@ -1094,14 +1114,14 @@ class GameController:
                 if not hostile.alarm_increased_this_turn:
                     hostile.update_alarm_level(RELAX_DEC)
 
-            hostile.update_observation()
+            hostile.update_skills()
 
         # For each agent, print location and is_hidden:
         for agent in self.get_entities(Agent):
             logger.debug(f"{agent.name} is at {agent.area.name} and is_hidden: {agent.is_hidden}")
         for hostile in self.get_entities(Hostile):
             logger.debug(
-                f"{hostile.name}: at {hostile.area.name}, alarm level: {hostile.alarm_level:.3f} obs: {hostile.skills['observation']:.3f}, alarm_increased_this_turn: {hostile.alarm_increased_this_turn}")
+                f"{hostile.name}: at {hostile.area.name}, alarm level: {hostile.alarm_level:.3f} obs: {hostile.skills['observation']:.3f}, h2h: {hostile.skills['hand_to_hand']:.3f}, alarm_increased_this_turn: {hostile.alarm_increased_this_turn}")
 
         # Reset area values
         for area in self.get_entities(Area):
@@ -1166,6 +1186,9 @@ class GameController:
 
         else:
             hostile.is_patrolling = True
+
+            if random.random() < GUARD_STAY_PROB:
+                return
 
             # Determine the next area in the patrol route
             if hostile.area == route[hostile.current_patrol_index]:
