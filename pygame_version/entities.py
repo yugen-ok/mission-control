@@ -1155,10 +1155,15 @@ class GameController:
 
             # Get the action and args from the decision
             action = decision['action']
-            args = [self.world.entity_registry[UUID(str(arg))] for arg in decision['arguments']]
 
-            func = getattr(self, action)  # Pick function based on action
-            func(agent, *args)  # Apply the function to the args
+            # This step makes sure that the arguments are still in the game.
+            # For example if 2 agents shoot 1 target, and it goes down after one shot,
+            # then when the second agent's decision to shoot is queued, the target will no longer exist
+            if all(UUID(str(arg)) in self.world.entity_registry for arg in decision['arguments']):
+
+                args = [self.world.entity_registry[UUID(str(arg))] for arg in decision['arguments']]
+                func = getattr(self, action)  # Pick function based on action
+                func(agent, *args)  # Apply the function to the args
 
             # Calculate the base alarm increase
             skill = ACTION_TO_SKILL[action]
@@ -1453,7 +1458,7 @@ class GameController:
                                             f"to attempt take out.")
 
         self.hide(agent)
-        
+
         result = agent.take_action('take_out', hostile)
 
         if result:

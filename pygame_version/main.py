@@ -202,12 +202,13 @@ def main(config_path, mode, agents_hidden, hostiles_visible):
             if not candidate_areas:
                 raise ValueError("No valid candidate areas found for objectives.")
 
-            if not world.objectives:
+            objectives = [entity for entity in world.entity_registry.values() if isinstance(entity, Objective)]
+            if not objectives:
                 # If no objectives have been placed yet, choose a random starting area
                 selected_area = random.choice(candidate_areas)
             else:
                 # Select an area from the top k farthest areas
-                chosen_areas = [objective.area for objective in world.objectives]
+                chosen_areas = [objective.area for objective in objectives]
                 top_k_areas = find_top_k_farthest_areas(candidate_areas, chosen_areas, k=4)
                 selected_area = random.choice(top_k_areas)
 
