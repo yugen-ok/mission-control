@@ -570,7 +570,6 @@ class OtherObjective(Objective):
     def __init__(self, name, area, difficulty, description, explored, world=None):
         super().__init__(name, area, description, difficulty, "observation", explored, world=world)
 
-
 class Body(Entity):
     def __init__(self, name, area, description, world=None):
         super().__init__(name, area, description, world=world)

@@ -267,7 +267,12 @@ class GUI:
         self.screen.blit(title_surface, (rect.x + 10, rect.y + 10))
 
 
-    def draw_connection_hollow(self, area1: Area, area2: Area):
+    def draw_connection(self, connection):
+        area1 = connection.area1
+        area2 = connection.area2
+        conn_type = connection.conn_type
+
+
         x1 = self.MAP_PANEL.x + 20 + area1.x * self.scale_factor
         y1 = self.MAP_PANEL.y + 20 + area1.y * self.scale_factor
         x2 = self.MAP_PANEL.x + 20 + area2.x * self.scale_factor
@@ -277,6 +282,14 @@ class GUI:
         w2 = area2.width * self.scale_factor
         h2 = area2.height * self.scale_factor
 
+        if conn_type == 'open':
+            color = '#E8E8E8'
+        elif conn_type == 'door':
+            color = '#000000'
+        elif conn_type == 'window':
+            color = '#000080'
+        else:
+            color = '#E8E8E8'
         # Check for vertical alignment (shared vertical wall)
         if (abs(x1 + w1 - x2) < 1 or abs(x2 + w2 - x1) < 1):
             # Find overlapping y-range
@@ -285,10 +298,10 @@ class GUI:
             if bottom > top:  # If there is overlap
                 center_y = top + (bottom - top) / 2
                 if x1 < x2:  # area1 is to the left of area2
-                    pygame.draw.rect(self.screen, '#E8E8E8',
+                    pygame.draw.rect(self.screen, color,
                                      (x2 - 2, center_y - 5, 4, 10))
                 else:  # area1 is to the right of area2
-                    pygame.draw.rect(self.screen, '#E8E8E8',
+                    pygame.draw.rect(self.screen, color,
                                      (x1 - 2, center_y - 5, 4, 10))
 
         # Check for horizontal alignment (shared horizontal wall)
@@ -299,10 +312,10 @@ class GUI:
             if right > left:  # If there is overlap
                 center_x = left + (right - left) / 2
                 if y1 < y2:  # area1 is above area2
-                    pygame.draw.rect(self.screen, '#E8E8E8',
+                    pygame.draw.rect(self.screen, color,
                                      (center_x - 5, y2 - 2, 10, 4))
                 else:  # area1 is below area2
-                    pygame.draw.rect(self.screen, '#E8E8E8',
+                    pygame.draw.rect(self.screen, color,
                                      (center_x - 5, y1 - 2, 10, 4))
 
     def draw_map(self):
@@ -422,7 +435,7 @@ class GUI:
 
         for area in self.gc.get_entities(Area):
             for connection in area.connections:
-                self.draw_connection_hollow(area, connection.get_other_area(area))
+                self.draw_connection(connection)
 
     def wrap_input_text(self, text, font, max_width):
         """Wrap input text and handle cursor position"""
