@@ -287,7 +287,7 @@ class GUI:
         elif conn_type == 'door':
             color = '#000000'
         elif conn_type == 'window':
-            color = '#000080'
+            color = '#4169E1'
         else:
             color = '#E8E8E8'
         # Check for vertical alignment (shared vertical wall)

@@ -46,49 +46,6 @@ global has_reached_th
 # - some agents want to do more, so if you tell them to stand down they might go in anyway
 # - Add Hostile subclasses: guard, technician, janitor, etc.
 
-DEBUG_MODE = False
-
-PEEK_MOD = -.2
-INV_MOD = .2
-SKILL_SIGMA = .2
-
-# Map from alarm thresholds to corresponding observation skill
-OBS_THRESHS = {
-    0.: 0.,
-    .5: .2,
-    1: .4
-}
-
-RELAX_DEC = -.1
-
-# Skills used for each action
-ACTION_TO_SKILL = {
-
-    'wait': 'stealth',  # Just a placeholderr
-
-    'look_around': 'observation',
-    'peek': 'observation',
-    'investigate': 'observation',
-
-    'hide': 'stealth',
-    'take_out': 'hand_to_hand',
-    'shoot': 'firearms',
-
-    'bypass': 'acrobatics',
-    'capture': 'stealth',
-    # This is not used for the action itself. it is trumped by the objective's required skill. it is just used for alarm increase calculation
-
-    'sneak': 'stealth',
-    'charge': 'firearms',
-    'exfiltrate': 'stealth'
-
-}
-
-ACTION_TO_COUNTER_SKILL = {
-    'hide': 'observation',
-    'take_out': 'hand_to_hand',
-    'shoot': 'cover',
-}
 
 
 def get_corresponding_value(val, threshold_map):
@@ -712,14 +669,14 @@ class Connection:
 
 class Area(Entity):
     def __init__(self, name, description, x, y, width, height, color, image=None,
-                 hiding_bonus=0, cover_bonus=0,
+                 hiding_modifier=0, cover_modifier=0,
                  noise_baseline=0, explored=0, world=None, is_extraction_point=False):
 
         # Update description to include hiding bonus and cover bonus
 
         super().__init__(name, area=None, description=description, explored=explored, world=world)
-        self.hiding_bonus = hiding_bonus
-        self.cover_bonus = cover_bonus
+        self.hiding_modifier = hiding_modifier
+        self.cover_modifier = cover_modifier
         self.noise_baseline = noise_baseline
         self.connections = []  # List of Connection objects
         self.entities = []  # List of entities currently in this area
@@ -1087,6 +1044,14 @@ class GameController:
             # Calculate the base alarm increase
             skill = ACTION_TO_SKILL[action]
             base_alarm_increase = get_alarm_increase(action, agent.skills[skill])
+
+            # Peeking alarm depends on connection type
+            # TODO: generalize this and wrap in an appropriate function
+            if action == 'peek':
+                conn = agent.area.get_connection_info(args[0])
+                if conn.conn_type == 'door':
+                    base_alarm_increase += PEEK_ALARM_PENALTY
+
             logging.debug(f"Action: {action} | Base alarm increase: {base_alarm_increase}")
 
             # Update alarms for the current area
@@ -1349,7 +1314,7 @@ class GameController:
 
     def hide(self, agent):
         area = agent.area
-        hostile_values = [agent.take_action('hide', hostile) for hostile in self.get_entities(Hostile, area)]
+        hostile_values = [agent.take_action('hide', hostile, modifier=area.hiding_modifier) for hostile in self.get_entities(Hostile, area)]
         result = all(hostile_values)
 
         agent.is_hidden = result if not self.agents_hidden else True
@@ -1383,7 +1348,7 @@ class GameController:
         if hit:
             shooter_res = random.gauss(shooter.skills['firearms'],
                                        SKILL_SIGMA)  # Lower std deviation for more clustering
-            target_res = random.gauss(target.skills['cover'] + area.cover_bonus, SKILL_SIGMA)  # Lower std deviation
+            target_res = random.gauss(target.skills['cover'] + area.cover_modifier, SKILL_SIGMA)  # Lower std deviation
             damage = max(0., min(.1, shooter_res - target_res))
         else:
             damage = 0

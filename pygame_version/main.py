@@ -28,6 +28,17 @@ def main(config_path, mode, agents_hidden, hostiles_visible):
     # Create areas
     areas = {}
     for area_id, area_data in config["areas"].items():
+
+        p = random.random()
+        if p < AREA_MOD_PROB:
+            cover_modifier = hiding_modifier = .1
+            desc_add = " Offers some extra cover"
+        elif p < AREA_MOD_PROB * 2:
+            cover_modifier = hiding_modifier = -.1
+            desc_add = " Offers relatively little cover"
+        else:
+            cover_modifier = hiding_modifier = 0
+            desc_add = ""
         area = Area(
             name=area_data["name"],
             x=area_data["x"],
@@ -36,9 +47,9 @@ def main(config_path, mode, agents_hidden, hostiles_visible):
             height=area_data["height"],
             color=area_data["color"],
             image=area_data.get("image", None),
-            description=area_data["description"],
-            hiding_bonus=area_data.get("hiding_bonus", 0),
-            cover_bonus=area_data.get("cover_bonus", 0),
+            description=area_data["description"] + desc_add,
+            hiding_modifier=area_data.get("hiding_modifier", hiding_modifier),
+            cover_modifier=area_data.get("cover_modifierr", cover_modifier),
             noise_baseline=area_data.get("noise_baseline", 0),
             explored=area_data.get("explored", 0),
             is_extraction_point=area_data.get("is_extraction_point", False),
@@ -56,9 +67,6 @@ def main(config_path, mode, agents_hidden, hostiles_visible):
                 areas[area_id].connect_door(areas[conn])
             elif conn_type == 2:
                 areas[area_id].connect_window(areas[conn])
-
-
-
 
     # Instantiate characters
     # Consider splitting into agents, hostiles, civilians, etc
