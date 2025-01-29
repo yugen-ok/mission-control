@@ -1,4 +1,15 @@
-import json
+
+"""
+Connection codes:
+
+0: default
+1: noise factor=.75
+
+2: window
+3: locked
+
+"""
+
 import argparse
 
 from entities import *
@@ -7,6 +18,7 @@ from GUI import GUI
 
 def main(config_path, mode, agents_hidden, hostiles_visible):
     # Load configuration from JSON file
+    global noise_factor
     with open(config_path, "r") as file:
         config = json.load(file)
 
@@ -36,9 +48,17 @@ def main(config_path, mode, agents_hidden, hostiles_visible):
 
     # Connect areas
     for area_id, area_data in config["areas"].items():
-        for connection in area_data["connections"]:
-            if connection in areas:
-                areas[area_id].connect(areas[connection])
+        for conn, conn_type in area_data["connections"].items():
+
+            if conn_type == 0:
+                areas[area_id].connect_open(areas[conn])
+            elif conn_type == 1:
+                areas[area_id].connect_door(areas[conn])
+            elif conn_type == 2:
+                areas[area_id].connect_window(areas[conn])
+
+
+
 
     # Instantiate characters
     # Consider splitting into agents, hostiles, civilians, etc

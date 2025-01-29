@@ -43,7 +43,6 @@ global has_reached_th
 # - implement psychology: resilience
 # - stabilize wounded agents
 # - carry bodies
-# - give the controller more info than what the agents have
 # - some agents want to do more, so if you tell them to stand down they might go in anyway
 # - Add Hostile subclasses: guard, technician, janitor, etc.
 
@@ -535,11 +534,11 @@ class Hostile(Character):
 
 # Objective base class
 class Objective(Entity):
-    def __init__(self, name, area, difficulty, required_skill, description, is_captured=False, explored=1,
+    def __init__(self, name, area, description, difficulty, required_skill, explored=1,
                  world=None):
         super().__init__(name, area, description, explored=explored, world=world)
         self.difficulty = max(0, min(difficulty, 1))
-        self.is_captured = is_captured
+        self.is_captured = False
         self.required_skill = required_skill
 
     def capture(self):
@@ -548,8 +547,8 @@ class Objective(Entity):
 
 
 class SimpleObjective(Objective):
-    def __init__(self, name, area, is_captured, description, world=None):
-        super().__init__(name, area, "Simple", 0, is_captured, "none", description, world=world)
+    def __init__(self, name, area, description, difficulty, explored, world=None):
+        super().__init__(name, area, description, difficulty, None, explored, world=world)
 
     def capture(self):
         self.is_captured = True
@@ -558,18 +557,18 @@ class SimpleObjective(Objective):
 
 # Subclasses for specific objective types
 class ComputerObjective(Objective):
-    def __init__(self, name, area, difficulty, is_captured, description, world=None):
-        super().__init__(name, area, "Computer", difficulty, is_captured, "hacking", description, world=world)
+    def __init__(self, name, area, description, difficulty, explored, world=None):
+        super().__init__(name, area, description, difficulty, "hacking", explored, world=world)
 
 
 class PersonObjective(Objective):
-    def __init__(self, name, area, difficulty, is_captured, description, world=None):
-        super().__init__(name, area, "Person", difficulty, is_captured, "hand_to_hand", description, world=world)
+    def __init__(self, name, area, description, difficulty, explored, world=None):
+        super().__init__(name, area, description, difficulty, "hand_to_hand", explored, world=world)
 
 
 class OtherObjective(Objective):
-    def __init__(self, name, area, difficulty, is_captured, description, world=None):
-        super().__init__(name, area, "Other", difficulty, is_captured, "observation", description, world=world)
+    def __init__(self, name, area, difficulty, description, explored, world=None):
+        super().__init__(name, area, description, difficulty, "observation", explored, world=world)
 
 
 class Body(Entity):
@@ -626,12 +625,12 @@ class SniperRifle(Weapon):
 
 
 class Connection:
-    def __init__(self, area1, area2, description1='', description2='', sight_only=False, spot_difficulty1=0,
-                 spot_difficulty2=0,
-                 investigate_difficulty1=0, investigate_difficulty2=0, access_difficulty1=0, access_difficulty2=0,
+    def __init__(self, area1, area2, description1='', description2='', sight_only=False, spot_difficulty1=0.,
+                 spot_difficulty2=0.,
+                 investigate_difficulty1=0., investigate_difficulty2=0., access_difficulty1=0., access_difficulty2=0.,
                  is_locked1=False,
                  is_locked2=False,
-                 noise_factor=.5):
+                 noise_factor=.5, conn_type='door'):
         self.area1 = area1
         self.area2 = area2
         self.description1 = description1  # Description from area1 to area2
@@ -646,6 +645,9 @@ class Connection:
         self.is_locked1 = is_locked1
         self.is_locked2 = is_locked2
         self.noise_factor = noise_factor
+
+        assert conn_type in ['open', 'door', 'window']
+        self.conn_type = conn_type
 
     def get_description(self, current_area):
         """Return the description of the connection from the perspective of the given area."""
@@ -739,14 +741,63 @@ class Area(Entity):
     def connect(self, other_area, description1='', description2='', sight_only=False, spot_difficulty1=0,
                 spot_difficulty2=0, investigate_difficulty1=0,
                 investigate_difficulty2=0, access_difficulty1=0, access_difficulty2=0, is_locked1=False,
-                is_locked2=False):
+                is_locked2=False,
+                noise_factor=.5):
         """Connect this area to another area with specific connection attributes."""
         # Check if a connection already exists to prevent duplicate connections
         if not any(conn.area1 == other_area or conn.area2 == other_area for conn in self.connections):
             connection = Connection(self, other_area, description1, description2, sight_only, spot_difficulty1,
                                     spot_difficulty2,
                                     investigate_difficulty1, investigate_difficulty2, access_difficulty1,
-                                    access_difficulty2, is_locked1, is_locked2)
+                                    access_difficulty2, is_locked1, is_locked2, noise_factor)
+            # Add the same Connection object to both areas to represent the bidirectional connection
+            self.connections.append(connection)
+            other_area.connections.append(connection)
+
+    def connect_open(self, other_area, description1='', description2='', sight_only=False, spot_difficulty1=0,
+                     spot_difficulty2=0, investigate_difficulty1=0,
+                     investigate_difficulty2=0, access_difficulty1=0, access_difficulty2=0, is_locked1=False,
+                     is_locked2=False,
+                     noise_factor=.75):
+        """Connect this area to another area with specific connection attributes."""
+        # Check if a connection already exists to prevent duplicate connections
+        if not any(conn.area1 == other_area or conn.area2 == other_area for conn in self.connections):
+            connection = Connection(self, other_area, description1, description2, sight_only, spot_difficulty1,
+                                    spot_difficulty2,
+                                    investigate_difficulty1, investigate_difficulty2, access_difficulty1,
+                                    access_difficulty2, is_locked1, is_locked2, noise_factor, conn_type='open')
+            # Add the same Connection object to both areas to represent the bidirectional connection
+            self.connections.append(connection)
+            other_area.connections.append(connection)
+
+    def connect_door(self, other_area, description1='', description2='', sight_only=False, spot_difficulty1=0,
+                     spot_difficulty2=0, investigate_difficulty1=0,
+                     investigate_difficulty2=0, access_difficulty1=0, access_difficulty2=0, is_locked1=False,
+                     is_locked2=False,
+                     noise_factor=.5):
+        """Connect this area to another area with specific connection attributes."""
+        # Check if a connection already exists to prevent duplicate connections
+        if not any(conn.area1 == other_area or conn.area2 == other_area for conn in self.connections):
+            connection = Connection(self, other_area, description1, description2, sight_only, spot_difficulty1,
+                                    spot_difficulty2,
+                                    investigate_difficulty1, investigate_difficulty2, access_difficulty1,
+                                    access_difficulty2, is_locked1, is_locked2, noise_factor, conn_type='door')
+            # Add the same Connection object to both areas to represent the bidirectional connection
+            self.connections.append(connection)
+            other_area.connections.append(connection)
+
+    def connect_window(self, other_area, description1='', description2='', sight_only=False, spot_difficulty1=0,
+                       spot_difficulty2=0, investigate_difficulty1=0,
+                       investigate_difficulty2=0, access_difficulty1=.1, access_difficulty2=.1, is_locked1=False,
+                       is_locked2=False,
+                       noise_factor=.5):
+        """Connect this area to another area with specific connection attributes."""
+        # Check if a connection already exists to prevent duplicate connections
+        if not any(conn.area1 == other_area or conn.area2 == other_area for conn in self.connections):
+            connection = Connection(self, other_area, description1, description2, sight_only, spot_difficulty1,
+                                    spot_difficulty2,
+                                    investigate_difficulty1, investigate_difficulty2, access_difficulty1,
+                                    access_difficulty2, is_locked1, is_locked2, noise_factor, conn_type='window')
             # Add the same Connection object to both areas to represent the bidirectional connection
             self.connections.append(connection)
             other_area.connections.append(connection)
@@ -931,10 +982,10 @@ class GameController:
                 # This requires defining the AZURE_OPENAI_API_KEY and AZURE_OPENAI_ENDPOINT environment variables
                 decisions = query_lbgpt('', remaining_to_execute)
 
-            elif self.mode =='semi-auto':
+            elif self.mode == 'semi-auto':
                 raise NotImplementedError
 
-            elif self.mode =='manual':
+            elif self.mode == 'manual':
 
                 decisions = []
                 for agent in agents_to_execute:
@@ -951,7 +1002,8 @@ class GameController:
                             assert action in action_arguments.keys()
                             break
                         except AssertionError:
-                            print(f"Invalid input. Please enter one of the valid actions: {', '.join(list(action_arguments.keys()))}.")
+                            print(
+                                f"Invalid input. Please enter one of the valid actions: {', '.join(list(action_arguments.keys()))}.")
 
                     if not action_arguments[action]:
                         arguments = []
@@ -966,7 +1018,8 @@ class GameController:
                                 assert argument < len(action_arguments[action])
                                 break
                             except (AssertionError, ValueError):
-                                print(f"Invalid input. Please enter an index up to {len(action_arguments[action])-1}.")
+                                print(
+                                    f"Invalid input. Please enter an index up to {len(action_arguments[action]) - 1}.")
 
                         arguments = [str(action_arguments[action][argument]['id'])]
 
@@ -1221,7 +1274,6 @@ class GameController:
 
             access_difficulty = area.get_passage_access_difficulty(target_area)
 
-            # TODO: Improve
             if access_difficulty:
                 base_alarm_increase = get_alarm_increase("bypass", agent.skills["acrobatics"])
                 logging.debug(f"Bypass alarm increase: {base_alarm_increase:.2f}")

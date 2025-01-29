@@ -1,0 +1,16 @@
+I will give you floor plan of a building. Add connection info to this map definition, based on which areas you think should be connected  and in what way.
+
+"r" stands for room
+"s" stands forrr street
+"c" stands for corridor
+
+connection types:
+0 - door
+1 - doorway or clear path. this exists between rooms that arre connected with an empty doorway, orr between outdoor arreas like streets and yards, that are simply continuation of the each otherr.
+2 - window. there's a window between each street/courtyard and each room it touches.
+
+c6 and c1 are connected to the street with a door rather than a window.
+
+add connections between rooms inside the building based on what you think makes sense. not all adjacent rooms need to be connected. just like in an actual building.
+
+you dont need to give all the text. just make a dictionary mapping each arrea to a dict of connections

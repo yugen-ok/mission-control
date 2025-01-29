@@ -266,6 +266,7 @@ class GUI:
         title_surface = self.fonts['title'].render(title, True, self.hex_to_rgb(self.COLORS['text']))
         self.screen.blit(title_surface, (rect.x + 10, rect.y + 10))
 
+
     def draw_connection_hollow(self, area1: Area, area2: Area):
         x1 = self.MAP_PANEL.x + 20 + area1.x * self.scale_factor
         y1 = self.MAP_PANEL.y + 20 + area1.y * self.scale_factor
@@ -276,22 +277,33 @@ class GUI:
         w2 = area2.width * self.scale_factor
         h2 = area2.height * self.scale_factor
 
-        if abs(x1 - x2) < 1:  # Vertical connection
-            center_x = x1 + w1 / 2
-            if y1 < y2:
-                pygame.draw.rect(self.screen, self.hex_to_rgb(self.COLORS['panel_bg']),
-                                 (center_x - 5, y1 + h1 - 2, 10, 4))
-            else:
-                pygame.draw.rect(self.screen, self.hex_to_rgb(self.COLORS['panel_bg']),
-                                 (center_x - 5, y2 + h2 - 2, 10, 4))
-        elif abs(y1 - y2) < 1:  # Horizontal connection
-            center_y = y1 + h1 / 2
-            if x1 < x2:
-                pygame.draw.rect(self.screen, self.hex_to_rgb(self.COLORS['panel_bg']),
-                                 (x1 + w1 - 2, center_y - 5, 4, 10))
-            else:
-                pygame.draw.rect(self.screen, self.hex_to_rgb(self.COLORS['panel_bg']),
-                                 (x2 + w2 - 2, center_y - 5, 4, 10))
+        # Check for vertical alignment (shared vertical wall)
+        if (abs(x1 + w1 - x2) < 1 or abs(x2 + w2 - x1) < 1):
+            # Find overlapping y-range
+            top = max(y1, y2)
+            bottom = min(y1 + h1, y2 + h2)
+            if bottom > top:  # If there is overlap
+                center_y = top + (bottom - top) / 2
+                if x1 < x2:  # area1 is to the left of area2
+                    pygame.draw.rect(self.screen, '#E8E8E8',
+                                     (x2 - 2, center_y - 5, 4, 10))
+                else:  # area1 is to the right of area2
+                    pygame.draw.rect(self.screen, '#E8E8E8',
+                                     (x1 - 2, center_y - 5, 4, 10))
+
+        # Check for horizontal alignment (shared horizontal wall)
+        elif (abs(y1 + h1 - y2) < 1 or abs(y2 + h2 - y1) < 1):
+            # Find overlapping x-range
+            left = max(x1, x2)
+            right = min(x1 + w1, x2 + w2)
+            if right > left:  # If there is overlap
+                center_x = left + (right - left) / 2
+                if y1 < y2:  # area1 is above area2
+                    pygame.draw.rect(self.screen, '#E8E8E8',
+                                     (center_x - 5, y2 - 2, 10, 4))
+                else:  # area1 is below area2
+                    pygame.draw.rect(self.screen, '#E8E8E8',
+                                     (center_x - 5, y1 - 2, 10, 4))
 
     def draw_map(self):
 
@@ -573,7 +585,7 @@ class GUI:
             input_surface = self.fonts['small'].render(line, True, self.hex_to_rgb(self.COLORS['text']))
             self.screen.blit(input_surface, (input_box.x + 5, input_y))
             input_y += self.fonts['small'].get_linesize()
-            
+
     def handle_click(self, pos):
         if self.MAP_PANEL.collidepoint(pos):
             relative_x = pos[0] - (self.MAP_PANEL.x + 20)
