@@ -618,10 +618,11 @@ class GUI:
     def handle_input(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:  # Submit message
-                control_message = 'Control: ' + self.chat_input.strip()
-                self.chat_messages.append(control_message)
-                self.chat_input = ""
-                self.gc.mission_log.append(control_message, push_to_queue=False)
+                if self.chat_input.strip():
+                    control_message = 'Control: ' + self.chat_input.strip()
+                    self.chat_messages.append(control_message)
+                    self.chat_input = ""
+                    self.gc.mission_log.append(control_message, push_to_queue=False)
                 self.gc.process_turn()
 
                 while len(self.gc.mission_log.print_queue) > 0:

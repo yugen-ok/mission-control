@@ -26,8 +26,15 @@ https://chatgpt.com/share/6772d99b-cb78-800e-996b-810c66da2375"""
 
 global has_reached_th
 
+
 # TODO:
 
+# - Enemy communication
+# - Agent smarter behavior
+# - Manual mode from GUI
+# - improve takeout mechanics
+# - Disguises
+# - Stealth shots across rooms
 # - Parametrize area modifiers as a funciton of geometric area
 # - mark connections with access difficulty on the map
 # - test hostile chase and extended patrol break
@@ -158,19 +165,32 @@ class Character(Entity):
             capture
         """
 
+        logger.debug(f"=== ACTION CHECK: {action_type} ===")
+        logger.debug(f"Actor: {self.name}")
+
+        if isinstance(target, Connection):
+            target_name = "Connection with " + target.get_other_area(self.area).name
+        else:
+            target_name = target.name if target else 'None'
+
+        logger.debug(f"Target: {target_name}")
+        logger.debug(f"Initial modifier: {modifier}")
+
         skill1 = ACTION_TO_SKILL.get(action_type, None)
+        logger.debug(f"Primary skill: {skill1} = {self.skills[skill1] if skill1 else 'None'}")
 
-        # Differentiate between:
-        # takeout after successful hiding vs takeout without being hidden
-        # investigate vs peek vs just entering a room
-
+        # Special modifiers
         if action_type == 'peek':
             modifier += PEEK_MOD
+            logger.debug(f"Added peek modifier: {PEEK_MOD}")
         elif action_type == 'investigate':
             modifier += INV_MOD
+            logger.debug(f"Added investigate modifier: {INV_MOD}")
 
+        # Calculate difficulty
         if action_type == 'wait':
             difficulty = 0.
+            logger.debug("Wait action - no difficulty check")
         elif action_type in ['look_around', 'peek', 'investigate']:
             if isinstance(target, Connection):
                 if action_type == 'look_around':
@@ -178,54 +198,57 @@ class Character(Entity):
                 elif action_type == 'peek':
                     difficulty = target.get_peek_difficulty(self.area)
                 else:
-                    assert action_type == 'investigate'
                     difficulty = target.get_investigate_difficulty(self.area)
+                logger.debug(f"Connection difficulty: {difficulty}")
             else:
                 difficulty = target.spot_difficulty
+                logger.debug(f"Spot difficulty: {difficulty}")
 
         elif isinstance(target, Character):
             assert action_type in ['hide', 'take_out', 'shoot']
             skill2 = ACTION_TO_COUNTER_SKILL.get(action_type, None)
             difficulty = target.skills[skill2]
+            logger.debug(f"Target counter skill: {skill2} = {difficulty}")
 
             if action_type == 'hide':
                 modifier += self.area.hiding_modifier
+                logger.debug(f"Added area hiding modifier: {self.area.hiding_modifier}")
             elif action_type == 'shoot':
-                modifier += self.area.cover_modifier
+                # Cover modifier is inverse to shooting
+                # So if it is positive, it is harder to shoot, and vice versa
+                modifier -= self.area.cover_modifier
+                logger.debug(f"Added area cover modifier: {self.area.cover_modifier}")
 
         elif action_type == 'bypass':
             difficulty = 0
+            logger.debug("Bypass action - no difficulty")
 
         elif action_type == 'capture':
             assert isinstance(target, Objective)
-
-            # This trumps the skill from ACTION_TO_SKILL
             skill1 = target.required_skill
             difficulty = target.difficulty
+            logger.debug(f"Objective difficulty: {difficulty}")
+            logger.debug(f"Required skill: {skill1} = {self.skills[skill1]}")
 
         else:
             raise ValueError(f"Invalid target/action type. Target type: {type(target)}, Action type: {action_type}")
 
-        success_prob = max(0.0, min(1.0, self.skills[skill1] - difficulty + modifier))
+        # Calculate final probability
+        raw_prob = self.skills[skill1] - difficulty + modifier
+        success_prob = max(0.0, min(1.0, raw_prob))
 
-        success = random.random() < success_prob
+        logger.debug(f"Probability calculation:")
+        logger.debug(f"  Skill ({self.skills[skill1]:.2f}) - Difficulty ({difficulty:.2f}) + Modifier ({modifier:.2f})")
+        logger.debug(f"  Raw probability: {raw_prob:.2f}")
+        logger.debug(f"  Clamped probability: {success_prob:.2f}")
 
-        if DEBUG_MODE:
-            # Print info about action, target, difficulty, modifier, and success line by line
-            print(f"Character: {self.name}")
-            print(f"Action: {action_type}")
-            print(f"Target: {target}")
-            print(f"Difficulty: {difficulty}")
-            print(f"Modifier: {modifier}")
-            print(f"Success probability: {success_prob:.2f}")
-            print(f"Success: {'Success' if success else 'Failure'}")
-            print("-" * 50)
+        roll = random.random()
+        success = roll < success_prob
+        logger.debug(f"Roll: {roll:.3f} vs Probability: {success_prob:.3f}")
+        logger.debug(f"Result: {'SUCCESS' if success else 'FAILURE'}")
+        logger.debug(f"=== ACTION CHECK END ===")
 
         return success
-
-    # TODO: implement alarm level for hostiles
-    def observation_check(self, modifier=0):
-        return self.skill_check("observation", modifier=modifier)
 
 
 class Agent(Character):
@@ -275,10 +298,15 @@ class Agent(Character):
         # Shoot action: requires hostiles in the current area
         hostiles_in_area = [entity for entity in self.area.entities if isinstance(entity, Hostile)]
         if hostiles_in_area:
-            action_args['shoot'] = action_args['take_out'] = [{'id': entity.id, 'name': entity.name} for entity in
-                                                              hostiles_in_area]
+            action_args['shoot'] = [{'id': hostile.id, 'name': hostile.name} for hostile in
+                                    hostiles_in_area]
 
-        # Hide action: only available to non hidden characters in an area with no hostiles
+            # Take out action: can only be taken by hidden agents
+            if self.is_hidden:
+                action_args['take_out'] = [{'id': hostile.id, 'name': hostile.name} for hostile in
+                                           hostiles_in_area]
+
+        # Hide action: only available to non-hidden characters in an area with no hostiles
         if not self.is_hidden and not [entity for entity in self.area.entities if isinstance(entity, Hostile)]:
             action_args['hide'] = []
 
@@ -450,7 +478,8 @@ class Hostile(Character):
                  health=0.6, observation=0, max_observation=.4,
                  hand_to_hand=0, max_hand_to_hand=.4,
                  firearms=0, cover=0,
-                 resilience=.5, stealth=0, hacking=0, acrobatics=0, inventory=None, description='', explored=0, world=None):
+                 resilience=.5, stealth=0, hacking=0, acrobatics=0, inventory=None, description='', explored=0,
+                 world=None):
         area = patrol_route[0]
 
         super().__init__(name, area, health, resilience, stealth, firearms, cover, hand_to_hand, hacking, observation,
@@ -473,6 +502,9 @@ class Hostile(Character):
 
     def update_alarm_level(self, delta):
 
+        logger.debug(f"Updating alarm level for {self.name}: {self.alarm_level} + {delta}")
+        logger.debug(f"Pre-update skills: {self.skills}")
+
         if self.alarm_level == 1:
             return  # Don't update alarm level in fight mode
 
@@ -481,6 +513,9 @@ class Hostile(Character):
 
         # clamp between 0 and 1
         self.alarm_level = min(max(0, self.alarm_level + delta), 1)
+
+        logger.debug(f"New alarm level: {self.alarm_level}")
+        logger.debug(f"Post-update skills: {self.skills}")
 
     def update_skills(self):
         obs_inc = get_corresponding_value(self.alarm_level, OBS_THRESHS)
@@ -534,6 +569,7 @@ class PersonObjective(Objective):
 class OtherObjective(Objective):
     def __init__(self, name, area, difficulty, description, explored, world=None):
         super().__init__(name, area, description, difficulty, "observation", explored, world=world)
+
 
 class Body(Entity):
     def __init__(self, name, area, description, world=None):
@@ -589,12 +625,25 @@ class SniperRifle(Weapon):
 
 
 class Connection:
-    def __init__(self, area1, area2, description1='', description2='', sight_only=False, spot_difficulty1=0.,
-                 spot_difficulty2=0.,
+    def __init__(self, area1, area2, description1='', description2='', sight_only=False,
+                 spot_difficulty1=DEFAULT_SPOT_DIFFICULTY,
+                 spot_difficulty2=DEFAULT_SPOT_DIFFICULTY,
                  investigate_difficulty1=0., investigate_difficulty2=0., access_difficulty1=0., access_difficulty2=0.,
                  is_locked1=False,
                  is_locked2=False,
                  noise_factor=.5, conn_type='door'):
+
+        logger.debug(f"=== CREATING CONNECTION between {area1.name} and {area2.name} ===")
+        logger.debug(f"Type: {conn_type}")
+        logger.debug(f"Description 1->2: {description1}")
+        logger.debug(f"Description 2->1: {description2}")
+        logger.debug(f"Sight only: {sight_only}")
+        logger.debug(f"Spot difficulties: 1->2={spot_difficulty1}, 2->1={spot_difficulty2}")
+        logger.debug(f"Investigation difficulties: 1->2={investigate_difficulty1}, 2->1={investigate_difficulty2}")
+        logger.debug(f"Access difficulties: 1->2={access_difficulty1}, 2->1={access_difficulty2}")
+        logger.debug(f"Locks: 1->2={is_locked1}, 2->1={is_locked2}")
+        logger.debug(f"Noise factor: {noise_factor}")
+
         self.area1 = area1
         self.area2 = area2
         self.description1 = description1  # Description from area1 to area2
@@ -680,6 +729,14 @@ class Area(Entity):
                  hiding_modifier=0, cover_modifier=0,
                  noise_baseline=0, explored=0, world=None, is_extraction_point=False):
 
+        logger.debug(f"=== CREATING AREA: {name} ===")
+        logger.debug(f"Description: {description}")
+        logger.debug(f"Position: x={x}, y={y}, width={width}, height={height}")
+        logger.debug(f"Modifiers: hiding={hiding_modifier}, cover={cover_modifier}")
+        logger.debug(f"Noise baseline: {noise_baseline}")
+        logger.debug(f"Initial exploration: {explored}")
+        logger.debug(f"Is extraction point: {is_extraction_point}")
+
         # Update description to include hiding bonus and cover bonus
 
         super().__init__(name, area=None, description=description, explored=explored, world=world)
@@ -718,12 +775,19 @@ class Area(Entity):
             self.connections.append(connection)
             other_area.connections.append(connection)
 
-    def connect_open(self, other_area, description1='', description2='', sight_only=False, spot_difficulty1=0,
-                     spot_difficulty2=0, investigate_difficulty1=0,
+    def connect_open(self, other_area, description1='', description2='', sight_only=False,
+                     spot_difficulty1=DEFAULT_SPOT_DIFFICULTY,
+                     spot_difficulty2=DEFAULT_SPOT_DIFFICULTY, investigate_difficulty1=0,
                      investigate_difficulty2=0, access_difficulty1=0, access_difficulty2=0, is_locked1=False,
                      is_locked2=False,
                      noise_factor=.75):
         """Connect this area to another area with specific connection attributes."""
+
+        logger.debug(f"=== CONNECTING AREAS with open connection ===")
+        logger.debug(f"From: {self.name} To: {other_area.name}")
+        logger.debug(f"Noise factor: {noise_factor}")
+        logger.debug(f"Spot difficulties: {spot_difficulty1}, {spot_difficulty2}")
+
         # Check if a connection already exists to prevent duplicate connections
         if not any(conn.area1 == other_area or conn.area2 == other_area for conn in self.connections):
             connection = Connection(self, other_area, description1, description2, sight_only, spot_difficulty1,
@@ -734,12 +798,19 @@ class Area(Entity):
             self.connections.append(connection)
             other_area.connections.append(connection)
 
-    def connect_door(self, other_area, description1='', description2='', sight_only=False, spot_difficulty1=0,
-                     spot_difficulty2=0, investigate_difficulty1=0,
+    def connect_door(self, other_area, description1='', description2='', sight_only=False,
+                     spot_difficulty1=DEFAULT_SPOT_DIFFICULTY,
+                     spot_difficulty2=DEFAULT_SPOT_DIFFICULTY, investigate_difficulty1=0,
                      investigate_difficulty2=0, access_difficulty1=0, access_difficulty2=0, is_locked1=False,
                      is_locked2=False,
                      noise_factor=.5):
         """Connect this area to another area with specific connection attributes."""
+
+        logger.debug(f"=== CONNECTING AREAS with door ===")
+        logger.debug(f"From: {self.name} To: {other_area.name}")
+        logger.debug(f"Noise factor: {noise_factor}")
+        logger.debug(f"Spot difficulties: {spot_difficulty1}, {spot_difficulty2}")
+
         # Check if a connection already exists to prevent duplicate connections
         if not any(conn.area1 == other_area or conn.area2 == other_area for conn in self.connections):
             connection = Connection(self, other_area, description1, description2, sight_only, spot_difficulty1,
@@ -750,11 +821,18 @@ class Area(Entity):
             self.connections.append(connection)
             other_area.connections.append(connection)
 
-    def connect_window(self, other_area, description1='', description2='', sight_only=False, spot_difficulty1=0,
-                       spot_difficulty2=0, investigate_difficulty1=0,
+    def connect_window(self, other_area, description1='', description2='', sight_only=False,
+                       spot_difficulty1=DEFAULT_SPOT_DIFFICULTY,
+                       spot_difficulty2=DEFAULT_SPOT_DIFFICULTY, investigate_difficulty1=0,
                        investigate_difficulty2=0, access_difficulty1=.1, access_difficulty2=.1, is_locked1=False,
                        is_locked2=False,
                        noise_factor=.5):
+
+        logger.debug(f"=== CONNECTING AREAS with window ===")
+        logger.debug(f"From: {self.name} To: {other_area.name}")
+        logger.debug(f"Noise factor: {noise_factor}")
+        logger.debug(f"Spot difficulties: {spot_difficulty1}, {spot_difficulty2}")
+
         """Connect this area to another area with specific connection attributes."""
         # Check if a connection already exists to prevent duplicate connections
         if not any(conn.area1 == other_area or conn.area2 == other_area for conn in self.connections):
@@ -871,6 +949,7 @@ class GameController:
             for connection in agent.area.connections:
                 if agent.take_action('look_around', connection):
                     connection.get_other_area(agent.area).set_explored(1)
+
             for entity in agent.area.entities:
 
                 # This assumes objectives are stationary
@@ -936,7 +1015,6 @@ class GameController:
             # Production mode decision making:
             # Uncomment this line for the actual AI system to make decisions
             # This requires defining the AZURE_OPENAI_API_KEY and AZURE_OPENAI_ENDPOINT environment variables
-
 
             remaining_to_execute = decide_prompts.copy()
             agents_to_execute = agents.copy()
@@ -1004,7 +1082,7 @@ class GameController:
                             action = actionarg[0]
                         else:
                             action = actionarg[0]
-                            arguments = [arg.strip() for arg in actionarg[1:]]
+                            arguments = [action_arguments[action][int(arg.strip())]['id'] for arg in actionarg[1:]]
 
                         assert action in action_arguments.keys()
                         break
@@ -1017,7 +1095,7 @@ class GameController:
                 elif not action_arguments[action]:
                     arguments = []
                 elif len(action_arguments[action]) == 1:
-                    arguments = [str(action_arguments[action][0]['id'])]
+                    arguments = [action_arguments[action][0]['id']]
                 else:
 
                     while True:
@@ -1032,14 +1110,13 @@ class GameController:
 
                     arguments = [str(action_arguments[action][argument]['id'])]
 
-                decision = str({'action': action, 'arguments': arguments})
+                decision = {'action': action, 'arguments': arguments}
                 agent2decision[agent] = decision
 
         elif self.mode == 'test':
             # Test mode decision making:
             # This is an example of how to hardcode a decision logic for testing
             # You can change it as needed, depending on the scenario you want to test
-
 
             for agent in agents:
                 if self.turn_counter > 100:
@@ -1052,12 +1129,17 @@ class GameController:
         else:
             raise Exception('Invalid mode')
 
-        print(agent2decision)
-        logger.debug(f"Decisions: {json.dumps({agent.name: decision for agent, decision in agent2decision.items()}, indent=2)}")
+        decisions_dict = {
+            agent.name: {
+                'action': decision['action'],
+                'arguments': [str(arg) for arg in decision['arguments']],  # Convert UUIDs to strings
+                'reasoning': decision.get('reasoning', '')
+            }
+            for agent, decision in agent2decision.items()
+        }
+        logger.debug(f"Decisions: {json.dumps(decisions_dict, indent=2)}")
 
-        evaled_decisions = [agent2decision[agent] for agent in agents]
-
-        for i, decision in enumerate(evaled_decisions):
+        for i, (agent, decision) in enumerate(agent2decision.items()):
             agent = agents[i]
             area = agent.area
 
@@ -1066,7 +1148,7 @@ class GameController:
 
             # Get the action and args from the decision
             action = decision['action']
-            args = [self.world.entity_registry[UUID(arg)] for arg in decision['arguments']]
+            args = [self.world.entity_registry[UUID(str(arg))] for arg in decision['arguments']]
 
             func = getattr(self, action)  # Pick function based on action
             func(agent, *args)  # Apply the function to the args
@@ -1121,7 +1203,7 @@ class GameController:
             logger.debug(f"{agent.name} is at {agent.area.name} and is_hidden: {agent.is_hidden}")
         for hostile in self.get_entities(Hostile):
             logger.debug(
-                f"{hostile.name}: at {hostile.area.name}, alarm level: {hostile.alarm_level:.3f} obs: {hostile.skills['observation']:.3f}, h2h: {hostile.skills['hand_to_hand']:.3f}, alarm_increased_this_turn: {hostile.alarm_increased_this_turn}")
+                f"{hostile.name}: at {hostile.area.name}, alarm level: {hostile.alarm_level:.3f} obs: {hostile.skills['observation']:.3f}, h2h: {hostile.skills['hand_to_hand']:.3f}, alarm_increased_this_turn: {hostile.alarm_increased_this_turn}, health: {hostile.health:.2f}")
 
         # Reset area values
         for area in self.get_entities(Area):
@@ -1136,6 +1218,7 @@ class GameController:
         Update the alarm levels for hostiles in the given area and its connected areas
         based on the base alarm increase and noise propagation factors.
         """
+
         area.noise_level += base_alarm_increase
         # logger.debug(f"Changed noise level for area: {area.name} to {area.noise_level:.2f}")
 
@@ -1291,7 +1374,7 @@ class GameController:
 
                 if agent.take_action('look_around', entity):
 
-                    # This assumes objectives are stationary
+                    # This assumes Objectives are stationary
                     if isinstance(entity, Objective):
                         entity.set_explored(2)
                     else:
@@ -1347,7 +1430,8 @@ class GameController:
 
     def hide(self, agent):
         area = agent.area
-        hostile_values = [agent.take_action('hide', hostile, modifier=area.hiding_modifier) for hostile in self.get_entities(Hostile, area)]
+        hostile_values = [agent.take_action('hide', hostile, modifier=area.hiding_modifier) for hostile in
+                          self.get_entities(Hostile, area)]
         result = all(hostile_values)
 
         agent.is_hidden = result if not self.agents_hidden else True
@@ -1357,9 +1441,8 @@ class GameController:
         return result
 
     def take_out(self, agent, hostile):
-        assert agent.area is hostile.area, f"Agent {agent.name} and hostile {hostile.name} must be in the same area to attempt take out."
-
-        self.hide(agent)
+        assert agent.area is hostile.area, (f"Agent {agent.name} and hostile {hostile.name} must be in the same area "
+                                            f"to attempt take out.")
 
         result = agent.take_action('take_out', hostile)
 
@@ -1372,20 +1455,62 @@ class GameController:
         return result
 
     def shoot(self, shooter, target):
-        assert shooter.area is target.area, f"Shooter {shooter.name} and target {target.name} must be in the same area."
-        self.is_hidden = False
+        """
+        Handles shooting action between two characters. Returns 2 if target killed, 1 if hit, 0 if miss.
+
+        Debug info shows all key values and state changes during the shooting process.
+        """
+        logger.debug(f"=== SHOOTING SEQUENCE START ===")
+        logger.debug(f"Shooter: {shooter.name} ({type(shooter).__name__})")
+        logger.debug(f"Target: {target.name} ({type(target).__name__})")
+        logger.debug(f"Initial states:")
+        logger.debug(f"  Shooter health: {shooter.health:.2f}")
+        logger.debug(f"  Shooter firearms skill: {shooter.skills['firearms']:.2f}")
+        logger.debug(f"  Shooter hidden: {shooter.is_hidden}")
+        logger.debug(f"  Target health: {target.health:.2f}")
+        logger.debug(f"  Target cover skill: {target.skills['cover']:.2f}")
+        logger.debug(f"  Area cover modifier: {shooter.area.cover_modifier:.2f}")
+
+        # Validate shooter and target are in same area
+        assert shooter.area is target.area, (
+            f"Shooter {shooter.name} in {shooter.area.name} "
+            f"cannot shoot target {target.name} in {target.area.name}"
+        )
+
+        # Shooting reveals position
+        shooter.is_hidden = False
+        logger.debug(f"Shooter revealed position: hidden = {shooter.is_hidden}")
+
         area = shooter.area
 
+        # Determine if shot hits
         hit = shooter.take_action('shoot', target)
+        logger.debug(f"Shot hit check result: {hit}")
 
+        # Calculate damage
         if hit:
-            shooter_res = random.gauss(shooter.skills['firearms'],
-                                       SKILL_SIGMA)  # Lower std deviation for more clustering
-            target_res = random.gauss(target.skills['cover'] + area.cover_modifier, SKILL_SIGMA)  # Lower std deviation
+            # Roll shooter effectiveness
+            shooter_res = random.gauss(
+                shooter.skills['firearms'],
+                SKILL_SIGMA
+            )
+            logger.debug(f"Shooter effectiveness roll: {shooter_res:.3f}")
+
+            # Roll target defense
+            total_cover = target.skills['cover'] + area.cover_modifier
+            target_res = random.gauss(total_cover, SKILL_SIGMA)
+            logger.debug(f"Target defense roll: {target_res:.3f}")
+            logger.debug(f"  From: cover skill ({target.skills['cover']:.2f}) + "
+                         f"area modifier ({area.cover_modifier:.2f})")
+
+            # Calculate final damage
             damage = max(0., min(.1, shooter_res - target_res))
+            logger.debug(f"Calculated damage: {damage:.3f}")
         else:
             damage = 0
+            logger.debug("Shot missed - no damage")
 
+        # Log the shooting event
         if isinstance(shooter, Agent):
             self.mission_log.append(f"{shooter.name}: Opened fire at {target.name}!")
         if isinstance(target, Agent):
@@ -1394,15 +1519,22 @@ class GameController:
             else:
                 self.mission_log.append(f"{target.name}: Under fire!")
 
+        # Apply damage and check for death
+        old_health = target.health
         target.health -= damage
+        logger.debug(f"Target health: {old_health:.2f} -> {target.health:.2f}")
+
         if target.health <= 0:
+            logger.debug(f"Target {target.name} killed")
             if isinstance(shooter, Agent):
                 self.mission_log.append(f"{shooter.name}: Target down!")
             elif isinstance(target, Agent):
                 self.mission_log.append(f"Mission Control: Agent Down!")
             self.world.remove_entity(target)
+            logger.debug("=== SHOOTING SEQUENCE END (TARGET KILLED) ===")
             return 2
 
+        logger.debug(f"=== SHOOTING SEQUENCE END (DAMAGE: {damage:.3f}) ===")
         return damage > 0
 
     def silent_shoot(self, shooter, target):

@@ -1,4 +1,3 @@
-
 """
 Connection codes:
 
@@ -48,7 +47,7 @@ def add_template_guards(areas_dict, config, world):
 
     hostiles = []
     guard_stats = config.get("template_guard_stats", {})
-
+    logger.debug(f"Template guard stats from config: {guard_stats}")
 
     # Helper function to generate a patrol route
     def generate_patrol_route(start_area_id, length):
@@ -95,7 +94,9 @@ def add_template_guards(areas_dict, config, world):
             "patrol_route": [areas_dict[area_id]],  # Single area for stationary guards
             **guard_stats
         }
+        logger.debug(f"Creating guard with data: {guard_data}")
         hostile = Hostile(**guard_data, world=world)
+        logger.debug(f"Guard created with skills: {hostile.skills}")
         hostiles.append(hostile)
 
     # Create patrolling guards
@@ -110,8 +111,11 @@ def add_template_guards(areas_dict, config, world):
             **guard_stats
         }
         hostile = Hostile(**guard_data, world=world)
+        logger.debug(f"Guard initial skills: {hostile.skills}")
+
         hostiles.append(hostile)
     return hostiles
+
 
 def main(config_path, mode, agents_hidden, hostiles_visible):
     # Load configuration from JSON file
@@ -185,13 +189,11 @@ def main(config_path, mode, agents_hidden, hostiles_visible):
         hostile_data["patrol_route"] = list(map(lambda x: areas[x], hostile_data.pop("patrol_route")))
         Hostile(**hostile_data, world=world)
 
-
     for objective_data in config["objectives"]:
         area_data = objective_data.pop("area")
         if area_data is None:
             # randomize a room
             area_data = random.choice([area_id for area_id in areas.keys() if area_id.startswith("r")])
-
 
         area = areas[area_data]
         Objective(**objective_data, area=area, world=world)
@@ -202,10 +204,12 @@ def main(config_path, mode, agents_hidden, hostiles_visible):
     game_map = GameMap(areas=list(areas.values()))
 
     # Create the GameController instance
-    gc = GameController(world=world, game_map=game_map, mode=mode, agents_hidden=agents_hidden, hostiles_visible=hostiles_visible)
+    gc = GameController(world=world, game_map=game_map, mode=mode, agents_hidden=agents_hidden,
+                        hostiles_visible=hostiles_visible)
 
     gui = GUI(config_path, gc)
     gui.run()
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run the game with specified configuration.")

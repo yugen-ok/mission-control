@@ -3,6 +3,11 @@ DEBUG_MODE = False
 
 GUARD_STAY_PROB = .8
 
+# Modifier to spotting connections by looking around
+# Meant to offset agents with lower observation skill
+DEFAULT_SPOT_DIFFICULTY = -.2
+
+
 AREA_MOD_PROB = .05
 
 PEEK_MOD = -.2

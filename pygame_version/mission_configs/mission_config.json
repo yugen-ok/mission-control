@@ -685,27 +685,11 @@
 
       "stealth": 1.0,
       "firearms": 0.8,
-      "cover": 0.8,
+      "cover": 0.2,
       "hand_to_hand": 1.0,
       "hacking": 0.6,
       "observation": 0.8,
       "acrobatics": 1.0,
-      "inventory": []
-    },
-    {
-      "name": "Glitch",
-      "area": "s6",
-      "description": "A technical expert.",
-      "health": 0.8,
-      "resilience": 0.8,
-
-      "stealth": 0.8,
-      "firearms": 0.8,
-      "cover": 0.8,
-      "hand_to_hand": 0.8,
-      "hacking": 1.0,
-      "observation": 1.0,
-      "acrobatics": 0.8,
       "inventory": []
     }
   ],
@@ -739,8 +723,8 @@
       "health": 0.6,
       "observation": 0,
       "hand_to_hand": 0,
-      "firearms": 0.3,
-      "cover": 0.2
+      "firearms": 0.5,
+      "cover": 0.1
     },
   "mapWidth": 600,
   "mapHeight": 1200
