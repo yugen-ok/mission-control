@@ -413,7 +413,7 @@ class GUI:
                                   objective.area == area]
 
             for objective in objectives_in_area:
-                if objective.get_explored() > 1:
+                if objective.get_explored() > 0:
                     previous_state = random.getstate()
 
                     unique_seed = encode_uuids_to_integer(area.id, objective.id)
@@ -619,10 +619,12 @@ class GUI:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:  # Submit message
                 if self.chat_input.strip():
-                    control_message = 'Control: ' + self.chat_input.strip()
-                    self.chat_messages.append(control_message)
-                    self.chat_input = ""
-                    self.gc.mission_log.append(control_message, push_to_queue=False)
+
+                    if self.gc.mode in ['auto', 'a']:
+                        control_message = 'Control: ' + self.chat_input.strip()
+                        self.chat_messages.append(control_message)
+                        self.chat_input = ""
+                        self.gc.mission_log.append(control_message, push_to_queue=False)
                 self.gc.process_turn()
 
                 while len(self.gc.mission_log.print_queue) > 0:

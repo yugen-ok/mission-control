@@ -383,7 +383,6 @@
       "height": 100,
       "color": "#E8E8E8",
       "connections": {
-        "r21": 1,
         "c5": 1
       },
       "name": "Room 19"
@@ -569,7 +568,6 @@
       "height": 100,
       "color": "#E8E8E8",
       "connections": {
-        "r31": 0
       },
       "name": "Room 30"
 ,
@@ -679,7 +677,7 @@
     {
       "name": "Viper",
       "area": "s6",
-      "description": "A stealth and investigation expert.",
+      "description": "A stealth and investigation expert",
       "health": 0.9,
       "resilience": 0.9,
 
@@ -690,6 +688,22 @@
       "hacking": 0.6,
       "observation": 0.8,
       "acrobatics": 1.0,
+      "inventory": []
+    },
+    {
+      "name": "Glitch",
+      "area": "s6",
+      "description": "A technical expert.",
+      "health": 0.8,
+      "resilience": 0.8,
+
+      "stealth": 0.8,
+      "firearms": 0.8,
+      "cover": 0.2,
+      "hand_to_hand": 0.8,
+      "hacking": 1.0,
+      "observation": 1.0,
+      "acrobatics": 0.8,
       "inventory": []
     }
   ],
@@ -718,7 +732,7 @@
       "required_skill": "observation"
     }
   ],
-  "n_template_guards": 10,
+  "n_template_guards": 18,
   "template_guard_stats" : {
       "health": 0.6,
       "observation": 0,

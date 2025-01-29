@@ -49,6 +49,7 @@ global has_reached_th
 # - smoke/flashbang/noise grenades (+ protective goggles/headset)
 # - peek makes more noise in ajacent areas
 # - implement psychology: resilience
+# - Agent personalities
 # - stabilize wounded agents
 # - carry bodies
 # - some agents want to do more, so if you tell them to stand down they might go in anyway
@@ -289,11 +290,12 @@ class Agent(Character):
 
         # Peek, sneak and charge actions: require an adjacent area that is explored
         if accessible_areas:
-            action_args['peek'] = action_args['sneak'] = action_args['charge'] = [{'id': area.id, 'name': area.name} for
+            action_args['sneak'] = action_args['charge'] = [{'id': area.id, 'name': area.name} for
                                                                                   area in
                                                                                   accessible_areas]
-
-        action_args['investigate'] = []
+            # I'm separating this forr easy switching
+            # action_args['peek'] = action_args['sneak']
+        # action_args['investigate'] = []
 
         # Shoot action: requires hostiles in the current area
         hostiles_in_area = [entity for entity in self.area.entities if isinstance(entity, Hostile)]
@@ -336,7 +338,7 @@ class Agent(Character):
         action_arguments = self.generate_action_arguments()
 
         available_actions_desc = (
-            "Here are the actions you can take, along with their descriptions and required arguments:\n"
+            "Here are the actions you can take, along with their descriptions and required argument:\n"
         )
 
         # Describe each action with its EXACT required arguments
@@ -345,23 +347,28 @@ class Agent(Character):
             if arguments:
                 # Show both ID and name but make it very clear which is the ID to use
                 argument_details = ", ".join([f"ID {arg['id']} (of entity: {arg['name']})" for arg in arguments])
-                available_actions_desc += f"- {action}: Must use these exact IDs - {argument_details}\n"
+                available_actions_desc += f"- {action}: Must use one of these exact IDs - {argument_details}\n"
             else:
-                available_actions_desc += f"- {action}: No arguments required\n"
+                available_actions_desc += f"- {action}: No argument required\n"
 
         instruction = (
             "Decide on your next move based on the current status, Mission Control's commands, and available actions.\n"
+            "Unless Mission Control says otherwise, your goal is to "
             "You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.\n"
-            "You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.\n"
-            "You MUST pick an action and arguments EXACTLY as listed above.\n"
-            "Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.\n"
+            "You should interpret mission control's commands as one of the available actions as provided above.\n"
+            "If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.\n"
+            "You MUST pick an action and an argument EXACTLY as listed above.\n"
+            "Under no circumstance may you make an action which is not listed in the provided options above. "
+            "These reprersent the actions you may take given your situation and abilities, "
+            "so it is physically impossible for you to do anything else in the game world.\n"
             "Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.\n"
             "Your response should only include this JSON dictionary, nothing else.\n"
             "- The 'action' field should contain the name of the action you want to take.\n"
-            "- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.\n"
-            "- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.\n"
-            "Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.\n"
-            "For actions requiring arguments, you must use one of the IDs listed above - no other IDs will work."
+            "- The 'arguments' field should be a singleton list of the ID of the selected argument, chosen from the available arguments listed above. "
+            "If no arguments are needed, return an empty list.\n"
+            "- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific argument.\n"
+            "Ensure that your chosen arguments match the options provided for each action, if the action requires an argument.\n"
+            "For actions requiring an argument, you must use one of the IDs listed above - no other IDs will work."
         )
 
         prompt = (
@@ -1367,6 +1374,7 @@ class GameController:
 
             # Update the current area and the target area's entities list
             self.change_area(agent, target_area)
+            agent.is_hidden = False
 
             # Mark the area and objects as explored
             target_area.set_explored(1)

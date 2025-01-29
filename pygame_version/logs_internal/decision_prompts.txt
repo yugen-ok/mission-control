@@ -4,68 +4,75 @@ Viper:
  Mission intel:
 
 Areas:
-  - ID: 1d81cb80-b6ee-449c-94ec-7e4ea3697f72
+  - ID: d1c85919-faf3-43ab-87fd-1f4b51d709d3
     Name: Courtyard
     Description: 
     Connections: Street 1, Street 3
-  - ID: 4e0100f4-5899-400d-9033-5f6b859fd3fd
+  - ID: d9b37c25-6728-4198-986f-02d6ad8dfb75
     Name: Street 1
     Description: 
     Connections: Courtyard, Street 3
-  - ID: 6429c89c-cc0f-41ed-be3d-5c617d3eeb3c
+  - ID: 31de8801-70ba-4996-bda9-bd85936a0dad
     Name: Street 3
-    Description: 
+    Description:  Offers some extra cover
     Connections: Courtyard, Street 1, Street 4
-  - ID: a7653d2d-75c4-4f49-8425-0883ccc94387
+  - ID: ae8aab91-da21-44b5-bbd1-836e81becc0d
     Name: Room 22
     Description: 
     Connections: Room 23, Street 6
-  - ID: 5a0bc1df-dcf5-48d7-bd44-33e53bea0b19
+  - ID: 83137615-79ca-4f91-a816-83ac5f99232d
     Name: Room 23
     Description: 
     Connections: Room 22, Street 6
-  - ID: 553f666b-d299-466b-8d4b-bfee084c310a
+  - ID: 4854e58d-a06a-4409-929e-115f77b4de15
     Name: C6
     Description: 
     Connections: Street 6
-  - ID: 3b0f9d0c-a96e-4d42-b4d2-a7a5c0fc17ee
+  - ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec
+    Name: Room 32
+    Description: 
+    Connections: Street 6
+  - ID: 71535138-c59f-4623-9cce-942974b8d653
     Name: Street 4
     Description: 
     Connections: Street 3, Street 6
-  - ID: f58e6c5b-0c96-4caa-b072-47c3e3dba880
+  - ID: a3d597ad-db59-4996-b9a9-3a4a95705070
     Name: Street 5
     Description: 
     Connections: Street 6
-  - ID: 201cfae9-0364-443f-add4-9946b396a2a2
+  - ID: bc94e496-5dad-49c8-b38c-8efd491a7d8c
     Name: Street 6
     Description: 
-    Connections: C6, Street 4, Street 5, Room 22, Room 23
+    Connections: C6, Street 4, Street 5, Room 32, Room 22, Room 23
 
 Agents:
-  - ID: ff5ea473-9dba-4d63-8b6f-8f55092c2876
+  - ID: b8ff22c9-e1a1-40b2-8f44-27aeb400df8d
     Name: Viper
-    Description: A stealth and investigation expert.
+    Description: A stealth and investigation expert
+  - ID: aa164035-89ad-48af-bf17-3e6ce23e3c30
+    Name: Glitch
+    Description: A technical expert.
 
 Hostiles:
-  - ID: 62ac410a-c60b-419c-9163-f5dc093715e9
-    Name: Guard 8
+  - ID: fbb5ba44-6a20-4466-b21e-0afdb46f7468
+    Name: Guard 5
     Description: 
 
 Objectives:
-  - ID: f6bb210e-f8e7-4721-9371-9bf0d8f77de0
+  - ID: 3f7f2454-d0b2-4796-a2fa-458171c958aa
     Name: Security Server 1
     Description: 
-  - ID: 29c7a6fd-8a35-46e9-ac75-8ec1c982417b
+  - ID: 30261acd-126c-4c82-a84c-e2914a743901
     Name: Security Server 2
     Description: 
-  - ID: 2efdff60-4d55-45b9-8d5a-f6df7a9f80eb
+  - ID: fcd561f1-fdb4-4b6d-88f2-3314c898a6c4
     Name: Confidential Files
     Description: 
 
 -----------------
 
 Mission Log:
-Control: 
+
 
 -----------------
 
@@ -74,36 +81,150 @@ Your task is to find and capture all objectives in the field, avoid detection by
 Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 0.80/1.
 
 You are currently in the following area: Street 6 : .
-It contains the following objects: Viper: A stealth and investigation expert.
-Guard 8: .
-It is connected to the following areas: C6 (ID: 553f666b-d299-466b-8d4b-bfee084c310a), Street 4 (ID: 3b0f9d0c-a96e-4d42-b4d2-a7a5c0fc17ee), Street 5 (ID: f58e6c5b-0c96-4caa-b072-47c3e3dba880), Room 32 (ID: 0a0a469d-53aa-4272-b3d5-15f321a4ed65), Room 22 (ID: a7653d2d-75c4-4f49-8425-0883ccc94387), Room 23 (ID: 5a0bc1df-dcf5-48d7-bd44-33e53bea0b19)
+It contains the following objects: Viper: A stealth and investigation expert
+Glitch: A technical expert.
+Guard 5: .
+It is connected to the following areas: C6 (ID: 4854e58d-a06a-4409-929e-115f77b4de15), Street 4 (ID: 71535138-c59f-4623-9cce-942974b8d653), Street 5 (ID: a3d597ad-db59-4996-b9a9-3a4a95705070), Room 32 (ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec), Room 22 (ID: ae8aab91-da21-44b5-bbd1-836e81becc0d), Room 23 (ID: 83137615-79ca-4f91-a816-83ac5f99232d)
 
 
 ================
 INSTRUCTIONS:
-Here are the actions you can take, along with their descriptions and required arguments:
-- wait: No arguments required
-- peek: Must use these exact IDs - ID 553f666b-d299-466b-8d4b-bfee084c310a (of entity: C6), ID 3b0f9d0c-a96e-4d42-b4d2-a7a5c0fc17ee (of entity: Street 4), ID f58e6c5b-0c96-4caa-b072-47c3e3dba880 (of entity: Street 5), ID a7653d2d-75c4-4f49-8425-0883ccc94387 (of entity: Room 22), ID 5a0bc1df-dcf5-48d7-bd44-33e53bea0b19 (of entity: Room 23)
-- sneak: Must use these exact IDs - ID 553f666b-d299-466b-8d4b-bfee084c310a (of entity: C6), ID 3b0f9d0c-a96e-4d42-b4d2-a7a5c0fc17ee (of entity: Street 4), ID f58e6c5b-0c96-4caa-b072-47c3e3dba880 (of entity: Street 5), ID a7653d2d-75c4-4f49-8425-0883ccc94387 (of entity: Room 22), ID 5a0bc1df-dcf5-48d7-bd44-33e53bea0b19 (of entity: Room 23)
-- charge: Must use these exact IDs - ID 553f666b-d299-466b-8d4b-bfee084c310a (of entity: C6), ID 3b0f9d0c-a96e-4d42-b4d2-a7a5c0fc17ee (of entity: Street 4), ID f58e6c5b-0c96-4caa-b072-47c3e3dba880 (of entity: Street 5), ID a7653d2d-75c4-4f49-8425-0883ccc94387 (of entity: Room 22), ID 5a0bc1df-dcf5-48d7-bd44-33e53bea0b19 (of entity: Room 23)
-- investigate: No arguments required
-- shoot: Must use these exact IDs - ID 62ac410a-c60b-419c-9163-f5dc093715e9 (of entity: Guard 8)
-- take_out: Must use these exact IDs - ID 62ac410a-c60b-419c-9163-f5dc093715e9 (of entity: Guard 8)
-- exfiltrate: No arguments required
+Here are the actions you can take, along with their descriptions and required argument:
+- wait: No argument required
+- sneak: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- charge: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- shoot: Must use one of these exact IDs - ID fbb5ba44-6a20-4466-b21e-0afdb46f7468 (of entity: Guard 5)
+- exfiltrate: No argument required
 
 
 Decide on your next move based on the current status, Mission Control's commands, and available actions.
-You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
-You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
-You MUST pick an action and arguments EXACTLY as listed above.
+Unless Mission Control says otherwise, your goal is to You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above.
+If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+You MUST pick an action and an argument EXACTLY as listed above.
 Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
 Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
 Your response should only include this JSON dictionary, nothing else.
 - The 'action' field should contain the name of the action you want to take.
-- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
-- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.
-Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.
-For actions requiring arguments, you must use one of the IDs listed above - no other IDs will work.
+- The 'arguments' field should be a singleton list of the ID of the selected argument, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific argument.
+Ensure that your chosen arguments match the options provided for each action, if the action requires an argument.
+For actions requiring an argument, you must use one of the IDs listed above - no other IDs will work.
+
+==========================
+
+Glitch:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: d1c85919-faf3-43ab-87fd-1f4b51d709d3
+    Name: Courtyard
+    Description: 
+    Connections: Street 1, Street 3
+  - ID: d9b37c25-6728-4198-986f-02d6ad8dfb75
+    Name: Street 1
+    Description: 
+    Connections: Courtyard, Street 3
+  - ID: 31de8801-70ba-4996-bda9-bd85936a0dad
+    Name: Street 3
+    Description:  Offers some extra cover
+    Connections: Courtyard, Street 1, Street 4
+  - ID: ae8aab91-da21-44b5-bbd1-836e81becc0d
+    Name: Room 22
+    Description: 
+    Connections: Room 23, Street 6
+  - ID: 83137615-79ca-4f91-a816-83ac5f99232d
+    Name: Room 23
+    Description: 
+    Connections: Room 22, Street 6
+  - ID: 4854e58d-a06a-4409-929e-115f77b4de15
+    Name: C6
+    Description: 
+    Connections: Street 6
+  - ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec
+    Name: Room 32
+    Description: 
+    Connections: Street 6
+  - ID: 71535138-c59f-4623-9cce-942974b8d653
+    Name: Street 4
+    Description: 
+    Connections: Street 3, Street 6
+  - ID: a3d597ad-db59-4996-b9a9-3a4a95705070
+    Name: Street 5
+    Description: 
+    Connections: Street 6
+  - ID: bc94e496-5dad-49c8-b38c-8efd491a7d8c
+    Name: Street 6
+    Description: 
+    Connections: C6, Street 4, Street 5, Room 32, Room 22, Room 23
+
+Agents:
+  - ID: b8ff22c9-e1a1-40b2-8f44-27aeb400df8d
+    Name: Viper
+    Description: A stealth and investigation expert
+  - ID: aa164035-89ad-48af-bf17-3e6ce23e3c30
+    Name: Glitch
+    Description: A technical expert.
+
+Hostiles:
+  - ID: fbb5ba44-6a20-4466-b21e-0afdb46f7468
+    Name: Guard 5
+    Description: 
+
+Objectives:
+  - ID: 3f7f2454-d0b2-4796-a2fa-458171c958aa
+    Name: Security Server 1
+    Description: 
+  - ID: 30261acd-126c-4c82-a84c-e2914a743901
+    Name: Security Server 2
+    Description: 
+  - ID: fcd561f1-fdb4-4b6d-88f2-3314c898a6c4
+    Name: Confidential Files
+    Description: 
+
+-----------------
+
+Mission Log:
+
+
+-----------------
+
+You are Glitch, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: Street 6 : .
+It contains the following objects: Viper: A stealth and investigation expert
+Glitch: A technical expert.
+Guard 5: .
+It is connected to the following areas: C6 (ID: 4854e58d-a06a-4409-929e-115f77b4de15), Street 4 (ID: 71535138-c59f-4623-9cce-942974b8d653), Street 5 (ID: a3d597ad-db59-4996-b9a9-3a4a95705070), Room 32 (ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec), Room 22 (ID: ae8aab91-da21-44b5-bbd1-836e81becc0d), Room 23 (ID: 83137615-79ca-4f91-a816-83ac5f99232d)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required argument:
+- wait: No argument required
+- sneak: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- charge: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- shoot: Must use one of these exact IDs - ID fbb5ba44-6a20-4466-b21e-0afdb46f7468 (of entity: Guard 5)
+- exfiltrate: No argument required
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+Unless Mission Control says otherwise, your goal is to You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above.
+If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+You MUST pick an action and an argument EXACTLY as listed above.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a singleton list of the ID of the selected argument, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific argument.
+Ensure that your chosen arguments match the options provided for each action, if the action requires an argument.
+For actions requiring an argument, you must use one of the IDs listed above - no other IDs will work.
 
 ==========================
 
@@ -113,109 +234,231 @@ Viper:
  Mission intel:
 
 Areas:
-  - ID: 1d81cb80-b6ee-449c-94ec-7e4ea3697f72
+  - ID: d1c85919-faf3-43ab-87fd-1f4b51d709d3
     Name: Courtyard
     Description: 
     Connections: Street 1, Street 3
-  - ID: 4e0100f4-5899-400d-9033-5f6b859fd3fd
+  - ID: d9b37c25-6728-4198-986f-02d6ad8dfb75
     Name: Street 1
     Description: 
     Connections: Courtyard, Street 3
-  - ID: 6429c89c-cc0f-41ed-be3d-5c617d3eeb3c
+  - ID: 31de8801-70ba-4996-bda9-bd85936a0dad
     Name: Street 3
-    Description: 
+    Description:  Offers some extra cover
     Connections: Courtyard, Street 1, Street 4
-  - ID: a7653d2d-75c4-4f49-8425-0883ccc94387
+  - ID: ae8aab91-da21-44b5-bbd1-836e81becc0d
     Name: Room 22
     Description: 
     Connections: Room 23, Street 6
-  - ID: 5a0bc1df-dcf5-48d7-bd44-33e53bea0b19
+  - ID: 83137615-79ca-4f91-a816-83ac5f99232d
     Name: Room 23
     Description: 
     Connections: Room 22, Street 6
-  - ID: 553f666b-d299-466b-8d4b-bfee084c310a
+  - ID: 4854e58d-a06a-4409-929e-115f77b4de15
     Name: C6
     Description: 
     Connections: Street 6
-  - ID: 3b0f9d0c-a96e-4d42-b4d2-a7a5c0fc17ee
+  - ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec
+    Name: Room 32
+    Description: 
+    Connections: Street 6
+  - ID: 71535138-c59f-4623-9cce-942974b8d653
     Name: Street 4
     Description: 
     Connections: Street 3, Street 6
-  - ID: f58e6c5b-0c96-4caa-b072-47c3e3dba880
+  - ID: a3d597ad-db59-4996-b9a9-3a4a95705070
     Name: Street 5
     Description: 
     Connections: Street 6
-  - ID: 201cfae9-0364-443f-add4-9946b396a2a2
+  - ID: bc94e496-5dad-49c8-b38c-8efd491a7d8c
     Name: Street 6
     Description: 
-    Connections: C6, Street 4, Street 5, Room 22, Room 23
+    Connections: C6, Street 4, Street 5, Room 32, Room 22, Room 23
 
 Agents:
-  - ID: ff5ea473-9dba-4d63-8b6f-8f55092c2876
+  - ID: b8ff22c9-e1a1-40b2-8f44-27aeb400df8d
     Name: Viper
-    Description: A stealth and investigation expert.
+    Description: A stealth and investigation expert
+  - ID: aa164035-89ad-48af-bf17-3e6ce23e3c30
+    Name: Glitch
+    Description: A technical expert.
 
 Hostiles:
-  - ID: 62ac410a-c60b-419c-9163-f5dc093715e9
-    Name: Guard 8
+  - ID: fbb5ba44-6a20-4466-b21e-0afdb46f7468
+    Name: Guard 5
     Description: 
 
 Objectives:
-  - ID: f6bb210e-f8e7-4721-9371-9bf0d8f77de0
+  - ID: 3f7f2454-d0b2-4796-a2fa-458171c958aa
     Name: Security Server 1
     Description: 
-  - ID: 29c7a6fd-8a35-46e9-ac75-8ec1c982417b
+  - ID: 30261acd-126c-4c82-a84c-e2914a743901
     Name: Security Server 2
     Description: 
-  - ID: 2efdff60-4d55-45b9-8d5a-f6df7a9f80eb
+  - ID: fcd561f1-fdb4-4b6d-88f2-3314c898a6c4
     Name: Confidential Files
     Description: 
 
 -----------------
 
 Mission Log:
-Control: 
-Viper: Opened fire at Guard 8!
-Viper: Under fire!
-Control: 
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Viper: I'm hit!
 
 -----------------
 
 You are Viper, an agent in the field.
 Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
-Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 0.80/1.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 0.89/1, and your observation skill is 0.80/1.
 
 You are currently in the following area: Street 6 : .
-It contains the following objects: Viper: A stealth and investigation expert.
-Guard 8: .
-It is connected to the following areas: C6 (ID: 553f666b-d299-466b-8d4b-bfee084c310a), Street 4 (ID: 3b0f9d0c-a96e-4d42-b4d2-a7a5c0fc17ee), Street 5 (ID: f58e6c5b-0c96-4caa-b072-47c3e3dba880), Room 32 (ID: 0a0a469d-53aa-4272-b3d5-15f321a4ed65), Room 22 (ID: a7653d2d-75c4-4f49-8425-0883ccc94387), Room 23 (ID: 5a0bc1df-dcf5-48d7-bd44-33e53bea0b19)
+It contains the following objects: Viper: A stealth and investigation expert
+Glitch: A technical expert.
+Guard 5: .
+It is connected to the following areas: C6 (ID: 4854e58d-a06a-4409-929e-115f77b4de15), Street 4 (ID: 71535138-c59f-4623-9cce-942974b8d653), Street 5 (ID: a3d597ad-db59-4996-b9a9-3a4a95705070), Room 32 (ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec), Room 22 (ID: ae8aab91-da21-44b5-bbd1-836e81becc0d), Room 23 (ID: 83137615-79ca-4f91-a816-83ac5f99232d)
 
 
 ================
 INSTRUCTIONS:
-Here are the actions you can take, along with their descriptions and required arguments:
-- wait: No arguments required
-- peek: Must use these exact IDs - ID 553f666b-d299-466b-8d4b-bfee084c310a (of entity: C6), ID 3b0f9d0c-a96e-4d42-b4d2-a7a5c0fc17ee (of entity: Street 4), ID f58e6c5b-0c96-4caa-b072-47c3e3dba880 (of entity: Street 5), ID a7653d2d-75c4-4f49-8425-0883ccc94387 (of entity: Room 22), ID 5a0bc1df-dcf5-48d7-bd44-33e53bea0b19 (of entity: Room 23)
-- sneak: Must use these exact IDs - ID 553f666b-d299-466b-8d4b-bfee084c310a (of entity: C6), ID 3b0f9d0c-a96e-4d42-b4d2-a7a5c0fc17ee (of entity: Street 4), ID f58e6c5b-0c96-4caa-b072-47c3e3dba880 (of entity: Street 5), ID a7653d2d-75c4-4f49-8425-0883ccc94387 (of entity: Room 22), ID 5a0bc1df-dcf5-48d7-bd44-33e53bea0b19 (of entity: Room 23)
-- charge: Must use these exact IDs - ID 553f666b-d299-466b-8d4b-bfee084c310a (of entity: C6), ID 3b0f9d0c-a96e-4d42-b4d2-a7a5c0fc17ee (of entity: Street 4), ID f58e6c5b-0c96-4caa-b072-47c3e3dba880 (of entity: Street 5), ID a7653d2d-75c4-4f49-8425-0883ccc94387 (of entity: Room 22), ID 5a0bc1df-dcf5-48d7-bd44-33e53bea0b19 (of entity: Room 23)
-- investigate: No arguments required
-- shoot: Must use these exact IDs - ID 62ac410a-c60b-419c-9163-f5dc093715e9 (of entity: Guard 8)
-- take_out: Must use these exact IDs - ID 62ac410a-c60b-419c-9163-f5dc093715e9 (of entity: Guard 8)
-- exfiltrate: No arguments required
+Here are the actions you can take, along with their descriptions and required argument:
+- wait: No argument required
+- sneak: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- charge: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- shoot: Must use one of these exact IDs - ID fbb5ba44-6a20-4466-b21e-0afdb46f7468 (of entity: Guard 5)
+- exfiltrate: No argument required
 
 
 Decide on your next move based on the current status, Mission Control's commands, and available actions.
-You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
-You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
-You MUST pick an action and arguments EXACTLY as listed above.
+Unless Mission Control says otherwise, your goal is to You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above.
+If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+You MUST pick an action and an argument EXACTLY as listed above.
 Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
 Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
 Your response should only include this JSON dictionary, nothing else.
 - The 'action' field should contain the name of the action you want to take.
-- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
-- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.
-Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.
-For actions requiring arguments, you must use one of the IDs listed above - no other IDs will work.
+- The 'arguments' field should be a singleton list of the ID of the selected argument, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific argument.
+Ensure that your chosen arguments match the options provided for each action, if the action requires an argument.
+For actions requiring an argument, you must use one of the IDs listed above - no other IDs will work.
+
+==========================
+
+Glitch:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: d1c85919-faf3-43ab-87fd-1f4b51d709d3
+    Name: Courtyard
+    Description: 
+    Connections: Street 1, Street 3
+  - ID: d9b37c25-6728-4198-986f-02d6ad8dfb75
+    Name: Street 1
+    Description: 
+    Connections: Courtyard, Street 3
+  - ID: 31de8801-70ba-4996-bda9-bd85936a0dad
+    Name: Street 3
+    Description:  Offers some extra cover
+    Connections: Courtyard, Street 1, Street 4
+  - ID: ae8aab91-da21-44b5-bbd1-836e81becc0d
+    Name: Room 22
+    Description: 
+    Connections: Room 23, Street 6
+  - ID: 83137615-79ca-4f91-a816-83ac5f99232d
+    Name: Room 23
+    Description: 
+    Connections: Room 22, Street 6
+  - ID: 4854e58d-a06a-4409-929e-115f77b4de15
+    Name: C6
+    Description: 
+    Connections: Street 6
+  - ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec
+    Name: Room 32
+    Description: 
+    Connections: Street 6
+  - ID: 71535138-c59f-4623-9cce-942974b8d653
+    Name: Street 4
+    Description: 
+    Connections: Street 3, Street 6
+  - ID: a3d597ad-db59-4996-b9a9-3a4a95705070
+    Name: Street 5
+    Description: 
+    Connections: Street 6
+  - ID: bc94e496-5dad-49c8-b38c-8efd491a7d8c
+    Name: Street 6
+    Description: 
+    Connections: C6, Street 4, Street 5, Room 32, Room 22, Room 23
+
+Agents:
+  - ID: b8ff22c9-e1a1-40b2-8f44-27aeb400df8d
+    Name: Viper
+    Description: A stealth and investigation expert
+  - ID: aa164035-89ad-48af-bf17-3e6ce23e3c30
+    Name: Glitch
+    Description: A technical expert.
+
+Hostiles:
+  - ID: fbb5ba44-6a20-4466-b21e-0afdb46f7468
+    Name: Guard 5
+    Description: 
+
+Objectives:
+  - ID: 3f7f2454-d0b2-4796-a2fa-458171c958aa
+    Name: Security Server 1
+    Description: 
+  - ID: 30261acd-126c-4c82-a84c-e2914a743901
+    Name: Security Server 2
+    Description: 
+  - ID: fcd561f1-fdb4-4b6d-88f2-3314c898a6c4
+    Name: Confidential Files
+    Description: 
+
+-----------------
+
+Mission Log:
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Viper: I'm hit!
+
+-----------------
+
+You are Glitch, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: Street 6 : .
+It contains the following objects: Viper: A stealth and investigation expert
+Glitch: A technical expert.
+Guard 5: .
+It is connected to the following areas: C6 (ID: 4854e58d-a06a-4409-929e-115f77b4de15), Street 4 (ID: 71535138-c59f-4623-9cce-942974b8d653), Street 5 (ID: a3d597ad-db59-4996-b9a9-3a4a95705070), Room 32 (ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec), Room 22 (ID: ae8aab91-da21-44b5-bbd1-836e81becc0d), Room 23 (ID: 83137615-79ca-4f91-a816-83ac5f99232d)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required argument:
+- wait: No argument required
+- sneak: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- charge: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- shoot: Must use one of these exact IDs - ID fbb5ba44-6a20-4466-b21e-0afdb46f7468 (of entity: Guard 5)
+- exfiltrate: No argument required
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+Unless Mission Control says otherwise, your goal is to You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above.
+If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+You MUST pick an action and an argument EXACTLY as listed above.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a singleton list of the ID of the selected argument, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific argument.
+Ensure that your chosen arguments match the options provided for each action, if the action requires an argument.
+For actions requiring an argument, you must use one of the IDs listed above - no other IDs will work.
 
 ==========================
 
@@ -225,122 +468,741 @@ Viper:
  Mission intel:
 
 Areas:
-  - ID: 1d81cb80-b6ee-449c-94ec-7e4ea3697f72
+  - ID: d1c85919-faf3-43ab-87fd-1f4b51d709d3
     Name: Courtyard
     Description: 
     Connections: Street 1, Street 3
-  - ID: 4e0100f4-5899-400d-9033-5f6b859fd3fd
+  - ID: d9b37c25-6728-4198-986f-02d6ad8dfb75
     Name: Street 1
     Description: 
     Connections: Courtyard, Street 3
-  - ID: 6429c89c-cc0f-41ed-be3d-5c617d3eeb3c
+  - ID: 31de8801-70ba-4996-bda9-bd85936a0dad
     Name: Street 3
-    Description: 
+    Description:  Offers some extra cover
     Connections: Courtyard, Street 1, Street 4
-  - ID: 58e7e9c9-ddde-4fe3-ac3f-70c150f5a324
-    Name: Room 20
-    Description: 
-    Connections: C6
-  - ID: 4f7161bd-c1e6-4bfa-b628-f80089dafd06
-    Name: C5
-    Description: 
-    Connections: Room 22, Room 23, C6
-  - ID: a7653d2d-75c4-4f49-8425-0883ccc94387
+  - ID: ae8aab91-da21-44b5-bbd1-836e81becc0d
     Name: Room 22
     Description: 
-    Connections: C5, Room 23, Street 6
-  - ID: 5a0bc1df-dcf5-48d7-bd44-33e53bea0b19
+    Connections: Room 23, Street 6
+  - ID: 83137615-79ca-4f91-a816-83ac5f99232d
     Name: Room 23
     Description: 
-    Connections: C5, Room 22, Street 6
-  - ID: f152ddba-23da-4568-b8e3-1027fd0842b8
-    Name: Room 24
-    Description: 
-    Connections: C6
-  - ID: 553f666b-d299-466b-8d4b-bfee084c310a
+    Connections: Room 22, Street 6
+  - ID: 4854e58d-a06a-4409-929e-115f77b4de15
     Name: C6
     Description: 
-    Connections: C5, Room 24, Street 6, Room 20
-  - ID: 3b0f9d0c-a96e-4d42-b4d2-a7a5c0fc17ee
+    Connections: Street 6
+  - ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec
+    Name: Room 32
+    Description: 
+    Connections: Street 6
+  - ID: 71535138-c59f-4623-9cce-942974b8d653
     Name: Street 4
     Description: 
     Connections: Street 3, Street 6
-  - ID: f58e6c5b-0c96-4caa-b072-47c3e3dba880
+  - ID: a3d597ad-db59-4996-b9a9-3a4a95705070
     Name: Street 5
     Description: 
     Connections: Street 6
-  - ID: 201cfae9-0364-443f-add4-9946b396a2a2
+  - ID: bc94e496-5dad-49c8-b38c-8efd491a7d8c
     Name: Street 6
     Description: 
-    Connections: C6, Street 4, Street 5, Room 22, Room 23
+    Connections: C6, Street 4, Street 5, Room 32, Room 22, Room 23
 
 Agents:
-  - ID: ff5ea473-9dba-4d63-8b6f-8f55092c2876
+  - ID: b8ff22c9-e1a1-40b2-8f44-27aeb400df8d
     Name: Viper
-    Description: A stealth and investigation expert.
+    Description: A stealth and investigation expert
+  - ID: aa164035-89ad-48af-bf17-3e6ce23e3c30
+    Name: Glitch
+    Description: A technical expert.
 
 Hostiles:
-  - ID: 62ac410a-c60b-419c-9163-f5dc093715e9
-    Name: Guard 8
+  - ID: fbb5ba44-6a20-4466-b21e-0afdb46f7468
+    Name: Guard 5
     Description: 
 
 Objectives:
-  - ID: f6bb210e-f8e7-4721-9371-9bf0d8f77de0
+  - ID: 3f7f2454-d0b2-4796-a2fa-458171c958aa
     Name: Security Server 1
     Description: 
-  - ID: 29c7a6fd-8a35-46e9-ac75-8ec1c982417b
+  - ID: 30261acd-126c-4c82-a84c-e2914a743901
     Name: Security Server 2
     Description: 
-  - ID: 2efdff60-4d55-45b9-8d5a-f6df7a9f80eb
+  - ID: fcd561f1-fdb4-4b6d-88f2-3314c898a6c4
     Name: Confidential Files
     Description: 
 
 -----------------
 
 Mission Log:
-Control: 
-Viper: Opened fire at Guard 8!
-Viper: Under fire!
-Control: 
-Viper: Moving to C6.
-Control: 
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Viper: I'm hit!
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Viper: I'm hit!
 
 -----------------
 
 You are Viper, an agent in the field.
 Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
-Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 0.80/1.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 0.78/1, and your observation skill is 0.80/1.
 
-You are currently in the following area: C6 : .
-It contains the following objects: Viper: A stealth and investigation expert.
-Guard 8: .
-It is connected to the following areas: C5 (ID: 4f7161bd-c1e6-4bfa-b628-f80089dafd06), Room 24 (ID: f152ddba-23da-4568-b8e3-1027fd0842b8), Street 6 (ID: 201cfae9-0364-443f-add4-9946b396a2a2), Room 20 (ID: 58e7e9c9-ddde-4fe3-ac3f-70c150f5a324)
+You are currently in the following area: Street 6 : .
+It contains the following objects: Viper: A stealth and investigation expert
+Glitch: A technical expert.
+Guard 5: .
+It is connected to the following areas: C6 (ID: 4854e58d-a06a-4409-929e-115f77b4de15), Street 4 (ID: 71535138-c59f-4623-9cce-942974b8d653), Street 5 (ID: a3d597ad-db59-4996-b9a9-3a4a95705070), Room 32 (ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec), Room 22 (ID: ae8aab91-da21-44b5-bbd1-836e81becc0d), Room 23 (ID: 83137615-79ca-4f91-a816-83ac5f99232d)
 
 
 ================
 INSTRUCTIONS:
-Here are the actions you can take, along with their descriptions and required arguments:
-- wait: No arguments required
-- peek: Must use these exact IDs - ID 4f7161bd-c1e6-4bfa-b628-f80089dafd06 (of entity: C5), ID f152ddba-23da-4568-b8e3-1027fd0842b8 (of entity: Room 24), ID 201cfae9-0364-443f-add4-9946b396a2a2 (of entity: Street 6), ID 58e7e9c9-ddde-4fe3-ac3f-70c150f5a324 (of entity: Room 20)
-- sneak: Must use these exact IDs - ID 4f7161bd-c1e6-4bfa-b628-f80089dafd06 (of entity: C5), ID f152ddba-23da-4568-b8e3-1027fd0842b8 (of entity: Room 24), ID 201cfae9-0364-443f-add4-9946b396a2a2 (of entity: Street 6), ID 58e7e9c9-ddde-4fe3-ac3f-70c150f5a324 (of entity: Room 20)
-- charge: Must use these exact IDs - ID 4f7161bd-c1e6-4bfa-b628-f80089dafd06 (of entity: C5), ID f152ddba-23da-4568-b8e3-1027fd0842b8 (of entity: Room 24), ID 201cfae9-0364-443f-add4-9946b396a2a2 (of entity: Street 6), ID 58e7e9c9-ddde-4fe3-ac3f-70c150f5a324 (of entity: Room 20)
-- investigate: No arguments required
-- shoot: Must use these exact IDs - ID 62ac410a-c60b-419c-9163-f5dc093715e9 (of entity: Guard 8)
-- take_out: Must use these exact IDs - ID 62ac410a-c60b-419c-9163-f5dc093715e9 (of entity: Guard 8)
+Here are the actions you can take, along with their descriptions and required argument:
+- wait: No argument required
+- sneak: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- charge: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- shoot: Must use one of these exact IDs - ID fbb5ba44-6a20-4466-b21e-0afdb46f7468 (of entity: Guard 5)
+- exfiltrate: No argument required
 
 
 Decide on your next move based on the current status, Mission Control's commands, and available actions.
-You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
-You should interpret mission control's commands as one of the available actions as provided above. If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
-You MUST pick an action and arguments EXACTLY as listed above.
+Unless Mission Control says otherwise, your goal is to You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above.
+If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+You MUST pick an action and an argument EXACTLY as listed above.
 Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
 Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
 Your response should only include this JSON dictionary, nothing else.
 - The 'action' field should contain the name of the action you want to take.
-- The 'arguments' field should be a list of IDs for the selected action, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
-- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific arguments.
-Ensure that your chosen arguments match the options provided for each action, if the action requires arguments.
-For actions requiring arguments, you must use one of the IDs listed above - no other IDs will work.
+- The 'arguments' field should be a singleton list of the ID of the selected argument, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific argument.
+Ensure that your chosen arguments match the options provided for each action, if the action requires an argument.
+For actions requiring an argument, you must use one of the IDs listed above - no other IDs will work.
+
+==========================
+
+Glitch:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: d1c85919-faf3-43ab-87fd-1f4b51d709d3
+    Name: Courtyard
+    Description: 
+    Connections: Street 1, Street 3
+  - ID: d9b37c25-6728-4198-986f-02d6ad8dfb75
+    Name: Street 1
+    Description: 
+    Connections: Courtyard, Street 3
+  - ID: 31de8801-70ba-4996-bda9-bd85936a0dad
+    Name: Street 3
+    Description:  Offers some extra cover
+    Connections: Courtyard, Street 1, Street 4
+  - ID: ae8aab91-da21-44b5-bbd1-836e81becc0d
+    Name: Room 22
+    Description: 
+    Connections: Room 23, Street 6
+  - ID: 83137615-79ca-4f91-a816-83ac5f99232d
+    Name: Room 23
+    Description: 
+    Connections: Room 22, Street 6
+  - ID: 4854e58d-a06a-4409-929e-115f77b4de15
+    Name: C6
+    Description: 
+    Connections: Street 6
+  - ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec
+    Name: Room 32
+    Description: 
+    Connections: Street 6
+  - ID: 71535138-c59f-4623-9cce-942974b8d653
+    Name: Street 4
+    Description: 
+    Connections: Street 3, Street 6
+  - ID: a3d597ad-db59-4996-b9a9-3a4a95705070
+    Name: Street 5
+    Description: 
+    Connections: Street 6
+  - ID: bc94e496-5dad-49c8-b38c-8efd491a7d8c
+    Name: Street 6
+    Description: 
+    Connections: C6, Street 4, Street 5, Room 32, Room 22, Room 23
+
+Agents:
+  - ID: b8ff22c9-e1a1-40b2-8f44-27aeb400df8d
+    Name: Viper
+    Description: A stealth and investigation expert
+  - ID: aa164035-89ad-48af-bf17-3e6ce23e3c30
+    Name: Glitch
+    Description: A technical expert.
+
+Hostiles:
+  - ID: fbb5ba44-6a20-4466-b21e-0afdb46f7468
+    Name: Guard 5
+    Description: 
+
+Objectives:
+  - ID: 3f7f2454-d0b2-4796-a2fa-458171c958aa
+    Name: Security Server 1
+    Description: 
+  - ID: 30261acd-126c-4c82-a84c-e2914a743901
+    Name: Security Server 2
+    Description: 
+  - ID: fcd561f1-fdb4-4b6d-88f2-3314c898a6c4
+    Name: Confidential Files
+    Description: 
+
+-----------------
+
+Mission Log:
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Viper: I'm hit!
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Viper: I'm hit!
+
+-----------------
+
+You are Glitch, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: Street 6 : .
+It contains the following objects: Viper: A stealth and investigation expert
+Glitch: A technical expert.
+Guard 5: .
+It is connected to the following areas: C6 (ID: 4854e58d-a06a-4409-929e-115f77b4de15), Street 4 (ID: 71535138-c59f-4623-9cce-942974b8d653), Street 5 (ID: a3d597ad-db59-4996-b9a9-3a4a95705070), Room 32 (ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec), Room 22 (ID: ae8aab91-da21-44b5-bbd1-836e81becc0d), Room 23 (ID: 83137615-79ca-4f91-a816-83ac5f99232d)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required argument:
+- wait: No argument required
+- sneak: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- charge: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- shoot: Must use one of these exact IDs - ID fbb5ba44-6a20-4466-b21e-0afdb46f7468 (of entity: Guard 5)
+- exfiltrate: No argument required
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+Unless Mission Control says otherwise, your goal is to You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above.
+If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+You MUST pick an action and an argument EXACTLY as listed above.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a singleton list of the ID of the selected argument, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific argument.
+Ensure that your chosen arguments match the options provided for each action, if the action requires an argument.
+For actions requiring an argument, you must use one of the IDs listed above - no other IDs will work.
+
+==========================
+
+Viper:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: d1c85919-faf3-43ab-87fd-1f4b51d709d3
+    Name: Courtyard
+    Description: 
+    Connections: Street 1, Street 3
+  - ID: d9b37c25-6728-4198-986f-02d6ad8dfb75
+    Name: Street 1
+    Description: 
+    Connections: Courtyard, Street 3
+  - ID: 31de8801-70ba-4996-bda9-bd85936a0dad
+    Name: Street 3
+    Description:  Offers some extra cover
+    Connections: Courtyard, Street 1, Street 4
+  - ID: ae8aab91-da21-44b5-bbd1-836e81becc0d
+    Name: Room 22
+    Description: 
+    Connections: Room 23, Street 6
+  - ID: 83137615-79ca-4f91-a816-83ac5f99232d
+    Name: Room 23
+    Description: 
+    Connections: Room 22, Street 6
+  - ID: 4854e58d-a06a-4409-929e-115f77b4de15
+    Name: C6
+    Description: 
+    Connections: Street 6
+  - ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec
+    Name: Room 32
+    Description: 
+    Connections: Street 6
+  - ID: 71535138-c59f-4623-9cce-942974b8d653
+    Name: Street 4
+    Description: 
+    Connections: Street 3, Street 6
+  - ID: a3d597ad-db59-4996-b9a9-3a4a95705070
+    Name: Street 5
+    Description: 
+    Connections: Street 6
+  - ID: bc94e496-5dad-49c8-b38c-8efd491a7d8c
+    Name: Street 6
+    Description: 
+    Connections: C6, Street 4, Street 5, Room 32, Room 22, Room 23
+
+Agents:
+  - ID: b8ff22c9-e1a1-40b2-8f44-27aeb400df8d
+    Name: Viper
+    Description: A stealth and investigation expert
+  - ID: aa164035-89ad-48af-bf17-3e6ce23e3c30
+    Name: Glitch
+    Description: A technical expert.
+
+Hostiles:
+  - ID: fbb5ba44-6a20-4466-b21e-0afdb46f7468
+    Name: Guard 5
+    Description: 
+
+Objectives:
+  - ID: 3f7f2454-d0b2-4796-a2fa-458171c958aa
+    Name: Security Server 1
+    Description: 
+  - ID: 30261acd-126c-4c82-a84c-e2914a743901
+    Name: Security Server 2
+    Description: 
+  - ID: fcd561f1-fdb4-4b6d-88f2-3314c898a6c4
+    Name: Confidential Files
+    Description: 
+
+-----------------
+
+Mission Log:
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Viper: I'm hit!
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Viper: I'm hit!
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Glitch: Under fire!
+
+-----------------
+
+You are Viper, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 0.78/1, and your observation skill is 0.80/1.
+
+You are currently in the following area: Street 6 : .
+It contains the following objects: Viper: A stealth and investigation expert
+Glitch: A technical expert.
+Guard 5: 
+Guard 11: .
+It is connected to the following areas: C6 (ID: 4854e58d-a06a-4409-929e-115f77b4de15), Street 4 (ID: 71535138-c59f-4623-9cce-942974b8d653), Street 5 (ID: a3d597ad-db59-4996-b9a9-3a4a95705070), Room 32 (ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec), Room 22 (ID: ae8aab91-da21-44b5-bbd1-836e81becc0d), Room 23 (ID: 83137615-79ca-4f91-a816-83ac5f99232d)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required argument:
+- wait: No argument required
+- sneak: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- charge: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- shoot: Must use one of these exact IDs - ID fbb5ba44-6a20-4466-b21e-0afdb46f7468 (of entity: Guard 5), ID 1f09c47a-6443-4597-9a85-0a3fb549f80b (of entity: Guard 11)
+- exfiltrate: No argument required
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+Unless Mission Control says otherwise, your goal is to You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above.
+If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+You MUST pick an action and an argument EXACTLY as listed above.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a singleton list of the ID of the selected argument, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific argument.
+Ensure that your chosen arguments match the options provided for each action, if the action requires an argument.
+For actions requiring an argument, you must use one of the IDs listed above - no other IDs will work.
+
+==========================
+
+Glitch:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: d1c85919-faf3-43ab-87fd-1f4b51d709d3
+    Name: Courtyard
+    Description: 
+    Connections: Street 1, Street 3
+  - ID: d9b37c25-6728-4198-986f-02d6ad8dfb75
+    Name: Street 1
+    Description: 
+    Connections: Courtyard, Street 3
+  - ID: 31de8801-70ba-4996-bda9-bd85936a0dad
+    Name: Street 3
+    Description:  Offers some extra cover
+    Connections: Courtyard, Street 1, Street 4
+  - ID: ae8aab91-da21-44b5-bbd1-836e81becc0d
+    Name: Room 22
+    Description: 
+    Connections: Room 23, Street 6
+  - ID: 83137615-79ca-4f91-a816-83ac5f99232d
+    Name: Room 23
+    Description: 
+    Connections: Room 22, Street 6
+  - ID: 4854e58d-a06a-4409-929e-115f77b4de15
+    Name: C6
+    Description: 
+    Connections: Street 6
+  - ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec
+    Name: Room 32
+    Description: 
+    Connections: Street 6
+  - ID: 71535138-c59f-4623-9cce-942974b8d653
+    Name: Street 4
+    Description: 
+    Connections: Street 3, Street 6
+  - ID: a3d597ad-db59-4996-b9a9-3a4a95705070
+    Name: Street 5
+    Description: 
+    Connections: Street 6
+  - ID: bc94e496-5dad-49c8-b38c-8efd491a7d8c
+    Name: Street 6
+    Description: 
+    Connections: C6, Street 4, Street 5, Room 32, Room 22, Room 23
+
+Agents:
+  - ID: b8ff22c9-e1a1-40b2-8f44-27aeb400df8d
+    Name: Viper
+    Description: A stealth and investigation expert
+  - ID: aa164035-89ad-48af-bf17-3e6ce23e3c30
+    Name: Glitch
+    Description: A technical expert.
+
+Hostiles:
+  - ID: fbb5ba44-6a20-4466-b21e-0afdb46f7468
+    Name: Guard 5
+    Description: 
+
+Objectives:
+  - ID: 3f7f2454-d0b2-4796-a2fa-458171c958aa
+    Name: Security Server 1
+    Description: 
+  - ID: 30261acd-126c-4c82-a84c-e2914a743901
+    Name: Security Server 2
+    Description: 
+  - ID: fcd561f1-fdb4-4b6d-88f2-3314c898a6c4
+    Name: Confidential Files
+    Description: 
+
+-----------------
+
+Mission Log:
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Viper: I'm hit!
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Viper: I'm hit!
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Glitch: Under fire!
+
+-----------------
+
+You are Glitch, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: Street 6 : .
+It contains the following objects: Viper: A stealth and investigation expert
+Glitch: A technical expert.
+Guard 5: 
+Guard 11: .
+It is connected to the following areas: C6 (ID: 4854e58d-a06a-4409-929e-115f77b4de15), Street 4 (ID: 71535138-c59f-4623-9cce-942974b8d653), Street 5 (ID: a3d597ad-db59-4996-b9a9-3a4a95705070), Room 32 (ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec), Room 22 (ID: ae8aab91-da21-44b5-bbd1-836e81becc0d), Room 23 (ID: 83137615-79ca-4f91-a816-83ac5f99232d)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required argument:
+- wait: No argument required
+- sneak: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- charge: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- shoot: Must use one of these exact IDs - ID fbb5ba44-6a20-4466-b21e-0afdb46f7468 (of entity: Guard 5), ID 1f09c47a-6443-4597-9a85-0a3fb549f80b (of entity: Guard 11)
+- exfiltrate: No argument required
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+Unless Mission Control says otherwise, your goal is to You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above.
+If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+You MUST pick an action and an argument EXACTLY as listed above.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a singleton list of the ID of the selected argument, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific argument.
+Ensure that your chosen arguments match the options provided for each action, if the action requires an argument.
+For actions requiring an argument, you must use one of the IDs listed above - no other IDs will work.
+
+==========================
+
+Viper:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: d1c85919-faf3-43ab-87fd-1f4b51d709d3
+    Name: Courtyard
+    Description: 
+    Connections: Street 1, Street 3
+  - ID: d9b37c25-6728-4198-986f-02d6ad8dfb75
+    Name: Street 1
+    Description: 
+    Connections: Courtyard, Street 3
+  - ID: 31de8801-70ba-4996-bda9-bd85936a0dad
+    Name: Street 3
+    Description:  Offers some extra cover
+    Connections: Courtyard, Street 1, Street 4
+  - ID: ae8aab91-da21-44b5-bbd1-836e81becc0d
+    Name: Room 22
+    Description: 
+    Connections: Room 23, Street 6
+  - ID: 83137615-79ca-4f91-a816-83ac5f99232d
+    Name: Room 23
+    Description: 
+    Connections: Room 22, Street 6
+  - ID: 4854e58d-a06a-4409-929e-115f77b4de15
+    Name: C6
+    Description: 
+    Connections: Street 6
+  - ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec
+    Name: Room 32
+    Description: 
+    Connections: Street 6
+  - ID: 71535138-c59f-4623-9cce-942974b8d653
+    Name: Street 4
+    Description: 
+    Connections: Street 3, Street 6
+  - ID: a3d597ad-db59-4996-b9a9-3a4a95705070
+    Name: Street 5
+    Description: 
+    Connections: Street 6
+  - ID: bc94e496-5dad-49c8-b38c-8efd491a7d8c
+    Name: Street 6
+    Description: 
+    Connections: C6, Street 4, Street 5, Room 32, Room 22, Room 23
+
+Agents:
+  - ID: b8ff22c9-e1a1-40b2-8f44-27aeb400df8d
+    Name: Viper
+    Description: A stealth and investigation expert
+  - ID: aa164035-89ad-48af-bf17-3e6ce23e3c30
+    Name: Glitch
+    Description: A technical expert.
+
+Hostiles:
+  - ID: fbb5ba44-6a20-4466-b21e-0afdb46f7468
+    Name: Guard 5
+    Description: 
+
+Objectives:
+  - ID: 3f7f2454-d0b2-4796-a2fa-458171c958aa
+    Name: Security Server 1
+    Description: 
+  - ID: 30261acd-126c-4c82-a84c-e2914a743901
+    Name: Security Server 2
+    Description: 
+  - ID: fcd561f1-fdb4-4b6d-88f2-3314c898a6c4
+    Name: Confidential Files
+    Description: 
+
+-----------------
+
+Mission Log:
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Viper: I'm hit!
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Viper: I'm hit!
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Glitch: Under fire!
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Viper: Under fire!
+Viper: I'm hit!
+
+-----------------
+
+You are Viper, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 0.67/1, and your observation skill is 0.80/1.
+
+You are currently in the following area: Street 6 : .
+It contains the following objects: Viper: A stealth and investigation expert
+Glitch: A technical expert.
+Guard 5: 
+Guard 11: .
+It is connected to the following areas: C6 (ID: 4854e58d-a06a-4409-929e-115f77b4de15), Street 4 (ID: 71535138-c59f-4623-9cce-942974b8d653), Street 5 (ID: a3d597ad-db59-4996-b9a9-3a4a95705070), Room 32 (ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec), Room 22 (ID: ae8aab91-da21-44b5-bbd1-836e81becc0d), Room 23 (ID: 83137615-79ca-4f91-a816-83ac5f99232d)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required argument:
+- wait: No argument required
+- sneak: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- charge: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- shoot: Must use one of these exact IDs - ID fbb5ba44-6a20-4466-b21e-0afdb46f7468 (of entity: Guard 5), ID 1f09c47a-6443-4597-9a85-0a3fb549f80b (of entity: Guard 11)
+- exfiltrate: No argument required
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+Unless Mission Control says otherwise, your goal is to You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above.
+If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+You MUST pick an action and an argument EXACTLY as listed above.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a singleton list of the ID of the selected argument, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific argument.
+Ensure that your chosen arguments match the options provided for each action, if the action requires an argument.
+For actions requiring an argument, you must use one of the IDs listed above - no other IDs will work.
+
+==========================
+
+Glitch:
+--------------------------
+
+ Mission intel:
+
+Areas:
+  - ID: d1c85919-faf3-43ab-87fd-1f4b51d709d3
+    Name: Courtyard
+    Description: 
+    Connections: Street 1, Street 3
+  - ID: d9b37c25-6728-4198-986f-02d6ad8dfb75
+    Name: Street 1
+    Description: 
+    Connections: Courtyard, Street 3
+  - ID: 31de8801-70ba-4996-bda9-bd85936a0dad
+    Name: Street 3
+    Description:  Offers some extra cover
+    Connections: Courtyard, Street 1, Street 4
+  - ID: ae8aab91-da21-44b5-bbd1-836e81becc0d
+    Name: Room 22
+    Description: 
+    Connections: Room 23, Street 6
+  - ID: 83137615-79ca-4f91-a816-83ac5f99232d
+    Name: Room 23
+    Description: 
+    Connections: Room 22, Street 6
+  - ID: 4854e58d-a06a-4409-929e-115f77b4de15
+    Name: C6
+    Description: 
+    Connections: Street 6
+  - ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec
+    Name: Room 32
+    Description: 
+    Connections: Street 6
+  - ID: 71535138-c59f-4623-9cce-942974b8d653
+    Name: Street 4
+    Description: 
+    Connections: Street 3, Street 6
+  - ID: a3d597ad-db59-4996-b9a9-3a4a95705070
+    Name: Street 5
+    Description: 
+    Connections: Street 6
+  - ID: bc94e496-5dad-49c8-b38c-8efd491a7d8c
+    Name: Street 6
+    Description: 
+    Connections: C6, Street 4, Street 5, Room 32, Room 22, Room 23
+
+Agents:
+  - ID: b8ff22c9-e1a1-40b2-8f44-27aeb400df8d
+    Name: Viper
+    Description: A stealth and investigation expert
+  - ID: aa164035-89ad-48af-bf17-3e6ce23e3c30
+    Name: Glitch
+    Description: A technical expert.
+
+Hostiles:
+  - ID: fbb5ba44-6a20-4466-b21e-0afdb46f7468
+    Name: Guard 5
+    Description: 
+
+Objectives:
+  - ID: 3f7f2454-d0b2-4796-a2fa-458171c958aa
+    Name: Security Server 1
+    Description: 
+  - ID: 30261acd-126c-4c82-a84c-e2914a743901
+    Name: Security Server 2
+    Description: 
+  - ID: fcd561f1-fdb4-4b6d-88f2-3314c898a6c4
+    Name: Confidential Files
+    Description: 
+
+-----------------
+
+Mission Log:
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Viper: I'm hit!
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Viper: I'm hit!
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Glitch: Under fire!
+Viper: Opened fire at Guard 5!
+Glitch: Opened fire at Guard 5!
+Viper: Under fire!
+Viper: I'm hit!
+
+-----------------
+
+You are Glitch, an agent in the field.
+Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.
+Your health and observation skills are factors in what details you can accurately notice and report. Your health is 1.00/1, and your observation skill is 1.00/1.
+
+You are currently in the following area: Street 6 : .
+It contains the following objects: Viper: A stealth and investigation expert
+Glitch: A technical expert.
+Guard 5: 
+Guard 11: .
+It is connected to the following areas: C6 (ID: 4854e58d-a06a-4409-929e-115f77b4de15), Street 4 (ID: 71535138-c59f-4623-9cce-942974b8d653), Street 5 (ID: a3d597ad-db59-4996-b9a9-3a4a95705070), Room 32 (ID: 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec), Room 22 (ID: ae8aab91-da21-44b5-bbd1-836e81becc0d), Room 23 (ID: 83137615-79ca-4f91-a816-83ac5f99232d)
+
+
+================
+INSTRUCTIONS:
+Here are the actions you can take, along with their descriptions and required argument:
+- wait: No argument required
+- sneak: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- charge: Must use one of these exact IDs - ID 4854e58d-a06a-4409-929e-115f77b4de15 (of entity: C6), ID 71535138-c59f-4623-9cce-942974b8d653 (of entity: Street 4), ID a3d597ad-db59-4996-b9a9-3a4a95705070 (of entity: Street 5), ID 6dfb9a83-3ffe-4458-b4f9-ceecbe26dfec (of entity: Room 32), ID ae8aab91-da21-44b5-bbd1-836e81becc0d (of entity: Room 22), ID 83137615-79ca-4f91-a816-83ac5f99232d (of entity: Room 23)
+- shoot: Must use one of these exact IDs - ID fbb5ba44-6a20-4466-b21e-0afdb46f7468 (of entity: Guard 5), ID 1f09c47a-6443-4597-9a85-0a3fb549f80b (of entity: Guard 11)
+- exfiltrate: No argument required
+
+
+Decide on your next move based on the current status, Mission Control's commands, and available actions.
+Unless Mission Control says otherwise, your goal is to You should strongly prioritize following the latest mission control commands, interpreting them to the best of your ability.
+You should interpret mission control's commands as one of the available actions as provided above.
+If unsure, use your best judgment to meet Mission Control's commands as closely as you can given the actions available to you.
+You MUST pick an action and an argument EXACTLY as listed above.
+Under no circumstance may you make an action which is not listed in the provided options above. These reprersent the actions you may take given your situation and abilities, so it is physically impossible for you to do anything else in the game world.
+Return your decision as a valid JSON dictionary object with three fields: 'action', 'arguments', and 'reasoning'.
+Your response should only include this JSON dictionary, nothing else.
+- The 'action' field should contain the name of the action you want to take.
+- The 'arguments' field should be a singleton list of the ID of the selected argument, chosen from the available arguments listed above. If no arguments are needed, return an empty list.
+- The 'reasoning' field should provide a brief explanation of why you chose this action and the specific argument.
+Ensure that your chosen arguments match the options provided for each action, if the action requires an argument.
+For actions requiring an argument, you must use one of the IDs listed above - no other IDs will work.
 
 ==========================
 
