@@ -1452,6 +1452,8 @@ class GameController:
         assert agent.area is hostile.area, (f"Agent {agent.name} and hostile {hostile.name} must be in the same area "
                                             f"to attempt take out.")
 
+        self.hide(agent)
+        
         result = agent.take_action('take_out', hostile)
 
         if result:

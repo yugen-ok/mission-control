@@ -6,6 +6,34 @@ import threading
 import networkx as nx
 from constants import *
 
+# Helper function to calculate the distance between two areas
+def calculate_distance(area1, area2):
+    dx = area1.x - area2.x
+    dy = area1.y - area2.y
+    return math.sqrt(dx * dx + dy * dy)
+
+
+# Find the top k areas farthest from all previously chosen areas
+def find_top_k_farthest_areas(candidate_areas, chosen_areas, k=4):
+    area_distances = []
+
+    for candidate_area in candidate_areas:
+        # Calculate the minimum distance from this candidate area to all chosen areas
+        min_distance = float("inf")
+        for chosen_area in chosen_areas:
+            distance = calculate_distance(candidate_area, chosen_area)
+            if distance < min_distance:
+                min_distance = distance
+
+        # Store the candidate area and its minimum distance
+        area_distances.append((candidate_area, min_distance))
+
+    # Sort areas by minimum distance in descending order
+    area_distances.sort(key=lambda x: x[1], reverse=True)
+
+    # Return the top k areas
+    return [area for area, _ in area_distances[:k]]
+
 def inputt(prompt, timeout):
     user_input = []
 

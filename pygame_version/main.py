@@ -190,13 +190,29 @@ def main(config_path, mode, agents_hidden, hostiles_visible):
         Hostile(**hostile_data, world=world)
 
     for objective_data in config["objectives"]:
-        area_data = objective_data.pop("area")
-        if area_data is None:
-            # randomize a room
-            area_data = random.choice([area_id for area_id in areas.keys() if area_id.startswith("r")])
+        area_data = objective_data.pop("area", None)
 
-        area = areas[area_data]
-        Objective(**objective_data, area=area, world=world)
+        if area_data:
+            # Use the specified area directly if provided in the configuration
+            selected_area = areas[area_data]
+        else:
+            # Randomize an area while maximizing distance from other objectives
+            candidate_areas = [area for area_id, area in areas.items() if area_id.startswith("r")]
+
+            if not candidate_areas:
+                raise ValueError("No valid candidate areas found for objectives.")
+
+            if not world.objectives:
+                # If no objectives have been placed yet, choose a random starting area
+                selected_area = random.choice(candidate_areas)
+            else:
+                # Select an area from the top k farthest areas
+                chosen_areas = [objective.area for objective in world.objectives]
+                top_k_areas = find_top_k_farthest_areas(candidate_areas, chosen_areas, k=4)
+                selected_area = random.choice(top_k_areas)
+
+        # Create and assign the objective to the selected area
+        Objective(**objective_data, area=selected_area, world=world)
 
     add_template_guards(areas, config, world)
 
