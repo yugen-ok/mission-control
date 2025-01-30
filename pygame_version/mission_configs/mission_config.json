@@ -678,6 +678,7 @@
       "name": "Viper",
       "area": "s6",
       "description": "A stealth and investigation expert",
+      "behavior": "You move into enemy positions quietly and carefully dispose of hostiles when there is no danger of being detected. When the area is not safe, you stay in hiding or move to a safer area.",
       "health": 0.9,
       "resilience": 0.9,
 
@@ -691,9 +692,43 @@
       "inventory": []
     },
     {
+      "name": "Redwood",
+      "area": "s1",
+      "description": "A stealth and investigation expert",
+      "behavior": "You move into enemy positions quietly and carefully dispose of hostiles when there is no danger of being detected. When the area is not safe, you stay in hiding or move to a safer area.",
+      "health": 0.9,
+      "resilience": 0.9,
+
+      "stealth": 1.0,
+      "firearms": 0.8,
+      "cover": 0.2,
+      "hand_to_hand": 1.0,
+      "hacking": 0.6,
+      "observation": 0.8,
+      "acrobatics": 1.0,
+      "inventory": []
+    },    {
       "name": "Glitch",
       "area": "s6",
-      "description": "A technical expert.",
+      "description": "A technical expert",
+      "behavior": "You only proceed into enemy positions when they have been cleared of hostiles and are safe. Your goal is to hack into enemy servers, and you prefer to avoid physical confrontation.",
+      "health": 0.8,
+      "resilience": 0.8,
+
+      "stealth": 0.8,
+      "firearms": 0.8,
+      "cover": 0.2,
+      "hand_to_hand": 0.8,
+      "hacking": 1.0,
+      "observation": 1.0,
+      "acrobatics": 0.8,
+      "inventory": []
+    },
+    {
+      "name": "Blackout",
+      "area": "s1",
+      "description": "A technical expert",
+      "behavior": "You only proceed into enemy positions when they have been cleared of hostiles and are safe. Your goal is to hack into enemy servers, and you prefer to avoid physical confrontation.",
       "health": 0.8,
       "resilience": 0.8,
 
@@ -725,14 +760,21 @@
       "required_skill": "hacking"
     },
     {
-      "name": "Confidential Files",
+      "name": "Security Server 3",
       "area": null,
-      "difficulty": 0.0,
+      "difficulty": 0.2,
       "description": "",
-      "required_skill": "observation"
+      "required_skill": "hacking"
+    },
+    {
+      "name": "Security Server 2",
+      "area": null,
+      "difficulty": 0.2,
+      "description": "",
+      "required_skill": "hacking"
     }
   ],
-  "n_template_guards": 16,
+  "n_template_guards": 17,
   "template_guard_stats" : {
       "health": 0.6,
       "observation": 0,

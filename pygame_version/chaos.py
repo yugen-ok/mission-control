@@ -18,12 +18,12 @@ def get_alarm_increase(action, skill_level):
         "look_around": defaultdict(lambda: 0),
         "peek": {1.0: 0.1, 0.8: 0.2},
         "investigate": defaultdict(lambda: .4), #{1: 0.1, 0.8: 0.3}, # temp val. just to make noise
-        "hide": {1.0: 0.15, 0.8: 0.25, .0: .5},
-        "take_out": {1.0: 0.3, 0.8: 0.6},
+        "hide": {1.0: 0.05, 0.8: 0.1, .0: .5},
+        "take_out": {1.0: 0.15, 0.8: 0.25},
         "shoot": defaultdict(lambda: 2),
-        "bypass": {1.0: 0.3, 0.8: 0.45},
-        "capture": {1.0: 0.4, 0.8: 0.8},
-        "sneak": {1.0: 0.15, 0.8: 0.2, .0: .5},
+        "bypass": {1.0: 0.1, 0.8: 0.15},
+        "capture": {1.0: 0.4, 0.8: 0.6},
+        "sneak": {1.0: 0.05, 0.8: 0.2, .0: .1},
         "charge": defaultdict(lambda: 2),
         "exfiltrate": {1.0: 0.15, 0.8: 0.25, .0: .5},
     }

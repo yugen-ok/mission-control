@@ -126,7 +126,7 @@ class Character(Entity):
     def __init__(self, name, area, health=1., resilience=.5, stealth=0., firearms=0., cover=0., hand_to_hand=0.,
                  hacking=0.,
                  observation=0.,
-                 acrobatics=0., inventory=None, description='', explored=2, world=None):
+                 acrobatics=0., inventory=None, description='', behavior='', explored=2, world=None):
         super().__init__(name, area, description, explored=explored, world=world)
 
         if inventory is None:
@@ -146,6 +146,9 @@ class Character(Entity):
             "acrobatics": max(0., min(acrobatics, 1.))
         }
         self.inventory = inventory
+        self.behavior = behavior
+
+
         self.knowledge_base = ''
         self.is_hidden = False
 
@@ -265,6 +268,7 @@ class Agent(Character):
 
         out = 'Mission intel:\n\n' + self.knowledge_base + (
             f"\n\nYou are {self.name}, an agent in the field.\n"
+            f"{self.behavior}\n"
             "Your task is to find and capture all objectives in the field, avoid detection by hostiles or neutralize them if necessary, and once all objectives have been captured, make it safely to the extraction point and exfiltrate.\n"
             "Your health and observation skills are factors in what details you can accurately notice and report. "
             f"Your health is {self.health / self.max_health:.2f}/1, and your observation skill is {self.skills['observation']:.2f}/1.\n\n"
@@ -1286,8 +1290,15 @@ class GameController:
             ]
 
             areas_with_noise.sort(key=lambda x: x[1], reverse=True)  # Sort by noise level descending
-            target_area = areas_with_noise[0][0]
-            logger.debug(f"Alarm active: Moving to the area with the highest noise: {target_area.name}")
+
+            # If there's no noise anywhere, move randomly
+            if areas_with_noise[0][1] == 0:
+                connected_areas = hostile.area.get_connected_areas()
+                target_area = random.choice(connected_areas)
+                logger.debug(f"No noise detected. Moving randomly to {target_area.name}")
+            else:
+                target_area = areas_with_noise[0][0]
+                logger.debug(f"Moving to the area with the highest noise: {target_area.name}")
 
         else:
             hostile.is_patrolling = True
