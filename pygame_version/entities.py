@@ -911,8 +911,9 @@ class MissionLog(List):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.print_queue = deque()
+        self.last_command = None
 
-    def append(self, item, print_it=True, push_to_queue=True):
+    def append(self, item, print_it=True, push_to_queue=True, is_command=False):
 
         item = item.replace(' (Captured)', '')
 
@@ -920,7 +921,11 @@ class MissionLog(List):
             print(item)
         if push_to_queue:
             self.print_queue.append(item)
+        if is_command:
+            self.last_command = item
+
         super().append(item)
+
 
 
 class GameController:
@@ -1043,9 +1048,16 @@ class GameController:
                         evaled_decision = response_parsing(decision)
                         action_argument_dict = agent.generate_action_arguments()
                         action = evaled_decision['action']
+
                         for arg in evaled_decision['arguments']:
                             print('>>>', arg, type(arg))
-                        args = [UUID(arg) for arg in evaled_decision['arguments']]
+
+                        try:
+                            args = [UUID(arg) for arg in evaled_decision['arguments']]
+                        except ValueError:
+                            print(f"Invalid UUID format for agent {agent.name}, retrying...")
+                            continue
+
                         assert action in action_argument_dict, f"Invalid action: {action}. Valid actions: {list(action_argument_dict.keys())}"
                         valid_args = [aarg['id'] for aarg in action_argument_dict.get(action, [])]
                         assert all(
@@ -1055,9 +1067,7 @@ class GameController:
                         agent2decision[agent] = evaled_decision
 
                     except AssertionError as e:
-                        raise e
-                    except Exception as e:
-                        raise e
+                        print(f"Error processing decision {i}: {str(e)}")
 
                 remaining_to_execute = [
                     remaining_to_execute[j] for j in range(len(remaining_to_execute)) if
@@ -1705,5 +1715,8 @@ class GameController:
         # Append mission log
         description = '\n'.join(descriptions) + '\n\n-----------------\n\nMission Log:\n' + '\n'.join(
             self.mission_log[-100:]) + '\n\n-----------------'
+
+        if self.mission_log.last_command is not None:
+            description += f"Keep especially this instruction in mind when making your decision:\n\n Control: {self.mission_log.last_command}\n\n-----------------"
 
         return description

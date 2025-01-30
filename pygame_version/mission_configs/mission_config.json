@@ -732,7 +732,7 @@
       "required_skill": "observation"
     }
   ],
-  "n_template_guards": 18,
+  "n_template_guards": 16,
   "template_guard_stats" : {
       "health": 0.6,
       "observation": 0,

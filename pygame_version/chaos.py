@@ -17,7 +17,7 @@ def get_alarm_increase(action, skill_level):
         "wait": defaultdict(lambda: 0),
         "look_around": defaultdict(lambda: 0),
         "peek": {1.0: 0.1, 0.8: 0.2},
-        "investigate": {1: 0.1, 0.8: 0.3},
+        "investigate": defaultdict(lambda: .4), #{1: 0.1, 0.8: 0.3}, # temp val. just to make noise
         "hide": {1.0: 0.15, 0.8: 0.25, .0: .5},
         "take_out": {1.0: 0.3, 0.8: 0.6},
         "shoot": defaultdict(lambda: 2),

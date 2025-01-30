@@ -1,10 +1,21 @@
-
 import math
 import uuid
 import hashlib
 import threading
 import networkx as nx
+from uuid import UUID
+
 from constants import *
+
+
+def safe_uuid_conversion(arg):
+    try:
+        return UUID(arg)
+    except ValueError:
+        # Find the closest matching valid UUID from your valid_args list
+        # Or log the error and continue with retry logic
+        return None
+
 
 # Helper function to calculate the distance between two areas
 def calculate_distance(area1, area2):
@@ -34,6 +45,7 @@ def find_top_k_farthest_areas(candidate_areas, chosen_areas, k=4):
     # Return the top k areas
     return [area for area, _ in area_distances[:k]]
 
+
 def inputt(prompt, timeout):
     user_input = []
 
@@ -50,7 +62,6 @@ def inputt(prompt, timeout):
         return ""
     else:
         return user_input[0]
-
 
 
 def encode_uuids_to_integer(*uuids: uuid.UUID) -> int:
@@ -71,7 +82,6 @@ def encode_uuids_to_integer(*uuids: uuid.UUID) -> int:
 
     # Hash the combined integer to produce a smaller integer
     hash_object = hashlib.sha256(str(combined_int).encode())
-    smaller_int = int(hash_object.hexdigest(), 16) % (10**18)  # Reduce size
+    smaller_int = int(hash_object.hexdigest(), 16) % (10 ** 18)  # Reduce size
 
     return smaller_int
-
